@@ -1,0 +1,36 @@
+{
+  "name": "pawang",
+  "version": "0.1.2",
+  "description": "Alur kerja agent otonom berbasis spec: folder .pawang (state HTML via kit.js), siklus feature-implement-check-audit-complete, plus adopsi proyek, AGENTS.md, dokumen rujukan, dan tema project.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pawangai/pawang.git"
+  },
+  "homepage": "https://github.com/pawangai/pawang",
+  "bin": {
+    "pawang": "bin/cli.mjs"
+  },
+  "files": [
+    "bin",
+    "skill",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "agent",
+    "skill",
+    "workflow",
+    "autonomous",
+    "opencode",
+    "claude",
+    "spec-driven"
+  ],
+  "scripts": {
+    "test": "node skill/assets/kit.js selftest && node bin/cli.mjs --version",
+    "pack:dry": "npm pack --dry-run"
+  }
+}
