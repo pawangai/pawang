@@ -10,7 +10,7 @@ Tujuan: dari wawancara dan bahan proyek, hasilkan `01-PRD.md`, `02-user-flows.md
 
 ## Wajib grill dulu
 
-Panggil skill `grill-me` (companion `mattpocock/skills`) dan biarkan ia mewawancarai user. Jika `grill-me` tidak muncul di daftar skill, panggil `grilling`. Jika keduanya tidak ada, tawarkan pemasangan (lihat `companions.md`); jangan meniru gayanya sendiri.
+Panggil skill `grilling` (companion `mattpocock/skills`) dan biarkan ia mewawancarai user. Jika `grilling` tidak tersedia, tawarkan pemasangan (lihat `companions.md`); jangan meniru gayanya sendiri. Wayfinder tidak dipakai di sini: output-nya peta tiket, bukan empat dokumen Figr.
 
 - Bentuk wawancara: **design tree**, **frontier**, dan **round**. Ajukan seluruh frontier dalam satu ronde, bernomor, dengan rekomendasi jawaban; tunggu jawaban sebelum ronde berikutnya.
 - Cari fakta sendiri dari repo/prototype; user hanya menjawab keputusan.

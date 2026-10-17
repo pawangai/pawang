@@ -107,7 +107,8 @@ Tiga skill alat — tawarkan sekali, jelaskan biaya konteks per sesi, lewati yan
 Jangan pasang default. Tawarkan hanya bila proyek membutuhkannya; daftar lengkap dan cara pasang ada di `companions.md`.
 
 - Proyek memakai Figr/DS → `figr-to-prototype` (hulu) + `prototype-kit` (hilir). Hentikan lane Figr sampai companion terpasang.
-- Butuh dokumen Figr atau wawancara plan mendalam → `grill-me` + `grilling`. Fallback `grilling` bila `grill-me` tidak bisa dipanggil.
+- Butuh dokumen Figr atau wawancara plan mendalam → `grilling`.
+- Inisiatif besar lintas sesi/berkabut → `wayfinder` + `grilling` + `domain-modeling`, lalu `setup-matt-pocock-skills` sekali untuk tracker GitHub. `wayfinder` user-invoked; minta user memicunya. `docs/agents/` hasil setup adalah opt-in, jangan disalin ke `.pawang/`.
 - Catat companion yang terpasang sebagai satu baris di `## Companion` AGENTS.md; jangan menginventaris semua skill.
 
 Tanpa `-y`, tingkat proyek, commit ke git; laporkan tambahan beban konteks (`doctor.md`). Skill berikutnya wajib lewat pemeriksaan lapis `advisor.md`.

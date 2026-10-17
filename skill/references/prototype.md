@@ -57,7 +57,7 @@ Untuk tiap layar yang disetujui, tulis `prototypes/<screen>.html` mandiri yang m
 
 ## Setelah mockup jadi, berhenti
 
-Minta user membuka file di browser dan beriterasi soal tampilan. Langkah berikutnya konkret: tulis spec `feature` untuk fitur UI pertama. Spec itu menaut mockup sebagai `references.design` dan menjadikan porting `theme.css` ke stylesheet aplikasi sebagai step pertama.
+Minta user membuka file di browser dan beriterasi soal tampilan. Catat keputusan tampilan yang disetujui (vibe, accent, font, alasan) di `notes` spec fitur supaya tidak hilang saat mockup dihapus. Langkah berikutnya konkret: tulis spec `feature` untuk fitur UI pertama. Spec itu menaut mockup sebagai `references.design` dan menjadikan porting `theme.css` ke stylesheet aplikasi sebagai step pertama.
 
 Setelah tema diporting ke aplikasi, jalankan:
 
@@ -73,3 +73,8 @@ supaya laporan kit ikut tema project. Mockup HTML tetap di `prototypes/` sebagai
 - Menulis atau mengedit HTML `.pawang/` manual (selalu `node .pawang/kit.js render <tipe>`).
 - Hard-code nilai theme di mockup.
 - Menambah `prototypes/` ke `.gitignore`.
+- Membuat beberapa varian yang hanya beda warna atau copy; varian harus beda struktur.
+- Menyambungkan mockup ke mutasi data atau backend nyata; mockup read-only dengan data dummy.
+- Mempromosikan HTML mockup mentah ke produksi; port token ke stylesheet aplikasi lalu tulis UI sungguhan.
+- Menambah layar di luar plan yang disetujui.
+- Menganggap mockup sebagai bukti verifikasi; verifikasi tetap lewat `check` pada app yang berjalan.
