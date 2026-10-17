@@ -86,6 +86,19 @@ npm run plugin:pack    # ZIP semua plugin + lite + arsip .skill
 
 ZIP dan `.skill` rilis dilampirkan ke GitHub Releases saat tag `v*` dibuat.
 
+### 📦 GitHub Packages (mirror, opsional)
+
+Jalur utama tetap npmjs (`npx pawang init`). Mirror GitHub Packages tersedia sebagai `@pawangai/pawang` dan **tetap membutuhkan autentikasi** meskipun paketnya publik:
+
+```bash
+# butuh PAT classic dengan scope read:packages
+echo "@pawangai:registry=https://npm.pkg.github.com" >> ~/.npmrc
+echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
+npm install -g @pawangai/pawang
+```
+
+Jangan commit `.npmrc` atau token. Untuk instalasi tanpa login, gunakan npmjs atau `npx pawang init`.
+
 ### 🧩 Companion (opsional, dipasang terpisah)
 
 Pawang core tidak membundel companion. Empat companion Figr/CICD tinggal di repo yang sama (`skills/`), tersedia sebagai plugin terpisah, dan juga bisa dipasang dari GitHub; sisanya dari sumber masing-masing. Pasang di `.agents/skills/` dengan izin user; detail, nama folder, dan precheck ada di `skills/pawang/references/companions.md`.

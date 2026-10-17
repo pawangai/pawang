@@ -30,7 +30,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - `plugins/pawang/` + `plugins/<companion>/` — bundle plugin generated dari `skills/pawang` dan empat companion repo (`.claude-plugin/plugin.json`, `plugin.json`, README, LICENSE, salinan skill); di-commit, tidak ikut npm.
 - `.claude-plugin/marketplace.json` + `.agents/plugins/marketplace.json` — katalog plugin (Claude/ChatGPT/Codex); generated oleh `scripts/sync-plugin.mjs`.
 - `scripts/sync-plugin.mjs`, `check-plugin.mjs`, `pack-plugin.mjs` — generate/validasi/zip bundle plugin + lite + arsip `.skill`.
-- `.github/workflows/verify.yml` — `npm test` + `plugin:pack` + `pack:dry` + artifact ZIP/`.skill`; `release.yml` — tag `v*` melampirkan ZIP/`.skill` ke GitHub Releases.
+- `.github/workflows/verify.yml` — `npm test` + `plugin:pack` + `pack:dry` + artifact ZIP/`.skill`; `release.yml` — tag `v*` melampirkan ZIP/`.skill` ke GitHub Releases; `publish-gpr.yml` — mirror npm `@pawangai/pawang` ke GitHub Packages (tag `v*` atau `workflow_dispatch`).
 - `dist/` — ZIP plugin/lite + arsip `.skill` (gitignored).
 - `assets/`, `README.md`, `LICENSE` — materi npm (lihat `files` package.json).
 - `.agents/skills/` — companion terpasang (proyek): `wayfinder` + `grilling` + `domain-modeling` + `research` + `prototype` + `setup-matt-pocock-skills` (mattpocock/skills), `figr-to-prototype`, dan `prototype-kit`; bukan skill baru Pawang. Daftar companion alur ada di `skills/pawang/references/companions.md`; companion review kode opsional diatur di `skills/pawang/references/review-code.md`.
@@ -75,6 +75,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - Companion dipasang terpisah di `.agents/skills/` (izin user, precheck, commit); Pawang core tidak membundel companion/script Python. Serapan prototype Figr = kontrak, script tetap companion — 2026-10-17.
 - Plugin marketplace: bundle core `pawang` + empat companion repo sebagai plugin terpisah di `plugins/<nama>` (generated, di-commit); companion pihak ketiga tidak didistribusikan ulang. Lite = artifact upload (`dist/pawang-lite.zip`), bukan plugin terpisah; nama skill core tetap `pawang` — 2026-10-17.
 - Katalog plugin ada di `.claude-plugin/marketplace.json` (Claude/ChatGPT) dan `.agents/plugins/marketplace.json` (Codex); `plugin:sync` satu-satunya penulis bundle/katalog — 2026-10-17.
+- Dual-publish npm: `pawang` di npmjs tetap jalur utama tanpa auth; mirror `@pawangai/pawang` di GitHub Packages butuh token `read:packages` (walau publik). `publish-gpr.yml` mengubah nama hanya di runner; `package.json` tetap `pawang`. Jangan commit `.npmrc`/token — 2026-10-17.
 - Pawang fleksibel terhadap agent/companion lain; bentrok aturan/ADR → tunjukkan dan tanya user. User pemilik keputusan dan boleh mengubah keputusan lama; catat perubahan — 2026-10-17.
 - Rollback hanya membalik perilaku produk; catatan keputusan/ADR tidak dikembalikan otomatis. Rollback memakai guard `git apply --reverse --3way --index`, protected paths diperluas, dan item build-plan di-uncheck saat complete — 2026-10-17.
 - File agent disatukan: `AGENTS.md` + `.agents/` kanonik; `CLAUDE.md`/`GEMINI.md` dan subdir `.claude` yang tumpang tindih di-symlink setelah migrasi; settings/hooks `.claude` tetap nyata. docs/conventions dan docs/adr opt-in untuk konvensi/ADR panjang — 2026-10-17.
@@ -94,7 +95,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - Sudah ditambah: wayfinder sebagai companion plan inisiatif besar (GitHub Issues + `docs/agents/`); `grill-me` dihapus, `grilling` tetap.
 - Sudah ditambah: orkestrasi paralel (`parallel.md`) dan batch lintas fitur (`orchestrate.md` + `batch.html`); TDD/spec durable/tracer-bullet masuk `feature.md`/`plans.md`/`implement.md`; `triage` tetap companion.
 - Sudah ditambah: `ci.md` (pipeline generik local-first) + `ci-audit.md` (audit CI/CD read-only); detail Cloudflare Workers tetap companion (`cicd-worker`/`cicd-worker-audit`). Kandidat berikutnya: otomasi opt-in bounded.
-- Sudah ditambah: plugin marketplace core + empat companion repo (`plugins/<nama>` + dua katalog), mode lite (`references/lite.md` + `dist/pawang-lite.zip`), dan workflow verify/release untuk ZIP plugin.
+- Sudah ditambah: plugin marketplace core + empat companion repo (`plugins/<nama>` + dua katalog), mode lite (`references/lite.md` + `dist/pawang-lite.zip`), workflow verify/release untuk ZIP plugin, dan mirror GitHub Packages `@pawangai/pawang`.
 - Gerbang tetap DUA (review spec, izin commit/merge); otomasi tidak boleh melonggarkan gerbang tanpa keputusan tertulis.
 
 ## Agent skills

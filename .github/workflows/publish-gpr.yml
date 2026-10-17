@@ -1,0 +1,41 @@
+name: publish-gpr
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Tag atau commit yang akan dipublikasikan"
+        required: true
+        default: "v0.2.0"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@pawangai"
+      - run: npm test
+      - name: Publish to GitHub Packages
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "@pawangai/pawang@$VERSION" >/dev/null 2>&1; then
+            echo "@pawangai/pawang@$VERSION sudah ada; lewati."
+            exit 0
+          fi
+          npm pkg set name="@pawangai/pawang"
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

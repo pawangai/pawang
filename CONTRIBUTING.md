@@ -72,11 +72,11 @@ Repo ini tidak memakai build, lint, atau typecheck framework. Jika menambah logi
 
 - Sumber kebenaran tetap `skills/pawang/` dan `skills/<nama>/`. Setelah mengubahnya, jalankan `npm run plugin:sync`; jangan mengedit `plugins/<nama>/` atau katalog marketplace manual.
 - `npm test` memvalidasi sinkronisasi hash, versi, README, LICENSE, larangan `bin/`, dan batas file. `npm run plugin:pack` membuat ZIP per plugin, lite, dan arsip `.skill` di `dist/` (gitignored).
-- Rilis tag `v*` menjalankan workflow dan melampirkan ZIP/`.skill` ke GitHub Releases. Submission ke direktori Claude/ChatGPT dilakukan maintainer setelah verifikasi; Perplexity dan Gemini memakai impor/install manual.
+- Rilis tag `v*` menjalankan workflow, melampirkan ZIP/`.skill` ke GitHub Releases, dan mem-publish mirror `@pawangai/pawang` ke GitHub Packages. npmjs `pawang` tetap jalur utama; GPR butuh token `read:packages`. Submission ke direktori Claude/ChatGPT dilakukan maintainer setelah verifikasi; Perplexity dan Gemini memakai impor/install manual.
 
 **Checklist sebelum submit direktori:**
 
-- Naikkan `version` di `package.json`, jalankan `plugin:sync`, lalu commit bundle.
+- Naikkan `version` di `package.json`, jalankan `plugin:sync`, lalu commit bundle. Versi npmjs dan GitHub Packages harus sama.
 - Lulus `npm test`, `npm run plugin:pack`, `npm run pack:dry`, `claude plugin validate plugins/*`, dan `claude plugin validate .claude-plugin/marketplace.json`.
 - Uji install core + minimal satu companion di Claude Code (scope user) dan pastikan skill muncul.
 - Pastikan README plugin >=40 kata, LICENSE ada, tidak ada `bin/`, `node_modules`, `.env`, atau file sensitif.
