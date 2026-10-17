@@ -19,8 +19,11 @@
 - 🧙 **Pengendali Alur Cerdas:** Mengatur koordinasi tugas agent dari awal hingga tuntas dalam satu genggaman.
 - ⚙️ **Arsitektur Tangguh:** Desain sistem yang fleksibel, cepat, dan siap diandalkan untuk berbagai skala kebutuhan.
 - 🛡️ **Otonom dengan dua gerbang:** Setelah spec disetujui, agent berjalan sendiri (implement → check → audit → perbaikan). Manusia hanya hadir saat review spec dan saat izin commit/merge.
+- ⚡ **Paralel dengan orkestrator:** Agent utama memegang state dan git; worker read-only mengecek UI/API/CLI/audit secara bersamaan. Cap 3 read-only / 2 browser / 2 write, brief hemat token, agregasi satu laporan. Perbaikan findings tetap sequential.
+- 🧩 **Batch lintas fitur:** `batch.html` mengatur beberapa fitur/tiket dengan `blockedBy`, frontier, worktree, dan merge sequential. Gate 1 review spec batch; Gate 2 izin commit/merge batch; satu commit per fitur + satu merge batch.
 - 🎨 **Menyatu dengan tema project:** Laporan HTML pawang mengikuti token desain repo (font, warna, radius, ukuran dasar) dari DS Figr `prototype/packages/shared/ui`, `prototypes/`, `packages/design-system/`, folder `figr/`, CSS `@theme`, atau tailwind config. Scaffold baru memakai tema bawaan sampai token project tersedia.
 - 📐 **Dokumen Figr + diagram:** grill → 4 dokumen (PRD, flow, desain, edge case) di `.pawang/figr/` → prompt Figr Design <1000 karakter. Diagram tetap Mermaid; viewer HTML dirender lewat `kit.js`.
+- 🧭 **Wayfinder untuk inisiatif besar:** peta tujuan + tiket keputusan lintas sesi di GitHub Issues, satu tiket per sesi; setelah peta selesai, hasilnya menjadi build-plan + project-overview di `.pawang/`.
 - 🔍 **Review kode 12 lensa (pilih 3-6):** pahami/nilai kode AI, diff, atau PR dengan tiga sumbu (Standards, Spec, Comprehension); companion `code-review` opsional.
 - 🔗 **File agent rapi:** `AGENTS.md` + `.agents/` jadi sumber kanonik; `CLAUDE.md`, `GEMINI.md`, dan subfolder `.claude` di-symlink setelah isi unik dimigrasikan. Settings/hooks `.claude` tetap nyata.
 
@@ -45,11 +48,20 @@ Setelah terpasang, buka sesi agent di proyek lalu minta: **"pawang, adopsi proye
 
 Pawang core tidak membundel companion. Pasang di `.agents/skills/` dengan izin user; detail, nama folder, dan precheck ada di `skill/references/companions.md`.
 
-| Companion               | Kapan perlu                            | Pasang                                                                   |
-| ----------------------- | -------------------------------------- | ------------------------------------------------------------------------ |
-| `grill-me` + `grilling` | Dokumen Figr / wawancara plan mendalam | `npx skills add mattpocock/skills --skill grill-me grilling -a opencode` |
-| `figr-to-prototype`     | Lane B hulu (proyek punya `figr/`)     | File `.skill`/repo companion; folder `figr-to-prototype`                 |
-| `prototype-kit`         | Lane B hilir (HTML statis)             | File `.skill`/repo companion                                             |
+| Companion                                    | Invoke                          | Kapan perlu                             | Pasang                                                                                    |
+| -------------------------------------------- | ------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `grilling`                                   | model                           | Dokumen Figr / plan A2 (satu sesi)      | `npx skills add mattpocock/skills --skill grilling -a opencode`                           |
+| `wayfinder` + `grilling` + `domain-modeling` | user (wayfinder); model lainnya | Plan A3: inisiatif besar lintas sesi    | `npx skills add mattpocock/skills --skill wayfinder grilling domain-modeling -a opencode` |
+| `research` + `prototype`                     | model                           | Tiket wayfinder tipe research/prototype | `npx skills add mattpocock/skills --skill research prototype -a opencode`                 |
+| `setup-matt-pocock-skills`                   | user                            | Setup GitHub Issues + `docs/agents/`    | `npx skills add mattpocock/skills --skill setup-matt-pocock-skills -a opencode`           |
+| `triage`                                     | user                            | Intake issue/PR + agent brief           | `npx skills add mattpocock/skills --skill triage -a opencode` (butuh setup)               |
+| `code-review`                                | model                           | Review diff/PR dua sumbu                | `npx skills add mattpocock/skills --skill code-review -a opencode`                        |
+| `figr-to-prototype`                          | model                           | Lane B hulu (proyek punya `figr/`)      | File `.skill`/repo companion; folder `figr-to-prototype`                                  |
+| `prototype-kit`                              | model                           | Lane B hilir (HTML statis)              | File `.skill`/repo companion; folder `prototype-kit`                                      |
+
+`wayfinder`, `setup-matt-pocock-skills`, dan `triage` **user-invoked** (`disable-model-invocation`): Pawang akan meminta kamu memicunya. Sisanya **model-invoked**: model boleh memilihnya saat konteks cocok. Peta/tiket wayfinder ada di GitHub Issues dan `docs/agents/` (opt-in), bukan di `.pawang/`; build-plan + project-overview tetap ditulis ke `.pawang/` setelah peta selesai. `grill-me` sudah dihapus.
+
+Jangan pasang `to-spec`, `to-tickets`, `implement`, atau `implement-spec` sebagai companion: konsepnya sudah ada di `feature.md`, `plans.md`, `implement.md`, `parallel.md`, dan `orchestrate.md`.
 
 `figr-to-prototype` dan `prototype-kit` bukan hasil serapan penuh: kontraknya sudah ada di `skill/references/prototype-figr.md`, tetapi script Python/asetnya tetap companion.
 
@@ -95,14 +107,21 @@ node .pawang/kit.js status    # orientasi kapan saja (murah, tanpa membaca banya
 | Audit   | otonom                      | Findings (F-01, P0-P3) ke `findings.html`, review independen ke `review.html`                |
 | Selesai | otonom, lalu **minta izin** | Gate akhir, arsip ke `history/`, commit, landing lokal                                       |
 
+**Paralel dan batch (tanpa perintah baru):**
+
+- `pawang, cek fitur ini` — orkestrator memecah klaim independen dan men-dispatch worker read-only (cap 3 read-only / 2 browser). Satu laporan agregat; perbaikan findings sequential.
+- `pawang, audit current` — lensa `quality`/`security`/`performance`/`tests` paralel; parent menulis findings sekali.
+- `pawang, jalankan batch fitur 1-3` — `orchestrate.md` menyusun `batch.html` + DAG, berhenti di **Gate 1 batch**, lalu worker worktree + merge sequential. **Gate 2** meminta izin commit/merge batch; satu commit per fitur + satu merge batch.
+- Implementasi paralel hanya jika `steps[].files` terisi, disjoint, dan tanpa migrasi/skema bersama. Selain itu sequential.
+
 **Kapan saja:** `status` (arah kerja), `doctor` (diagnosa), `review kode` (baca/nilai kode AI, diff, PR), `file agent` (satukan AGENTS.md/.agents dengan symlink), `prototype` (mockup dulu), `rollback` (batalkan fitur), `release` (persiapan rilis), `document` (spesifikasi dari dokumen contoh), `handoff` (catatan lanjut sesi).
 
 ### 🛡️ Gerbang Persetujuan
 
 Hanya dua titik henti manusia:
 
-1. **Review spec** — setelah `feature`/`fix`/`rollback` menulis `current-feature.html`, agent berhenti menunggu persetujuan.
-2. **Commit & merge** — di `complete`, agent minta izin sebelum commit dan landing.
+1. **Review spec** — setelah `feature`/`fix`/`rollback` menulis `current-feature.html`, agent berhenti menunggu persetujuan. Untuk batch, satu approval untuk semua spec + DAG (bisa tolak per item).
+2. **Commit & merge** — di `complete`, agent minta izin sebelum commit dan landing. Untuk batch, satu izin untuk commit/merge batch (satu commit per fitur + satu merge batch).
 
 Selebihnya otonom: implement → check → audit → perbaikan findings → re-audit berjalan sendiri mengikuti `AGENTS.md`. Agent hanya berhenti di luar gerbang itu jika macet (batas `maxRepairAttempts`), butuh keputusan produk, atau keluar scope.
 
@@ -130,6 +149,8 @@ pawang/
 │   ├── status.md fix-debug.md prototype.md prototype-figr.md tests.md rollback.md
 │   ├── plans.md figr-docs.md figr-prompt.md brief-explore.md release.md doctor.md
 │   ├── adopt.md agents-md.md layout.md advisor.md companions.md handoff.md document.md review-code.md agent-files.md
+│   ├── parallel.md           # orkestrator dispatch dalam satu fitur
+│   ├── orchestrate.md        # batch lintas fitur/tiket + batch.html
 │   └── markers.json layout-rules.json gap-signals.md spec-template.md theme-variables.css
 ├── scripts/                  # deterministik & zero-dependency
 │   ├── scan.mjs check-layout.mjs probe.mjs compare-text.mjs link-agent-files.mjs
@@ -147,7 +168,7 @@ pawang/
 ├── theme.json                # snapshot token tampilan project (dikelola kit.js)
 ├── context/                  # state kerja aktif
 │   ├── project-overview.html  build-plan.html  current-feature.html
-│   ├── findings.html  review.html  handoff.html  coding-standards.html
+│   ├── batch.html  findings.html  review.html  handoff.html  coding-standards.html
 ├── figr/                     # 4 dokumen Figr + prompt (Markdown, di-commit); diagrams/ generated
 ├── reference/                # rujukan dokumen per jenis (invoice/, kontrak/, ...)
 │   └── <jenis>/              # file mentah (gitignored) + spesifikasi.html + _work/
@@ -184,7 +205,7 @@ Bila `figr/` ada, lane A tidak dipakai. Ada dua `kit.js`: `.pawang/kit.js` menge
 | `render <tipe>`                         | JSON (stdin/`--in`) → HTML standar — satu-satunya cara menulis state    |
 | `render diagram --from <file.md>`       | Blok Mermaid → viewer HTML generated (default `.pawang/figr/diagrams/`) |
 | `extract <file>`                        | Baca kembali JSON dari HTML                                             |
-| `status`                                | Ringkasan seluruh state (spec aktif, findings, review, tema)            |
+| `status`                                | Ringkasan state (spec, batch, findings, review, tema)                   |
 | `check`                                 | Validasi integritas; exit 1 bila rusak                                  |
 | `theme [--refresh\|--default\|--check]` | Kelola snapshot tema (render tidak pernah memindai CSS)                 |
 | `selftest`                              | Uji mandiri                                                             |

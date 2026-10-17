@@ -48,6 +48,23 @@ node .pawang/kit.js render current-feature --in /tmp/spec.json
 
 **Jangan mengubah field lain** saat menandai. Kalau saat mengeksekusi ternyata spec yang salah, berhenti dan revisi spec - jangan improvisasi.
 
+## Test-first saat seam tersedia
+
+Bila step mengandung logika dan runner sudah ada, tulis test yang gagal dulu di seam yang disepakati, lalu implementasi minimum sampai hijau. Satu test → satu implementasi → ulangi; jangan menulis semua test di awal.
+
+- Test hanya di public interface; jangan mock modul internal. Mock hanya di system boundary (API eksternal, DB, waktu, filesystem).
+- Refactor bukan bagian loop red-green; lakukan setelah behavior terbukti, saat review.
+- Jangan install runner/dependency baru kecuali spec mengotorisasi.
+
+Detail anti-pola ada di `tests.md`; test setup bukan izin menulis suite besar.
+
+## Paralel dan batch
+
+- **Perbaikan findings selalu sequential.** Satu temuan, satu perbaikan, satu cek; jangan pernah memperbaiki dua temuan sekaligus dengan worker paralel.
+- **Implementasi dalam satu fitur** boleh paralel hanya lewat guard di `parallel.md`: semua step punya `steps[].files`, file disjoint, tidak ada migrasi/skema bersama, dan worker tidak menulis `.pawang`. Jika guard tidak terpenuhi, sequential.
+- **Lintas fitur/tiket** memakai batch orchestrator di `orchestrate.md`; `implement.md` tetap mengeksekusi satu spec per worker.
+- Parent/orchestrator satu-satunya yang menulis checkbox, state, dan git. Worker hanya bekerja di worktree masing-masing.
+
 ## Otonomi setelah semua step
 
 Semua step ditandai selesai? Lanjut **tanpa menunggu perintah**:
@@ -64,7 +81,7 @@ Henti darurat (bukan gerbang, tapi pengaman): macet melewati batas percobaan, bu
 - **Jangan install dependency baru tanpa otorisasi spec.**
 - **Jangan keluar scope spec.** Butuh perubahan di luar `inScope`? Stop dan tanya.
 - Jangan membuat abstraksi, service, atau config surface yang tidak diminta kebutuhan sekarang.
-- Jangan commit, merge, atau push. Commit adalah gerbang izin di complete.md.
+- Jangan commit, merge, atau push. Commit work item adalah gerbang izin di complete.md. Pengecualian: worker batch boleh commit **lokal** di branch worktree sebagai scaffolding, bukan commit work item; parent tetap yang merge dan commit final (lihat `parallel.md`/`orchestrate.md`).
 - Jangan menulis HTML `.pawang/` mentah; selalu via `kit.js`.
 
 ## Menandai findings

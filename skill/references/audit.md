@@ -11,6 +11,16 @@ Tujuan: periksa kode tanpa mengubahnya, catat temuan durable di `.pawang/context
 
 Laporan dipisah per lensa. **Lensa sempit bukan audit luas**: sebutkan apa yang tidak diperiksa dan jangan menyiratkan lensa lain ikut lulus.
 
+## Lensa paralel
+
+Bila ada dua lensa atau lebih dan subagent tersedia, dispatch satu worker read-only per lensa dengan diff ref + cakupan. Aturan lengkap di `parallel.md`; ringkasnya:
+
+- Worker tidak menulis `findings.html`, tidak memberi ID final, dan tidak mengubah kode.
+- Parent menggabungkan hasil, menghapus duplikat, memberi ID `F-xx`, lalu menulis ledger **sekali**.
+- Perbaikan findings selalu sequential; re-audit boleh paralel lagi setelah perbaikan.
+- Jangan kutip secret; parent meredaksi kategori + file:line.
+- Cap 3 worker read-only; tanpa subagent, jalankan lensa berurutan.
+
 ## Alur audit biasa
 
 1. **Kumpulkan konteks**: spec aktif, `findings.html` (untuk ID/status saja), `review.html`, `coding-standards.html` bila lensa butuh, git status + diff. Untuk `current`, mulai dari diff spec; ikuti hanya caller, dependency, dan test yang perlu untuk membuktikan temuan.
@@ -76,6 +86,7 @@ Bentuk JSON review:
 ## Aturan
 
 - Audit tidak mengedit source, tidak install, tidak commit/merge/push.
+- Mockup/prototype bukan bukti kualitas; audit tetap pada kode yang berjalan.
 - Satu-satunya tulisan: `findings.html` (dan `review.html` di mode independen). Semua lewat `kit.js render`.
 - Jangan fetch/pull atau menjalankan tool audit berbasis jaringan tanpa izin.
 - Temuan dulu, ringkasan belakangan. Setiap temuan sedapat mungkin punya file:line.

@@ -75,7 +75,7 @@
       "expected_output": "Menampilkan ronde grill pertama (design tree/frontier) dan berhenti menunggu jawaban; belum menulis dokumen; menyebut output nanti di .pawang/figr/ (bukan figr/) dan prompt Figr setelah dokumen selesai.",
       "files": [],
       "assertions": [
-        "Memanggil grill-me/grilling atau menampilkan ronde grill pertama sebelum menulis",
+        "Memanggil grilling atau menampilkan ronde grill pertama sebelum menulis",
         "Tidak menulis empat dokumen sebelum user menjawab",
         "Menyebut output nanti di .pawang/figr/, bukan figr/",
         "Menyebut penanda kejujuran dan diagram Mermaid",
@@ -100,10 +100,10 @@
     {
       "id": 8,
       "prompt": "pawang, susun build-plan dari 4 dokumen Figr di .pawang/figr/. Ada beberapa keputusan terbuka soal modul kembar dan migrasi route; jangan menebak.",
-      "expected_output": "Memanggil grill-me/grilling atau mengajukan pertanyaan grill untuk keputusan terbuka; membaca 4 dokumen dari .pawang/figr/; tidak menebak; berhenti menunggu jawaban/persetujuan sebelum menulis state.",
+      "expected_output": "Memanggil grilling atau mengajukan pertanyaan grill untuk keputusan terbuka; membaca 4 dokumen dari .pawang/figr/; tidak menebak; berhenti menunggu jawaban/persetujuan sebelum menulis state.",
       "files": [],
       "assertions": [
-        "Memanggil grill-me/grilling atau mengajukan pertanyaan grill untuk keputusan terbuka",
+        "Memanggil grilling atau mengajukan pertanyaan grill untuk keputusan terbuka",
         "Membaca empat dokumen dari .pawang/figr/, bukan figr/",
         "Cabang yang belum dijawab ditandai (belum diputuskan), bukan diisi tebakan",
         "Berhenti menunggu jawaban/persetujuan sebelum menulis state",
@@ -113,10 +113,11 @@
     {
       "id": 9,
       "prompt": "pawang, companion apa saja yang perlu dipasang untuk proyek yang sudah punya Figr dan DS? Jangan pasang dulu.",
-      "expected_output": "Membedakan Pawang core dari companion; menyebut grill-me/grilling, figr-to-prototype, prototype-kit; menjelaskan kapan perlu; menunjuk companions.md; tidak memasang tanpa izin.",
+      "expected_output": "Membedakan Pawang core dari companion; menyebut grilling, figr-to-prototype, prototype-kit; menyebut wayfinder opsional untuk inisiatif besar (user-invoked, tracker GitHub/docs/agents); menunjuk companions.md; tidak memasang tanpa izin.",
       "files": [],
       "assertions": [
-        "Menyebut grill-me/grilling, figr-to-prototype, dan prototype-kit sebagai companion",
+        "Menyebut grilling, figr-to-prototype, dan prototype-kit sebagai companion",
+        "Menyebut wayfinder sebagai companion opsional/user-invoked untuk inisiatif besar",
         "Membedakan companion (.agents/skills/) dari Pawang core",
         "Menjelaskan kapan companion Figr diperlukan dan bahwa lane A tidak butuh",
         "Menunjuk skill/references/companions.md untuk cara pasang",
@@ -206,6 +207,60 @@
         "Menyebut .claude/skills → .agents/skills dan pemindahan skill setelah migrasi",
         "Tidak mengubah file sebelum izin user atau --apply",
         "Menjalankan --check/verifikasi setelah apply dan tidak mengklaim symlink sebelum migrasi selesai"
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "pawang, rencanakan inisiatif besar: migrasi 12 modul ERP ke satu aplikasi. Rutenya belum jelas dan keputusannya saling bergantung. Pakai wayfinder; jangan tulis build-plan dulu.",
+      "expected_output": "Mengenali wayfinder user-invoked dan meminta user memicunya; menyebut setup-matt-pocock-skills + GitHub Issues/docs/agents opt-in; menjelaskan map + tiket keputusan, blocking/frontier, satu tiket per sesi; tidak menulis build-plan/project-overview sebelum peta selesai; setelah peta selesai baru render ke .pawang/ dan tidak menyalin peta/tiket ke .pawang/.",
+      "files": [],
+      "assertions": [
+        "Menyebut wayfinder user-invoked dan meminta user memicunya, bukan mengaku memanggil otomatis",
+        "Menyebut setup-matt-pocock-skills, GitHub Issues, dan docs/agents sebagai opt-in",
+        "Menyebut map, tiket keputusan, blocking/frontier, dan satu tiket per sesi",
+        "Tidak menulis build-plan/project-overview sebelum peta wayfinder selesai",
+        "Setelah peta selesai, build-plan/project-overview ditulis ke .pawang/; peta/tiket tidak disalin ke .pawang/",
+        "Tidak menulis plan final ke issue tracker"
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "pawang, cek fitur aktif ini paralel. Klaim independen: UI login (browser), API POST /users (curl), CLI export (command), dan build. Jangan perbaiki apa pun dulu.",
+      "expected_output": "Mengelompokkan klaim per surface, menjalankan perintah deterministik lebih dulu, dispatch worker read-only dengan cap 3 read-only/2 browser, satu dev server, brief pointer pendek, parent menulis status spec sekali, dan perbaikan findings ditunda/sequential.",
+      "files": [],
+      "assertions": [
+        "Mengelompokkan klaim independen dan tidak menjalankan semuanya sequential di konteks parent",
+        "Menyebut cap 3 read-only dan 2 browser; tidak melebihi cap",
+        "Menyebut satu dev server untuk semua worker browser",
+        "Worker read-only tidak menulis .pawang dan tidak mengubah kode",
+        "Parent mengagregasi hasil menjadi satu laporan dan menulis status spec sekali",
+        "Perbaikan findings dinyatakan sequential, bukan paralel"
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "pawang, jalankan batch 3 fitur dari build-plan. B1 tanpa blocker, B2 blockedBy B1, B3 independen. Tampilkan spec batch dulu untuk saya setujui.",
+      "expected_output": "Menyusun batch.html via kit.js dengan items, blockedBy, spec; berhenti di Gate 1 batch untuk approval; setelah disetujui menjalankan frontier B1+B3 dengan cap 2 worker write, B2 menunggu B1; merge sequential; repair sequential; Gate 2 commit/merge batch; satu commit per fitur + satu merge batch.",
+      "files": [],
+      "assertions": [
+        "Menyebut state batch.html dan render lewat kit.js, bukan current-feature per item",
+        "Berhenti di Gate 1 batch sebelum menjalankan worker",
+        "Menyusun DAG blockedBy dan menjalankan frontier B1+B3, bukan B2 lebih dulu",
+        "Menyebut cap 2 worker write dan worker worktree-only",
+        "Merge ke integration branch sequential dan repair findings sequential",
+        "Menyebut Gate 2 dan satu commit per fitur + satu merge batch"
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "pawang, implement step 1 dan step 2 sekaligus paralel. Keduanya menyentuh src/routes/users.ts dan step 2 butuh hasil step 1. Jangan sequential.",
+      "expected_output": "Menolak paralel karena file beririsan dan step dependen; menjelaskan guard steps[].files/disjoint; menjalankan sequential; perbaikan findings sequential.",
+      "files": [],
+      "assertions": [
+        "Menyebut file beririsan dan dependency sebagai alasan tidak paralel",
+        "Menyebut guard steps[].files harus terisi dan disjoint",
+        "Memilih sequential meskipun user meminta paralel",
+        "Tidak membiarkan worker menulis file yang sama"
       ]
     }
   ]

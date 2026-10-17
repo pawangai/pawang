@@ -18,6 +18,13 @@ Tujuan: ubah satu item build-plan jadi spec siap bangun di `.pawang/context/curr
 
 Plan menentukan maksud produk; repo menentukan kenyataan saat ini. **Jangan mengarang** default, limit, izin, aturan uang, format, atau kontrak API.
 
+## Design reference (bila ada mockup)
+
+- `prototypes/` ada (lane A): bila fitur ini UI-facing dan mockup relevan, pilih HTML yang relevan dan tautkan di `references.design`. Step pertama wajib mem-port `prototypes/theme.css` ke stylesheet aplikasi; jangan menyalin HTML mockup mentah.
+- `.pawang/prototype/` ada (lane B): bila fitur ini UI-facing, tautkan `index.html` atau screen HTML yang relevan di `references.design`; jangan menyalin HTML generated ke `src/`.
+- Tidak ada mockup, atau fitur non-UI: `references.design` boleh kosong; jangan mengarang path.
+- Path design relatif ke root proyek dan harus ada saat spec ditulis.
+
 ## Kritik dulu, jangan langsung menulis
 
 Periksa kelas kegagalan ini sebelum draft final:
@@ -42,6 +49,23 @@ Fitur terasa terlalu besar untuk satu branch yang bisa direview? **Usul pecah** 
 
 Catatan: versi lengkap aturan git-proof (membuktikan attempt dari riwayat commit) sengaja disederhanakan di pawang dan bisa diperkuat nanti.
 
+## Spec durable - kontrak untuk agent
+
+Spec adalah kontrak. `implement.md` mengikutinya persis; agent tidak boleh menebak dari percakapan. Tulis agar tetap berguna meski file berubah:
+
+- Jelaskan **perilaku sekarang** dan **perilaku yang diinginkan** di `goal`/`notes`; jangan jadikan path atau nomor baris sebagai kontrak.
+- `files` hanya petunjuk area. Kontrak yang tahan lama adalah nama tipe, signature fungsi, bentuk config, dan perilaku yang bisa diamati.
+- Acceptance criteria = `steps[].doneWhen`, satu per step, bisa diuji sendiri.
+- Keputusan implementasi, kontrak data/API, dan keputusan testing masuk `contracts`/`testing`/`notes`.
+- Batas tegas di `inScope`/`outOfScope`; jangan mengandalkan agent menebak.
+- `openQuestions` wajib kosong sebelum Gerbang 1.
+
+**Irisan vertikal.** Setiap step adalah potongan tipis yang menembus semua lapisan yang relevan (schema → API → UI → test), bukan satu lapisan saja. Step harus bisa didemokan/diverifikasi sendiri dan muat dalam satu siklus implement. Urutan step = dependensi; jangan menaruh step dependen sebelum prasyaratnya.
+
+**Paralel.** `steps[].files` opsional. Isi bila step mungkin dikerjakan paralel. Orkestrator hanya menjalankan paralel bila semua step punya `files`, tidak ada irisan, dan tidak ada migrasi/skema bersama; jika tidak, sequential. Perbaikan findings selalu sequential.
+
+**Batch.** Bila fitur ini bagian dari batch lintas fitur, tulis spec ke `items[].spec` di `.pawang/context/batch.html` lewat `kit.js render batch`; jangan menulis `current-feature.html` per item. Alur batch ada di `orchestrate.md`.
+
 ## Tulis spec sekali
 
 Draft dan kritik di konteks, lalu tulis **sekali** lewat kit.js:
@@ -58,11 +82,17 @@ node .pawang/kit.js render current-feature <<'JSON'
   "inScope": ["Endpoint GET /reports/:id.csv"],
   "outOfScope": ["Format PDF"],
   "steps": [
-    { "text": "Endpoint CSV", "doneWhen": "curl mengembalikan CSV 200", "done": false }
+    {
+      "text": "Endpoint CSV",
+      "doneWhen": "curl mengembalikan CSV 200",
+      "done": false,
+      "files": ["src/routes/reports.ts"]
+    }
   ],
   "files": ["src/routes/reports.ts"],
   "contracts": ["Kolom: tanggal,total"],
   "testing": ["Uji nilai yang berisi koma"],
+  "references": { "documents": [], "design": [] },
   "notes": ["Ikuti pola export yang sudah ada"],
   "openQuestions": []
 }
@@ -71,16 +101,18 @@ JSON
 
 Peta field:
 
-| Field                    | Isi                                                                     |
-| ------------------------ | ----------------------------------------------------------------------- |
-| `title` / `goal`         | Nama fitur dan alasan singkatnya.                                       |
-| `branch`                 | Prefix konfigurasi + slug judul, mis. `feature/export-laporan-bulanan`. |
-| `origin`                 | `buildPlanId` + `attempt`.                                              |
-| `inScope` / `outOfScope` | Batas tegas. Yang out-of-scope tidak dikerjakan.                        |
-| `steps`                  | Unit kecil dan bisa direview; tiap step punya `doneWhen` yang teramati. |
-| `files` / `contracts`    | Path nyata + kontrak material (tipe, format, error shape).              |
-| `testing`                | Cara memverifikasi.                                                     |
-| `openQuestions`          | **Wajib kosong** sebelum spec diajukan ke user.                         |
+| Field                    | Isi                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------- |
+| `title` / `goal`         | Nama fitur dan alasan singkatnya.                                                      |
+| `branch`                 | Prefix konfigurasi + slug judul, mis. `feature/export-laporan-bulanan`.                |
+| `origin`                 | `buildPlanId` + `attempt`.                                                             |
+| `inScope` / `outOfScope` | Batas tegas. Yang out-of-scope tidak dikerjakan.                                       |
+| `steps`                  | Unit kecil dan bisa direview; tiap step punya `doneWhen` yang teramati.                |
+| `steps[].files`          | Opsional. Area file step; dipakai orkestrator untuk guard paralel (harus disjoint).    |
+| `files` / `contracts`    | Path nyata + kontrak material (tipe, format, error shape).                             |
+| `testing`                | Cara memverifikasi.                                                                    |
+| `references.design`      | Path HTML mockup yang relevan; wajib bila `prototypes/` atau `.pawang/prototype/` ada. |
+| `openQuestions`          | **Wajib kosong** sebelum spec diajukan ke user.                                        |
 
 Skema lengkap ada di workflow.md bagian 3.
 

@@ -12,8 +12,8 @@
 //   node .pawang/kit.js selftest                      uji mandiri kit.js
 //
 // Tipe render: current-feature, findings, review, handoff, build-plan, project-overview,
-//              coding-standards, history-feature, history-fix, history-rollback, document-spec,
-//              diagram.
+//              batch, coding-standards, history-feature, history-fix, history-rollback,
+//              document-spec, diagram.
 
 "use strict";
 (async () => {
@@ -32,6 +32,7 @@
     handoff: "context/handoff.html",
     "build-plan": "context/build-plan.html",
     "project-overview": "context/project-overview.html",
+    batch: "context/batch.html",
     "coding-standards": "context/coding-standards.html",
     "history-feature": null,
     "history-fix": null,
@@ -47,6 +48,7 @@
     handoff: "Handoff",
     "build-plan": "Build plan",
     "project-overview": "Project overview",
+    batch: "Batch",
     "coding-standards": "Coding standards",
     "history-feature": "Arsip fitur",
     "history-fix": "Arsip fix",
@@ -74,6 +76,23 @@
     "invalid",
   ];
   const REVIEW_STATES = ["none", "pending", "passed", "changes-requested"];
+  const BATCH_STATUSES = [
+    "none",
+    "planning",
+    "running",
+    "verifying",
+    "done",
+    "failed",
+  ];
+  const BATCH_ITEM_STATUSES = [
+    "pending",
+    "ready",
+    "running",
+    "done",
+    "merged",
+    "failed",
+    "blocked",
+  ];
 
   const SKIP_DIRS = new Set([
     "node_modules",
@@ -473,7 +492,9 @@ ${mermaid}
       s === "ready" ||
       s === "completed" ||
       s === "passed" ||
-      s === "closed"
+      s === "closed" ||
+      s === "done" ||
+      s === "merged"
     )
       return "ok";
     if (
@@ -482,10 +503,14 @@ ${mermaid}
       s === "open" ||
       s === "fixed" ||
       s === "not-started" ||
-      s === "changes-requested"
+      s === "changes-requested" ||
+      s === "planning" ||
+      s === "running" ||
+      s === "verifying" ||
+      s === "blocked"
     )
       return "warn";
-    if (s === "verification-failed") return "bad";
+    if (s === "verification-failed" || s === "failed") return "bad";
     return "muted";
   }
 
@@ -732,6 +757,78 @@ ${mermaid}
           `<section><table><tr><th></th><th>#</th><th>Fitur</th></tr>${rows}</table></section>`
         );
       }
+      case "batch": {
+        const items = Array.isArray(d.items) ? d.items : [];
+        const gate = d.gate || {};
+        const count = (s) => items.filter((i) => i.status === s).length;
+        const rows = items
+          .map(
+            (i) =>
+              `<tr><td>${esc(i.id || "")}</td><td>${esc(i.title || "")}</td><td>${badge(i.status || "?", statusKind(i.status))}</td><td>${esc((Array.isArray(i.blockedBy) ? i.blockedBy.join(", ") : "") || "-")}</td><td><code>${esc(i.branch || "-")}</code></td><td>${esc(i.buildPlanId || "-")}</td></tr>`,
+          )
+          .join("");
+        let body = `<header class="site"><div class="kind">batch lintas fitur</div><h1>Batch</h1>${badge(d.status || "-", statusKind(d.status))}${gate.specApproved ? badge("spec disetujui", "ok") : badge("spec belum disetujui", "warn")}${gate.commitApproved ? badge("commit disetujui", "ok") : badge("commit belum disetujui", "muted")}</header>`;
+        body += sect(
+          "Ringkasan",
+          kvRows([
+            ["ID", d.id],
+            [
+              "Integration branch",
+              d.integrationBranch
+                ? `<code>${esc(d.integrationBranch)}</code>`
+                : "",
+            ],
+            [
+              "Item",
+              `${items.length} total · ${count("ready")} ready · ${count("running")} running · ${count("merged")} merged · ${count("failed")} failed · ${count("blocked")} blocked`,
+            ],
+          ]),
+        );
+        body += `<section><h2>Item (${items.length})</h2><table><tr><th>#</th><th>Fitur</th><th>Status</th><th>Blocked by</th><th>Branch</th><th>Build-plan</th></tr>${rows}</table></section>`;
+        for (const i of items) {
+          const s = i.spec || {};
+          const steps = Array.isArray(s.steps) ? s.steps : [];
+          const stepItems = steps
+            .map(
+              (st) =>
+                `<li class="${st.done ? "done" : ""}"><span class="check">${st.done ? "✓" : "○"}</span>${esc(st.text || "")}${st.doneWhen ? `<em>Done when: ${esc(st.doneWhen)}</em>` : ""}</li>`,
+            )
+            .join("");
+          const result = i.result || {};
+          body +=
+            `<section class="card"><h3>${badge(i.id || "B-?", "muted")}${badge(i.status || "?", statusKind(i.status))} ${esc(i.title || "")}</h3>` +
+            kvRows([
+              ["Build-plan", i.buildPlanId ? "#" + esc(i.buildPlanId) : ""],
+              ["Branch", i.branch ? `<code>${esc(i.branch)}</code>` : ""],
+              ["Worktree", i.worktree ? `<code>${esc(i.worktree)}</code>` : ""],
+              [
+                "Blocked by",
+                Array.isArray(i.blockedBy) && i.blockedBy.length
+                  ? i.blockedBy.join(", ")
+                  : "",
+              ],
+              ["Goal", s.goal || ""],
+              [
+                "Commit",
+                result.commit ? `<code>${esc(result.commit)}</code>` : "",
+              ],
+              [
+                "Arsip",
+                result.archive ? `<code>${esc(result.archive)}</code>` : "",
+              ],
+              ["Catatan hasil", result.notes || ""],
+            ]) +
+            (s.inScope && s.inScope.length
+              ? `<p><strong>In scope:</strong></p>${ul(s.inScope)}`
+              : "") +
+            (s.outOfScope && s.outOfScope.length
+              ? `<p><strong>Out of scope:</strong></p>${ul(s.outOfScope)}`
+              : "") +
+            (stepItems ? `<ul class="steps">${stepItems}</ul>` : "") +
+            "</section>";
+        }
+        return body;
+      }
       case "project-overview": {
         return (
           `<header class="site"><div class="kind">ringkasan proyek</div><h1>Project overview</h1></header>` +
@@ -960,6 +1057,20 @@ ${mermaid}
         );
     }
 
+    const bt = tryEmbedded(contextPath("batch"));
+    if (bt.data && bt.data.status && bt.data.status !== "none") {
+      const items = Array.isArray(bt.data.items) ? bt.data.items : [];
+      const by = (st) => items.filter((i) => i.status === st).length;
+      lines.push(
+        `Batch    : ${bt.data.id || "?"} · ${bt.data.status} · ${items.length} item (ready ${by("ready")} · running ${by("running")} · merged ${by("merged")} · failed ${by("failed")} · blocked ${by("blocked")})` +
+          (bt.data.integrationBranch ? ` · ${bt.data.integrationBranch}` : ""),
+      );
+      if (bt.data.gate && !bt.data.gate.specApproved)
+        lines.push("           spec batch belum disetujui");
+    } else if (bt.broken) {
+      lines.push(`Batch    : RUSAK (${bt.broken})`);
+    }
+
     const fnd = tryEmbedded(contextPath("findings"));
     if (fnd.data) {
       const items = Array.isArray(fnd.data.items) ? fnd.data.items : [];
@@ -1015,6 +1126,160 @@ ${mermaid}
 
     console.log("pawang status");
     console.log(lines.join("\n"));
+  }
+
+  function checkDesignRefs(d, root, E, W) {
+    const refs =
+      d.references &&
+      Object.prototype.hasOwnProperty.call(d.references, "design")
+        ? d.references.design
+        : undefined;
+    const hasMockups =
+      fs.existsSync(path.join(root, "prototypes")) ||
+      fs.existsSync(path.join(root, ".pawang", "prototype"));
+
+    if (refs !== undefined) {
+      if (!Array.isArray(refs)) {
+        E("current-feature: references.design harus array");
+      } else {
+        for (const [i, p] of refs.entries()) {
+          if (typeof p !== "string" || !p.trim()) {
+            E(`current-feature: references.design[${i}] harus path string`);
+            continue;
+          }
+          if (
+            path.isAbsolute(p) ||
+            p.includes("\\") ||
+            p.split("/").includes("..")
+          ) {
+            E(
+              `current-feature: references.design[${i}] harus path relatif tanpa "..": ${p}`,
+            );
+            continue;
+          }
+          if (!fs.existsSync(path.join(root, p))) {
+            E(`current-feature: references.design[${i}] tidak ada: ${p}`);
+          }
+        }
+      }
+    }
+
+    if (
+      hasMockups &&
+      d.type === "feature" &&
+      (!Array.isArray(refs) || refs.length === 0)
+    ) {
+      W(
+        "current-feature: mockup ada tapi spec fitur belum menaut references.design (abaikan bila fitur non-UI)",
+      );
+    }
+  }
+
+  function checkPrototypeManifest(base, E, W) {
+    const dir = path.join(base, "prototype");
+    if (!fs.existsSync(dir)) return;
+    const file = path.join(dir, ".manifest.json");
+    if (!fs.existsSync(file)) {
+      E("prototype/.manifest.json tidak ada - regenerasi dengan scan_repo.py");
+      return;
+    }
+
+    let data;
+    try {
+      data = readJson(file);
+    } catch (e) {
+      E(`prototype/.manifest.json: JSON tidak valid (${e.message})`);
+      return;
+    }
+    if (!data || typeof data !== "object" || Array.isArray(data)) {
+      E("prototype/.manifest.json: harus object");
+      return;
+    }
+
+    const keys = Object.keys(data);
+    if (keys.length === 0) {
+      W("prototype/.manifest.json: kosong - regenerasi dengan scan_repo.py");
+      return;
+    }
+
+    const hasFiles = Object.prototype.hasOwnProperty.call(data, "files");
+    let files = data;
+    if (hasFiles) {
+      files = data.files;
+      if (!files || typeof files !== "object" || Array.isArray(files)) {
+        E("prototype/.manifest.json: files harus object");
+        return;
+      }
+    } else {
+      const flat = keys.every((k) => typeof data[k] === "string");
+      if (!flat) {
+        E("prototype/.manifest.json: tidak punya object files");
+        return;
+      }
+      W(
+        "prototype/.manifest.json: format lama (map datar); tulis ulang dengan scan_repo.py",
+      );
+    }
+
+    const entries = Object.entries(files);
+    if (entries.length === 0) {
+      W(
+        "prototype/.manifest.json: files kosong - regenerasi dengan scan_repo.py",
+      );
+    }
+    const hashRe = /^[0-9a-f]{12}$/i;
+    for (const [k, v] of entries) {
+      const bare = k.startsWith("ds:") ? k.slice(3) : k;
+      if (
+        typeof k !== "string" ||
+        !bare.trim() ||
+        path.isAbsolute(bare) ||
+        bare.includes("\\") ||
+        bare.split("/").includes("..")
+      ) {
+        E(`prototype/.manifest.json: key tidak valid: ${k}`);
+      }
+      if (typeof v !== "string" || !hashRe.test(v)) {
+        E(`prototype/.manifest.json: hash tidak valid untuk ${k}: ${v}`);
+      }
+    }
+  }
+
+  function validateBatch(d, E) {
+    if (d.status !== "none" && !BATCH_STATUSES.includes(d.status))
+      E(
+        `batch: status "${d.status}" tidak valid (${BATCH_STATUSES.join("|")})`,
+      );
+    if (!Array.isArray(d.items)) return E("batch: items harus array");
+    const ids = new Set();
+    for (const [i, it] of d.items.entries()) {
+      if (!it.id) E(`batch: items[${i}] tanpa id`);
+      else if (ids.has(it.id)) E(`batch: ID ganda ${it.id}`);
+      else ids.add(it.id);
+      if (!it.title) E(`batch: items[${i}] tanpa title`);
+      if (!BATCH_ITEM_STATUSES.includes(it.status))
+        E(
+          `batch ${it.id || i}: status "${it.status}" tidak valid (${BATCH_ITEM_STATUSES.join("|")})`,
+        );
+      if (it.blockedBy != null && !Array.isArray(it.blockedBy))
+        E(`batch ${it.id || i}: blockedBy harus array`);
+      const s = it.spec || {};
+      if (
+        it.status === "ready" &&
+        Array.isArray(s.openQuestions) &&
+        s.openQuestions.length
+      )
+        E(`batch ${it.id || i}: openQuestions wajib kosong sebelum ready`);
+      if (Array.isArray(s.steps))
+        for (const [j, st] of s.steps.entries()) {
+          if (!st.text) E(`batch ${it.id || i}: steps[${j}] tanpa text`);
+          if (st.files != null && !Array.isArray(st.files))
+            E(`batch ${it.id || i}: steps[${j}].files harus array`);
+        }
+    }
+    for (const it of d.items)
+      for (const b of Array.isArray(it.blockedBy) ? it.blockedBy : [])
+        if (!ids.has(b)) E(`batch ${it.id || "?"}: blockedBy "${b}" tidak ada`);
   }
 
   function cmdCheck() {
@@ -1084,7 +1349,9 @@ ${mermaid}
         if (Array.isArray(d.steps))
           for (const [i, s] of d.steps.entries())
             if (!s.text) E(`current-feature: steps[${i}] tanpa text`);
+        checkDesignRefs(d, ROOT, E, W);
       },
+      batch: (d) => validateBatch(d, E),
       findings: (d) => {
         if (!Array.isArray(d.items)) return E("findings: items harus array");
         const seen = new Set();
@@ -1128,7 +1395,7 @@ ${mermaid}
       const file = contextPath(name);
       const r = tryEmbedded(file);
       if (r.missing) {
-        if (name !== "handoff")
+        if (name !== "handoff" && name !== "batch")
           W(`${name}.html belum ada - jalankan kit.js init`);
         continue;
       }
@@ -1142,6 +1409,8 @@ ${mermaid}
         E(`${name}.html: validasi gagal (${e.message})`);
       }
     }
+
+    checkPrototypeManifest(BASE, E, W);
 
     const histDir = path.join(BASE, "history");
     for (const kind of ["features", "fixes", "rollbacks"]) {
@@ -1282,6 +1551,13 @@ ${mermaid}
     findings: { items: [] },
     review: { state: "none" },
     "build-plan": { items: [] },
+    batch: {
+      id: "",
+      status: "none",
+      integrationBranch: "",
+      gate: { specApproved: false, commitApproved: false },
+      items: [],
+    },
     "project-overview": {
       summary:
         "(belum diisi) - susun lewat adopsi proyek atau kit.js render project-overview.",
@@ -1452,6 +1728,57 @@ ${mermaid}
         { id: "2", text: "Feature dua", done: false },
       ],
     },
+    batch: {
+      id: "batch-2026-10-17",
+      status: "running",
+      integrationBranch: "batch/2026-10-17",
+      gate: { specApproved: true, commitApproved: false },
+      items: [
+        {
+          id: "B1",
+          buildPlanId: "1",
+          title: "Fitur satu",
+          blockedBy: [],
+          status: "merged",
+          branch: "feature/satu",
+          worktree: "../wt-satu",
+          spec: {
+            type: "feature",
+            title: "Fitur satu",
+            goal: "Outcome satu.",
+            inScope: ["A"],
+            outOfScope: ["B"],
+            steps: [
+              {
+                text: "Step satu",
+                doneWhen: "terlihat",
+                done: true,
+                files: ["src/a.ts"],
+              },
+            ],
+            openQuestions: [],
+          },
+          result: { commit: "abc", archive: "01-satu.html", notes: "" },
+        },
+        {
+          id: "B2",
+          buildPlanId: "2",
+          title: "Fitur dua",
+          blockedBy: ["B1"],
+          status: "ready",
+          branch: "feature/dua",
+          worktree: "",
+          spec: {
+            type: "feature",
+            title: "Fitur dua",
+            goal: "Outcome dua.",
+            steps: [{ text: "Step dua", doneWhen: "lulus", done: false }],
+            openQuestions: [],
+          },
+          result: {},
+        },
+      ],
+    },
     "project-overview": {
       summary: "Aplikasi X",
       problem: "P",
@@ -1539,6 +1866,137 @@ ${mermaid}
       }
     }
     try {
+      const guardRoot = path.join(dir, "guard-root");
+      const guardBase = path.join(guardRoot, ".pawang");
+      fs.mkdirSync(path.join(guardBase, "prototype"), { recursive: true });
+      fs.mkdirSync(path.join(guardRoot, "prototypes"), { recursive: true });
+      fs.writeFileSync(path.join(guardRoot, "prototypes", "a.html"), "");
+      const run = (fn) => {
+        const errs = [];
+        const ws = [];
+        fn(
+          (m) => errs.push(m),
+          (m) => ws.push(m),
+        );
+        return { errs, ws };
+      };
+
+      let r = run((e, w) =>
+        checkDesignRefs(
+          { references: { design: ["prototypes/a.html"] } },
+          guardRoot,
+          e,
+          w,
+        ),
+      );
+      if (r.errs.length || r.ws.length)
+        throw new Error("design ref valid dianggap masalah");
+
+      r = run((e, w) =>
+        checkDesignRefs(
+          { references: { design: ["prototypes/missing.html"] } },
+          guardRoot,
+          e,
+          w,
+        ),
+      );
+      if (!r.errs.length) throw new Error("design ref hilang tidak terdeteksi");
+
+      r = run((e, w) => checkDesignRefs({ type: "feature" }, guardRoot, e, w));
+      if (!r.ws.length)
+        throw new Error("mockup tanpa design ref tidak diperingatkan");
+
+      r = run((e) =>
+        validateBatch(
+          {
+            status: "planning",
+            items: [
+              {
+                id: "B1",
+                title: "Satu",
+                status: "ready",
+                blockedBy: [],
+                spec: { steps: [{ text: "a", files: ["src/a.ts"] }] },
+              },
+              {
+                id: "B2",
+                title: "Dua",
+                status: "pending",
+                blockedBy: ["B1"],
+                spec: { steps: [{ text: "b" }] },
+              },
+            ],
+          },
+          e,
+        ),
+      );
+      if (r.errs.length) throw new Error("batch valid dianggap masalah");
+
+      r = run((e) =>
+        validateBatch(
+          {
+            status: "planning",
+            items: [
+              {
+                id: "B1",
+                title: "Satu",
+                status: "ready",
+                blockedBy: ["B9"],
+                spec: { steps: [{ text: "a", files: "src/a.ts" }] },
+              },
+            ],
+          },
+          e,
+        ),
+      );
+      if (r.errs.length < 2)
+        throw new Error("batch rusak (blockedBy/files) tidak terdeteksi");
+
+      const manifestPath = path.join(guardBase, "prototype", ".manifest.json");
+      const writeManifest = (x) =>
+        fs.writeFileSync(manifestPath, JSON.stringify(x));
+      const checkManifest = () =>
+        run((e, w) => checkPrototypeManifest(guardBase, e, w));
+
+      writeManifest({
+        files: {
+          "screens/a.tsx": "abcdef123456",
+          "ds:index.css": "123456abcdef",
+        },
+      });
+      r = checkManifest();
+      if (r.errs.length || r.ws.length)
+        throw new Error("manifest valid dianggap masalah");
+
+      writeManifest({ "screens/a.tsx": "abcdef123456" });
+      r = checkManifest();
+      if (r.errs.length || !r.ws.length)
+        throw new Error("manifest format lama tidak diperingatkan");
+
+      writeManifest({ files: { "screens/a.tsx": "xyz" } });
+      r = checkManifest();
+      if (!r.errs.length)
+        throw new Error("hash manifest rusak tidak terdeteksi");
+
+      writeManifest({ files: { "../a.tsx": "abcdef123456" } });
+      r = checkManifest();
+      if (!r.errs.length)
+        throw new Error("key manifest tidak aman tidak terdeteksi");
+
+      writeManifest({ files: { "ds:../a.tsx": "abcdef123456" } });
+      r = checkManifest();
+      if (!r.errs.length)
+        throw new Error("key manifest ds tidak aman tidak terdeteksi");
+
+      fs.rmSync(manifestPath);
+      r = checkManifest();
+      if (!r.errs.length) throw new Error("manifest hilang tidak terdeteksi");
+    } catch (e) {
+      console.log(`GAGAL guard: ${e.message}`);
+      fail++;
+    }
+
+    try {
       const defaultTheme = {
         slots: { ...DEFAULT_THEME.slots },
         passthrough: {},
@@ -1556,7 +2014,7 @@ ${mermaid}
       process.exit(1);
     }
     console.log(
-      `selftest: OK (${Object.keys(SELFTEST_SAMPLES).length} tipe round-trip + tema)`,
+      `selftest: OK (${Object.keys(SELFTEST_SAMPLES).length} tipe round-trip + tema + guard + batch)`,
     );
   }
 

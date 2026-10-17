@@ -37,9 +37,9 @@ Tabel maksimal 5-7 baris (format `gap-signals.md`): temuan, bukti, rekomendasi, 
 
 ### 4. Untuk kebutuhan skill
 
-**a. Cek dulu.** Skill terpasang (dari `doctor.md` + daftar sesi ini), `.pawang/context/` (konvensi dan keputusan), dan skill bawaan paket (`node_modules/<paket>/skills`). Sudah cukup? Perbaiki pemicunya, jangan menambah. Artefak skill yang dikenal (mis. `PRODUCT.md`/`DESIGN.md`, `blueprint/`, `figr/`, `CODING_STANDARDS.md`, `GLOSSARY.md`) dirutekan ke `.pawang/context/coding-standards.html` atau tautan berpemicu di AGENTS.md; yang tak dikenal tanyakan ke user.
+**a. Cek dulu.** Skill terpasang (dari `doctor.md` + daftar sesi ini), `.pawang/context/` (konvensi dan keputusan), dan skill bawaan paket (`node_modules/<paket>/skills`). Sudah cukup? Perbaiki pemicunya, jangan menambah. Artefak skill yang dikenal (mis. `PRODUCT.md`/`DESIGN.md`, `blueprint/`, `figr/`, `CODING_STANDARDS.md`, `GLOSSARY.md`, `.out-of-scope/`, `docs/agents/`, `triage-labels.md`) dirutekan ke `.pawang/context/coding-standards.html` atau tautan berpemicu di AGENTS.md; yang tak dikenal tanyakan ke user.
 
-Companion inti Pawang (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`) **bukan kandidat find-skills**; daftar, sumber, dan cara pasangnya ada di `companions.md`. find-skills dipakai untuk kebutuhan di luar companion inti. Alat advisor sendiri (`find-skills`, `skill-creator`, `skill-inspector`) juga bukan companion alur; cek status global/proyek sebelum memasang agar tidak duplikat.
+Companion inti Pawang (`grilling`, `wayfinder` + `domain-modeling`, `research`/`prototype`, `setup-matt-pocock-skills`, `figr-to-prototype`, `prototype-kit`) **bukan kandidat find-skills**; daftar, sumber, dan cara pasangnya ada di `companions.md`. find-skills dipakai untuk kebutuhan di luar companion inti. Alat advisor sendiri (`find-skills`, `skill-creator`, `skill-inspector`) juga bukan companion alur; cek status global/proyek sebelum memasang agar tidak duplikat.
 
 **b. Cari lewat find-skills.** Kalau `find-skills` terpasang, panggil; kalau belum, tawarkan memasangnya (butuh persetujuan; `adopt.md` langkah 10 menawarkannya lebih dulu):
 

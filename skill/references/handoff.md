@@ -40,6 +40,7 @@ Jangan memindai seluruh repo.
 ```
 
 7. Tulis juga satu kalimat: "Cek bagian state dan next sebelum menutup sesi." Ringkasan buatan AI bisa keliru, jadi user perlu skim.
+8. Saat menyerahkan pekerjaan ke subagent, pakai gaya brief yang sama (pointer, batas file, larangan scan repo); template lengkap ada di `parallel.md`.
 
 ## B. Di awal sesi lanjutan: membaca handoff
 

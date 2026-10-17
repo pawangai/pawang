@@ -99,7 +99,7 @@ Baseline bau kode (Fowler, _Refactoring_ bab 3) selalu ikut sebagai penilaian, b
 
 ### 4. Jalankan tiga lintasan terpisah
 
-Jika subagent tersedia, jalankan Standards, Spec, dan Comprehension secara paralel dengan konteks masing-masing. Jika tidak, kerjakan berurutan; selesaikan satu sumbu sebelum membuka berikutnya dan jangan membawa kesimpulan antar-lintasan.
+Jika subagent tersedia, jalankan Standards, Spec, dan Comprehension secara paralel dengan konteks masing-masing. Jika tidak, kerjakan berurutan; selesaikan satu sumbu sebelum membuka berikutnya dan jangan membawa kesimpulan antar-lintasan. Cap, brief hemat, dan agregasi mengikuti `parallel.md`; parent tetap satu-satunya penulis state.
 
 - **Standards** - beri diff, commit, sumber standar, dan baseline. Laporkan per file/hunk: (a) pelanggaran standar terdokumentasi dengan menyebut aturannya; (b) bau baseline dengan nama dan kutipan hunk. Bedakan pelanggaran keras dari penilaian. Di bawah 400 kata.
 - **Spec** - beri diff, commit, dan isi spec. Laporkan: (a) kebutuhan yang hilang/parsial; (b) perilaku yang tidak diminta (scope creep); (c) kebutuhan yang tampak diimplementasi tetapi salah. Kutip baris spec. Di bawah 400 kata.

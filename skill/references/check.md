@@ -13,6 +13,17 @@ Panduan guide **tidak pernah** dihitung sebagai bukti verifikasi.
 
 ## Mode verifikasi
 
+### Paralel (opsional)
+
+Bila ada beberapa klaim independen (UI, API, CLI, build), dispatch worker read-only secara paralel. Aturan lengkap ada di `parallel.md`; ringkasnya:
+
+- Satu dev server untuk semua worker browser; jangan start server per worker.
+- Tiap worker hanya menerima klaimnya, file/route yang relevan, dan format hasil pendek; jangan menempel spec penuh.
+- Jalankan perintah deterministik dulu; worker hanya untuk klaim yang butuh observasi.
+- Parent menggabungkan hasil menjadi satu tabel dan menulis status spec **sekali**.
+- Klaim gagal diperbaiki sequential lewat `implement.md`; jangan paralelkan perbaikan.
+- Cap: 3 read-only, 2 browser. Tanpa tool subagent, jalankan sequential.
+
 ### 1. Susun checklist
 
 - Baca `config.json`; ada tapi rusak? Berhenti dan arahkan ke doctor.md.
@@ -69,6 +80,7 @@ Satu baris per item, apa adanya:
 ## Aturan umum
 
 - Jangan install apa pun, jangan commit atau merge.
+- Mockup/prototype bukan bukti verifikasi; jalankan app dan amati perilakunya.
 - Jangan menjalankan dev server di mode guide; kalau user perlu server, tulis perintahnya supaya dijalankan user.
 - Jangan refactor atau "sekalian perbaiki" apa pun; itu tugas implement.md dan audit.md.
 - Perintah dan hasil di laporan harus persis yang diamati, bukan yang diharapkan.

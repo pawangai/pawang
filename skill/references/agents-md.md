@@ -23,7 +23,7 @@ Sumber kanonik file agent: `AGENTS.md` + `.agents/`. `CLAUDE.md`/`GEMINI.md` dan
 
 ### Yang tetap di AGENTS.md
 
-- Ringkasan; **Cara kerja** (dispatch subagent, 3 baris, tepat setelah Ringkasan); stack.
+- Ringkasan; **Cara kerja** (orkestrator + dispatch subagent, 3-4 baris, tepat setelah Ringkasan); stack.
 - **`## Commands`**: perintah dasar + **Verify** urut **typecheck → test → build**. Alur `.pawang` memakainya saat `check`; salin persis dari script, jangan mengarang.
 - **`## Repository layout`** (maks ~15 baris; dibaca tiap agent membuat file) — ditulis lewat `layout.md`.
 - **`## Jangan`**: larangan keras satu baris per larangan, jangan hanya tautan. Contoh: "Jangan edit file di `migrations/` yang sudah ada."
@@ -101,7 +101,8 @@ Hanya yang memengaruhi perilaku agent:
 - Konvensi → `.pawang/context/coding-standards.html`; larangan → `## Jangan`; keputusan permanen → `## Keputusan penting`.
 - Artefak skill yang dikenal (PRODUCT.md, DESIGN.md, blueprint/, figr/, `.pawang/figr/`, `docs/agents/`, `docs/conventions/`, `docs/adr/`, CODING_STANDARDS.md, GLOSSARY.md, dll.): rute atau tautkan di peta dokumen berpemicu. Yang tidak dikenal: tanya user, jangan dipindah atau disalin.
 - `CLAUDE.md`/`GEMINI.md`/`.claude`: audit dan satukan lewat `agent-files.md`; jangan symlink sebelum isi unik dimigrasikan.
-- Companion terpasang (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`): satu baris di `## Companion` (nama + kapan dipakai). Jangan menginventaris semua skill; cara pasang di `companions.md`.
+- Companion terpasang (`grilling`, `wayfinder` + `domain-modeling`, `research`/`prototype`, `setup-matt-pocock-skills`, `figr-to-prototype`, `prototype-kit`): satu baris di `## Companion` (nama + kapan dipakai). Jangan menginventaris semua skill; cara pasang di `companions.md`.
+- Bila wayfinder dipakai: tautkan `docs/agents/issue-tracker.md` dan `docs/agents/domain.md`; pertahankan blok `## Agent skills`; jangan menyalin isinya ke `.pawang/`.
 - "scaffold": AGENTS.md sangat pendek; jangan mengarang struktur.
 - Jangan tulis nilai env/rahasia; nama variabel boleh bila perlu.
 - Fitur dokumen: `.pawang/reference/<jenis>/spesifikasi.html` ada → baris peta dokumen per jenis + larangan: "Jangan mengubah teks/tata letak dokumen tanpa memperbarui spesifikasi dan menjalankan verifikasi (lihat `document.md`)."
@@ -118,9 +119,10 @@ Hanya yang memengaruhi perilaku agent:
 
 ## Cara kerja
 
-- Dispatch subagent untuk pekerjaan independen paralel (pencarian luas, riset, review, test). Brief lengkap: tujuan, file, yang dikesampingkan, format hasil.
-- Jangan dispatch untuk tugas kecil, langkah bergantung, atau file yang sama dengan agent lain.
-- Verifikasi hasil subagent sebelum dipakai.
+- Agent utama = orkestrator: satu-satunya penulis state dan git; worker read-only atau worktree-only.
+- Dispatch subagent untuk pekerjaan independen paralel (cek, audit, eksplorasi, test). Brief pointer: tujuan, file, yang dikesampingkan, format hasil <150 kata.
+- Cap 3 read-only / 2 browser / 2 write; perbaikan findings dan langkah dependen selalu sequential.
+- Jangan dispatch untuk tugas kecil atau file yang sama dengan agent lain; verifikasi hasil subagent sebelum dipakai.
 
 ## Stack
 
@@ -128,7 +130,8 @@ Hanya yang memengaruhi perilaku agent:
 
 ## Companion (bila terpasang)
 
-- `grill-me`/`grilling`: wawancara dokumen Figr/plan mendalam.
+- `grilling`: wawancara dokumen Figr/plan mendalam.
+- `wayfinder` + `grilling`: peta keputusan inisiatif besar lintas sesi; tracker di `docs/agents/`.
 - `figr-to-prototype` + `prototype-kit`: lane Figr; hanya bila proyek memakai Figr.
 
 ## Repository layout

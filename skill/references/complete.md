@@ -1,6 +1,6 @@
 # Complete - gate akhir & arsip
 
-Tujuan: tutup satu work item yang sudah terverifikasi: jalankan gate akhir, arsipkan spec ke `.pawang/history/`, reset context jadi stub, lalu commit dan landing dengan izin user. **Satu work item = satu commit.**
+Tujuan: tutup satu work item yang sudah terverifikasi: jalankan gate akhir, arsipkan spec ke `.pawang/history/`, reset context jadi stub, lalu commit dan landing dengan izin user. **Satu work item = satu commit.** Untuk batch lintas fitur, satu commit per fitur + satu merge batch (lihat bagian Batch).
 
 ## Cek pemulihan dulu
 
@@ -9,6 +9,18 @@ Kalau `complete` pernah terputus di tengah (arsip sudah pindah tapi stub belum r
 1. Verifikasi posisi lewat `node .pawang/kit.js status` dan `node .pawang/kit.js check`, plus `git status`.
 2. Lanjutkan **dari titik itu**: arsip sudah ada dan cocok? Jangan tulis ulang - lanjutkan reset context. Arsip belum ada tapi stub belum direset? Lanjutkan pengarsipan.
 3. **Jangan menulis ulang riwayat** dan jangan menimpa arsip yang sudah ada. Bukti ambigu? Berhenti dan tanya.
+
+## Batch lintas fitur
+
+Bila `.pawang/context/batch.html` berisi item `done`/`merged`, tutup lewat jalur batch (`orchestrate.md`), bukan `current-feature` tunggal:
+
+1. Bila batch terputus, baca `status` + `extract batch` dan lanjutkan dari titik itu; jangan menimpa item `merged` atau arsip yang sudah ada.
+2. Pastikan setiap item `done`/`merged` sudah lolos check/audit cabang; item `failed`/`blocked` dilaporkan, jangan dipaksa.
+3. Tampilkan diff integration branch + ringkasan per item; minta izin commit/merge batch (Gerbang 2).
+4. Setelah izin: arsipkan tiap item ke `.pawang/history/features/` memakai `items[].spec` + `completedAt` + findings (lewati entri yang belum `closed`/`accepted`/`invalid`), centang build-plan per `buildPlanId`, lalu buat satu commit per fitur.
+5. Merge integration branch ke branch default sesuai `config.git.landing`; izin merge/push terpisah tetap berlaku.
+6. Bersihkan worktree/branch item, reset `batch` ke stub kosong, dan jangan menghapus history per fitur.
+7. `current-feature.html` tetap stub selama batch; jangan menimpa spec batch ke sana.
 
 ## Gate akhir (semua wajib)
 
@@ -42,10 +54,21 @@ node .pawang/kit.js render history-feature --out .pawang/history/features/03-nam
 ```
 
 - Skema arsip = skema spec + `"completedAt"` + `"findings"`. Hanya entri `closed`/`accepted`/`invalid` yang ikut arsip; `fixed` tetap tinggal di ledger.
+- Lane A yang mengonsumsi mockup: sebelum render, tambahkan catatan ke `notes` arsip: `"Mockup prototypes/ dikonsumsi dan dihapus di commit fitur; HTML tersedia di git history; token sudah diport ke <stylesheet aplikasi>."`
 - Penamaan: fitur `NN-nama.html`, rebuild `NN-nama--build-N.html`; fix ke `history/fixes/`; rollback ke `history/rollbacks/YYYY-MM-DD-<target-archive-stem>.html` (termasuk `--build-N` bila target rebuild).
 - Baca ulang arsip dengan `kit.js extract` untuk memastikan isinya lengkap sebelum mengganti apa pun.
 - Fitur: centang item build-plan via `render build-plan` (extract JSON, ubah `done: true`, render ulang). Fix tidak menyentuh build-plan.
 - Rollback: tulis arsip rollback, baca ulang untuk memastikan lengkap, lalu uncheck item build-plan target (`done: false`) memakai `origin.buildPlanId`; catat path arsip rollback. Jangan hapus arsip fitur asli. Jika arsip atau uncheck gagal, hentikan dan laporkan; jangan menebak. Wajibkan `origin.buildPlanId`. Fallback arsip lama: ambil prefix `^(\d+[a-z]?)`, buang leading zero, lowercase huruf, lalu cocokkan persis dengan ID build-plan; ambigu → tanya user.
+
+## Bersihkan prototype lane A (setelah arsip)
+
+Hanya untuk `prototypes/`; **jangan pernah menghapus `.pawang/prototype/`** (lane B).
+
+1. Cek `references.design` spec: apakah ada path di bawah `prototypes/`? Kalau tidak, lewati bagian ini.
+2. Pastikan semua step `done: true` dan ada step yang mem-port `prototypes/theme.css` ke stylesheet aplikasi. Kalau tidak, **berhenti dan tanya user**; jangan hapus mockup.
+3. Setelah arsip aman, hapus folder `prototypes/` saja. Tampilkan `git status` dan diff penghapusan; fold deletion ke commit fitur ini.
+4. Jalankan `node .pawang/kit.js theme --refresh` agar `theme.json` tidak menunjuk `prototypes/theme.css` yang sudah hilang.
+5. Jangan menghapus `.pawang/prototype/`, token DS, atau mockup lane B.
 
 ## Reset context
 
@@ -58,7 +81,7 @@ Setelah arsip aman:
 
 ## Commit (gerbang izin user)
 
-1. Tunjukkan diff lengkapnya (produk + arsip + reset context) beserta usulan pesan commit: `feat:`, `fix:`, atau `revert:`.
+1. Tunjukkan diff lengkapnya (produk + arsip + reset context + penghapusan prototype lane A bila ada) beserta usulan pesan commit: `feat:`, `fix:`, atau `revert:`.
 2. **Minta izin eksplisit user. Jangan commit sebelum diizinkan.**
 3. Satu commit untuk satu work item; jangan mencampur pekerjaan lain. Uncommitted step work itu wajar - commit ini yang membungkusnya.
 
