@@ -88,7 +88,7 @@ ZIP dan `.skill` rilis dilampirkan ke GitHub Releases saat tag `v*` dibuat.
 
 ### 📦 GitHub Packages (mirror, opsional)
 
-Jalur utama tetap npmjs (`npx pawang init`). Mirror GitHub Packages tersedia sebagai `@pawangai/pawang` dan **tetap membutuhkan autentikasi** meskipun paketnya publik:
+Jalur utama tetap npmjs (`npx pawang init`). Mirror GitHub Packages tersedia sebagai `@pawangai/pawang` ([halaman paket](https://github.com/pawangai/pawang/pkgs/npm/pawang)) dan **tetap membutuhkan autentikasi** meskipun paketnya publik:
 
 ```bash
 # butuh PAT classic dengan scope read:packages
