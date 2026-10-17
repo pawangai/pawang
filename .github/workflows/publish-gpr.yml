@@ -39,3 +39,12 @@ jobs:
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Smoke test install from GitHub Packages
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          npm install -g "@pawangai/pawang@$VERSION" \
+            --prefix "$RUNNER_TEMP/gpr-install" \
+            --no-audit --no-fund
+          "$RUNNER_TEMP/gpr-install/bin/pawang" --version
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
