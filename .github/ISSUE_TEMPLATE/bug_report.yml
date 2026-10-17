@@ -1,0 +1,107 @@
+name: Laporan bug
+description: Laporkan perilaku yang tidak berjalan sebagaimana mestinya.
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Terima kasih sudah melaporkan. Jangan laporkan kerentanan keamanan di sini; ikuti [SECURITY.md](https://github.com/pawangai/pawang/blob/main/SECURITY.md).
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Sebelum mengirim
+      options:
+        - label: Saya sudah mencari issue yang ada dan tidak menemukan duplikat.
+          required: true
+        - label: Saya memakai rilis terbaru (`npx pawang init --force`).
+          required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Apa yang terjadi?
+      description: Jelaskan perilaku aktual dan perilaku yang Anda harapkan.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Langkah reproduksi
+      description: Perintah atau langkah minimal yang memicu masalah.
+      placeholder: |
+        1. Jalankan ...
+        2. Minta agent ...
+        3. Lihat ...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Versi Pawang
+      description: Jalankan `npx pawang --version` atau lihat `package.json`.
+      placeholder: "0.1.2"
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Versi Node.js
+      description: Jalankan `node --version`.
+      placeholder: "v22.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Sistem operasi
+      placeholder: "Linux Mint 22"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Agent yang dipakai
+      options:
+        - opencode
+        - Claude Code
+        - Gemini CLI
+        - Lainnya
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: Cara pemasangan
+      options:
+        - npx pawang init (global)
+        - npx pawang init --project
+        - --target khusus
+        - Clone repo (pengembangan)
+        - Lainnya
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log atau output
+      description: Tempel output relevan. Hapus token, secret, dan data pribadi.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Konteks tambahan
+      description: Struktur proyek, dokumen terkait, atau hal lain yang membantu.
+    validations:
+      required: false

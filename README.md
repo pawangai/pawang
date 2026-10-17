@@ -10,6 +10,10 @@
 [![Status](https://img.shields.io/badge/Status-Active-success.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/pawang.svg)](https://www.npmjs.com/package/pawang)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Security](https://img.shields.io/badge/security-policy-blue.svg)](SECURITY.md)
+[![Discussions](https://img.shields.io/github/discussions/pawangai/pawang)](https://github.com/pawangai/pawang/discussions)
 
 **Pawang** adalah _skill & workflow engine_ untuk AI Agent yang dirancang khusus untuk mengendalikan, mengarahkan, dan menyelesaikan rangkaian tugas secara terautomasi dengan kecepatan penuh dan presisi tinggi.
 
@@ -225,6 +229,14 @@ Bila `figr/` ada, lane A tidak dipakai. Ada dua `kit.js`: `.pawang/kit.js` menge
 | `check`                                 | Validasi integritas; exit 1 bila rusak                                  |
 | `theme [--refresh\|--default\|--check]` | Kelola snapshot tema (render tidak pernah memindai CSS)                 |
 | `selftest`                              | Uji mandiri                                                             |
+
+---
+
+## 🤝 Kontribusi
+
+Kontribusi diterima lewat issue dan pull request. Gunakan template issue yang tersedia, lalu baca [CONTRIBUTING.md](CONTRIBUTING.md) untuk setup dan aturan repo. Untuk pertanyaan terbuka dan ide, gunakan [GitHub Discussions](https://github.com/pawangai/pawang/discussions).
+
+Dengan berpartisipasi, Anda menyetujui [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Laporkan kerentanan keamanan secara privat sesuai [SECURITY.md](SECURITY.md) — jangan di issue publik.
 
 ---
 

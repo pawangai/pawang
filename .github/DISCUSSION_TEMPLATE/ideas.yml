@@ -1,0 +1,47 @@
+title: "[Ide] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gunakan diskusi ini untuk ide terbuka atau eksplorasi arah. Jika usulan sudah jelas dan terarah, buka issue dengan template **Permintaan fitur**.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Sebelum mengirim
+      options:
+        - label: Saya sudah mencari issue dan diskusi yang ada.
+          required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Ide
+      description: Jelaskan ide dalam satu atau dua paragraf.
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Masalah yang ingin diselesaikan
+      description: Siapa yang terdampak dan dalam situasi apa?
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Dampak dan alternatif
+      description: Manfaat yang diharapkan, risiko, dan cara lain yang sudah dipertimbangkan.
+    validations:
+      required: false
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Bagian yang mungkin tersentuh
+      description: Skill core, CLI, `kit.js`, companion, dokumentasi, atau CI/CD.
+    validations:
+      required: false

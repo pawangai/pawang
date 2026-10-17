@@ -1,0 +1,59 @@
+title: "[Pengumuman] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Template untuk pengumuman resmi maintainer: rilis, perubahan perilaku, pemeliharaan, atau acara. Jangan sertakan secret atau data pribadi.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Jenis pengumuman
+      options:
+        - Rilis
+        - Perubahan perilaku
+        - Pemeliharaan
+        - Acara
+        - Lainnya
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Ringkasan
+      description: Satu atau dua kalimat yang menjelaskan pengumuman.
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Detail
+      description: Latar belakang, perubahan, dan hal yang perlu diketahui pengguna.
+    validations:
+      required: true
+
+  - type: textarea
+    id: action
+    attributes:
+      label: Yang perlu dilakukan pengguna
+      description: Langkah migrasi, pembaruan, atau tindakan lain. Tulis "-" bila tidak ada.
+    validations:
+      required: false
+
+  - type: textarea
+    id: links
+    attributes:
+      label: Tautan terkait
+      description: Issue, PR, rilis, atau dokumentasi yang relevan.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Konfirmasi maintainer
+      options:
+        - label: Pengumuman sudah ditinjau maintainer dan tidak memuat secret atau data pribadi.
+          required: true

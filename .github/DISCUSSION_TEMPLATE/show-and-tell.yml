@@ -1,0 +1,38 @@
+title: "[Show and tell] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bagikan proyek, alur kerja, atau eksperimen yang memakai Pawang. Jangan sertakan secret atau data pribadi.
+
+  - type: input
+    id: project
+    attributes:
+      label: Nama atau tautan proyek
+      placeholder: "https://github.com/..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: Apa yang dibangun?
+      description: Ringkasan proyek dan peran Pawang di dalamnya.
+    validations:
+      required: true
+
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Bagian Pawang yang dipakai
+      description: Alur, reference, companion, atau `kit.js` yang paling membantu.
+    validations:
+      required: false
+
+  - type: textarea
+    id: lessons
+    attributes:
+      label: Pelajaran dan catatan
+      description: Hal yang berjalan baik, kendala, atau tips untuk pengguna lain.
+    validations:
+      required: false

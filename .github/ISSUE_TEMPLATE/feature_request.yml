@@ -1,0 +1,66 @@
+name: Permintaan fitur
+description: Usulkan kemampuan atau perubahan perilaku.
+title: "[feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Terima kasih atas usulannya. Jelaskan masalah yang ingin diselesaikan, bukan hanya solusinya. Untuk kerentanan keamanan, ikuti [SECURITY.md](https://github.com/pawangai/pawang/blob/main/SECURITY.md) dan jangan buka issue publik.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Sebelum mengirim
+      options:
+        - label: Saya sudah mencari issue yang ada dan tidak menemukan duplikat.
+          required: true
+        - label: Usulan ini tidak mengganti alur dasar Pawang (satu skill, dua gerbang, state via `kit.js`).
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Masalah yang ingin diselesaikan
+      description: Situasi atau keterbatasan yang Anda alami.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Usulan solusi
+      description: Perilaku atau perubahan yang Anda harapkan.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatif yang sudah dicoba
+      description: Cara lain yang dipertimbangkan atau sudah dicoba.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Skill core (`skills/pawang/`)
+        - CLI pemasang (`bin/cli.mjs`)
+        - State `kit.js`
+        - Companion
+        - Dokumentasi
+        - CI/CD
+        - Lainnya
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Konteks tambahan
+      description: Contoh proyek, referensi, atau batasan yang perlu diketahui.
+    validations:
+      required: false

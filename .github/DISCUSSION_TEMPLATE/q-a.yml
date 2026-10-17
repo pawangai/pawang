@@ -1,0 +1,44 @@
+title: "[Q&A] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ajukan pertanyaan tentang pemakaian atau perilaku Pawang. Untuk kerentanan keamanan, ikuti [SECURITY.md](https://github.com/pawangai/pawang/blob/main/SECURITY.md) dan jangan buka diskusi publik.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Sebelum bertanya
+      options:
+        - label: Saya sudah mencari issue dan diskusi yang ada.
+          required: true
+        - label: Saya memakai rilis terbaru.
+          required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Pertanyaan
+      description: Jelaskan apa yang ingin Anda capai dan di mana Anda macet.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Konteks
+      description: Versi Pawang, agent, sistem operasi, dan struktur proyek yang relevan.
+      placeholder: |
+        Pawang 0.1.2, opencode, Linux Mint 22
+        Proyek: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: Yang sudah dicoba
+      description: Perintah, dokumen, atau pendekatan yang sudah Anda coba.
+    validations:
+      required: false

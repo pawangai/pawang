@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Laporkan kerentanan keamanan
+    url: https://github.com/pawangai/pawang/security/advisories/new
+    about: Laporkan secara privat. Jangan buka issue publik untuk kerentanan.
+  - name: Panduan kontribusi
+    url: https://github.com/pawangai/pawang/blob/main/CONTRIBUTING.md
+    about: Setup, aturan repo, dan alur pull request.
+  - name: Diskusi komunitas
+    url: https://github.com/pawangai/pawang/discussions
+    about: Pertanyaan terbuka, ide awal, dan show and tell.
+  - name: Kode Etik
+    url: https://github.com/pawangai/pawang/blob/main/CODE_OF_CONDUCT.md
+    about: Standar perilaku komunitas dan cara melaporkan pelanggaran.
