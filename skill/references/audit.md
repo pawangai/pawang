@@ -15,7 +15,7 @@ Laporan dipisah per lensa. **Lensa sempit bukan audit luas**: sebutkan apa yang 
 
 1. **Kumpulkan konteks**: spec aktif, `findings.html` (untuk ID/status saja), `review.html`, `coding-standards.html` bila lensa butuh, git status + diff. Untuk `current`, mulai dari diff spec; ikuti hanya caller, dependency, dan test yang perlu untuk membuktikan temuan.
 2. **Jalankan signal yang sudah ada saja**: lint, typecheck, test, build - perintah yang sudah dideklarasikan. **Jangan install tool baru.**
-3. **Review kode secara segar** dari bukti nyata: jalur kode yang tercapai, kontrak yang dilanggar, boundary yang gagal. Jangan nitpick gaya yang tidak menandakan drift. Menemukan secret? **Jangan pernah mengutip nilainya** - laporkan kategori teredaksi + file:line + remediasi.
+3. **Review kode secara segar** dari bukti nyata: jalur kode yang tercapai, kontrak yang dilanggar, boundary yang gagal. Jangan nitpick gaya yang tidak menandakan drift. Menemukan secret? **Jangan pernah mengutip nilainya** - laporkan kategori teredaksi + file:line + remediasi. Untuk diff/PR di luar siklus fitur, pakai tiga sumbu di `review-code.md`; temuan durable tetap dicatat di sini.
 4. **Tulis temuan** ke `findings.html` lewat `kit.js render findings` (extract JSON, tambah entri). Satu blok per temuan dengan field: `id`, `severity`, `status`, `title`, `file`, `found`, `why`, `fix`, `resolution`.
 5. **Lapor**: temuan duluan urut severity (P0 sampai P3), lalu perintah yang dijalankan dan cakupan. Ringkasan singkat.
 

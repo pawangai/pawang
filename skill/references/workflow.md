@@ -34,7 +34,7 @@ Tujuan: satu tempat untuk aturan inti folder `.pawang/`, `kit.js`, skema data, g
 └── history/                  # arsip pekerjaan selesai (imutabel)
     ├── features/             # NN-nama.html, rebuild: NN-nama--build-N.html
     ├── fixes/
-    └── rollbacks/            # YYYY-MM-DD-<target>.html
+    └── rollbacks/            # YYYY-MM-DD-<target-archive-stem>.html
 ```
 
 Satu work item aktif per checkout. Jangan mengerjakan dua spec sekaligus di folder yang sama.
@@ -122,7 +122,7 @@ Field wajib ditandai. Field lain opsional; kit.js menampilkan yang ada, mengabai
 ```
 
 `status`: `none` (stub, belum ada pekerjaan) | `not-started` | `in-progress` | `verified` | `verification-failed` | `ready` | `completed`.
-`type` fix menambah `"fixes": "F-03"`; `type` rollback menambah `"rollback": { "targetArchive": "...", "targetCommit": "...", "reason": "..." }`.
+`type` fix menambah `"fixes": "F-03"`; `type` rollback menambah `"rollback": { "targetArchive": "...", "targetCommit": "...", "targetParent": "...", "reason": "..." }`.
 
 **findings**: `{ "items": [ { "id": "F-01", "severity": "P1", "status": "open", "title": "...", "file": "src/x.ts:12", "found": "2026-10-16 audit (lens: security)", "why": "...", "fix": "...", "resolution": "" } ] }`
 Severity `P0`-`P3`. Status `unverified` | `open` | `fixed` | `closed` | `accepted` | `invalid`. `P0`/`P1` dengan status `open` atau `fixed` memblokir `complete`.
@@ -162,7 +162,7 @@ Henti darurat (bukan gerbang, tapi pengaman): hentikan dan lapor user bila (a) p
 
 Anti-duplikasi: spec aktif, findings, review, handoff, riwayat, dan spesifikasi dokumen **hanya** ada di `.pawang/`. Konvensi **hanya** di `.pawang/context/coding-standards.html` (render `coding-standards`, skema `sections`). Larangan **hanya** di `## Jangan` dan keputusan permanen **hanya** di `## Keputusan penting` pada `AGENTS.md`. Peta dan perintah **hanya** di `AGENTS.md`. Jangan menyalin isi satu lapis ke lapis lain; tautkan.
 
-`docs/` tidak dibuat atau diajarkan Pawang. Proyek lama (brownfield) yang sudah punya `docs/` mendeteksinya saat adopt lalu menautkannya dari `AGENTS.md`; isinya tidak dipindah ke `.pawang/` dan tidak dijelajahi default — baca hanya saat tautan berpemicu menyuruh.
+`docs/` tidak dibuat Pawang secara default. `docs/` yang sudah ada — termasuk `docs/agents/` hasil setup companion pilihan user — adalah brownfield: dideteksi, ditautkan dari `AGENTS.md`, isinya tidak dipindah/disalin ke `.pawang/`, dan tidak dijelajahi default. `docs/` baru hanya atas keputusan eksplisit user, bukan default alur.
 
 Companion (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`) dipasang terpisah di `.agents/skills/`, bukan bagian `.pawang/` dan bukan isi npm Pawang. Daftar, izin, precheck, dan cara pasang ada di `companions.md`.
 
@@ -180,9 +180,9 @@ Companion (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`) dipasang
 (sekali)  adopt → agents-md → kit.js init → build-plan & project-overview
 per fitur (brief) → (figr-docs → figr-prompt) → (prototype | prototype-figr) → feature ──GERBANG──► implement → check → audit
           → perbaikan findings → complete ──GERBANG──► history/
-kapan saja  status · doctor · handoff · tests · rollback · release · document
+kapan saja  status · doctor · review kode · handoff · tests · rollback · release · document
 ```
 
 Lane prototype opsional: tanpa Figr pakai `prototype.md` (lane A, `prototypes/`); bila proyek punya Figr/DS pakai `prototype-figr.md` (lane B, hasil di `.pawang/prototype/`).
 
-Referensi per langkah: spec → `feature.md`/`fix-debug.md`/`rollback.md`; eksekusi → `implement.md`; bukti → `check.md`; kualitas → `audit.md`; penutup → `complete.md`; orientasi → `status.md`.
+Referensi per langkah: spec → `feature.md`/`fix-debug.md`/`rollback.md`; eksekusi → `implement.md`; bukti → `check.md`; kualitas → `audit.md`; review kode eksternal → `review-code.md`; penutup → `complete.md`; orientasi → `status.md`.

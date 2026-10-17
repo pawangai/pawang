@@ -13,6 +13,23 @@ Tujuan: bangun `current-feature.html` yang sudah disetujui user, langkah demi la
 
 Progres hidup di checkbox, bukan di chat. Dari hasil extract, cari step pertama dengan `"done": false` - mulai dari situ. `git status` membantu membedakan pekerjaan selesai dan belum. Jangan mengulang step yang sudah ditandai.
 
+## Rollback (type: rollback)
+
+Spec rollback tidak boleh dibalik dengan `git revert` seluruh commit. Setelah spec disetujui dan preflight bersih, buat branch dari branch default dengan `git switch -c <branch>`; jika branch sudah ada, stop dan tanya user. Jangan bekerja di branch default. Ambil target/parent dari `rollback.targetCommit`/`rollback.targetParent`; keduanya harus SHA penuh (40/64 sesuai object format), parent tunggal, target ancestor `HEAD`, dan working tree hanya berisi spec rollback (tidak ada perubahan produk lain). Cocokkan parent dengan `git rev-parse <target>^`; jika kosong atau beda, stop. Cek `git rev-list --parents -n 1 <target>` harus tepat dua kolom (commit + satu parent); merge commit → stop. Pratinjau diff dengan `git apply --stat` sebelum apply.
+
+Terapkan hanya diff produk:
+
+```bash
+git diff --binary <target-parent> <target-commit> -- . \
+  ':(exclude).pawang/**' ':(exclude)AGENTS.md' ':(exclude)prototypes/**' \
+  ':(exclude).agents/**' ':(exclude).claude/**' ':(exclude)CLAUDE.md' \
+  ':(exclude)skills-lock.json' ':(exclude)opencode.json' \
+  ':(exclude)docs/adr/**' ':(exclude)docs/agents/**' |
+  git apply --reverse --3way --index
+```
+
+Stop bila diff produk kosong, ada konflik, atau ada path terlindungi/decision docs yang staged atau berubah — kecuali `.pawang/context/current-feature.html` (spec rollback aktif). Tampilkan staged diff dan status. Jika konflik, laporkan path dan commit lanjutan; jangan membersihkan index dengan reset/stash. Jangan auto-resolve atau memperluas rollback. `docs/adr/**` dan `docs/agents/**` hanya diproses setelah keputusan user, sebagai langkah terpisah.
+
 ## Loop per step
 
 Untuk setiap step, berurutan:

@@ -23,7 +23,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - `skill/scripts/*.mjs` — deterministik, zero-dep, tanpa LLM.
 - `skill/assets/kit.js` — generator/pembaca state `.pawang` (HTML); disalin ke `.pawang/kit.js` di proyek user.
 - `assets/`, `README.md`, `LICENSE` — materi npm (lihat `files` package.json).
-- `.agents/skills/` — companion terpasang (proyek): `grill-me` + `grilling` (mattpocock/skills), `figr-to-prototype`, dan `prototype-kit`; bukan skill baru Pawang. Daftar lengkap ada di `skill/references/companions.md`.
+- `.agents/skills/` — companion terpasang (proyek): `grill-me` + `grilling` (mattpocock/skills), `figr-to-prototype`, dan `prototype-kit`; bukan skill baru Pawang. Daftar companion alur ada di `skill/references/companions.md`; companion review kode opsional diatur di `skill/references/review-code.md`.
 - Alat advisor global (bukan companion alur): `find-skills` + `skill-creator`; `skill-inspector` belum terpasang. Jangan duplikasi di project.
 - `evals/` — definisi tes skill (tidak ikut npm).
 - `pawang-workspace/` — snapshot/fixture/hasil eval (gitignored).
@@ -40,7 +40,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - Tetap SATU skill: kemampuan baru = file di `skill/references/` + satu baris di tabel peta `SKILL.md`. Jangan pecah pawang jadi banyak skill.
 - Membuat/menyerap/mengubah skill: WAJIB lewat alur `skill-creator` (draf → prompt uji dengan/tanpa → evaluasi → iterasi) + `node skill/scripts/skill-precheck.mjs <folder>`; hasil serapan = reference + baris peta, bukan skill baru.
 - Bahan serapan dibaca dari `zip/`; jangan membaca salinan di luar repo.
-- Dua lapis, bukan tiga: `AGENTS.md` + `.pawang/`. Jangan membuat/mengajarkan folder docs; folder docs lama hanya dideteksi & ditautkan (brownfield).
+- Dua lapis secara default: `AGENTS.md` + `.pawang/`. Pawang tidak membuat `docs/` sendiri; `docs/` yang sudah ada (termasuk `docs/agents/` hasil setup companion pilihan user) = brownfield, dideteksi & ditautkan, tidak dipindah/disalin. `docs/` baru hanya atas keputusan eksplisit user.
 - Konvensi → `.pawang/context/coding-standards.html`; larangan → `## Jangan`; keputusan → `## Keputusan penting`.
 - Jangan menulis/mengedit HTML state `.pawang/context|history` manual — selalu lewat `kit.js`. Pengecualian: `.pawang/prototype/` = artefak generated prototype-kit; `.pawang/figr/` = dokumen sumber Figr (Markdown) + prompt; `.pawang/figr/diagrams/` = viewer HTML generated `kit.js`.
 - Prototype lane: ada Figr → DS Figr menang (`.pawang/prototype/kit.js` = runtime; `.pawang/kit.js` = state CLI, jangan ditimpa). Tanpa Figr → lane A (mockup HTML di folder prototypes).
@@ -50,17 +50,19 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 
 - Dua kit.js dengan peran berbeda (A): `.pawang/kit.js` state CLI dan `.pawang/prototype/kit.js` runtime prototype-kit; jangan disatukan — 2026-10-17.
 - Font-family dan font-size dasar mengikuti project; ukuran lain relatif (em) — 2026-10-17.
-- Dua lapis: konvensi ke coding-standards.html, larangan/keputusan di AGENTS.md; docs/ hanya brownfield — 2026-10-17.
+- Dua lapis: konvensi ke coding-standards.html, larangan/keputusan di AGENTS.md; docs/ hanya brownfield atau opt-in eksplisit user — 2026-10-17.
 - Bahan skill dibaca dari `zip/`, bukan salinan luar repo; artefak tak dikenal → tanya user — 2026-10-17.
 - `.pawang/figr/` = 4 dokumen Figr + prompt (Markdown, di-commit); folder `figr` di root proyek = output mentah Figr; jangan dicampur — 2026-10-17.
 - Diagram HTML dirender lewat `kit.js render diagram` (Mermaid tetap sumber di Markdown; HTML generated) — 2026-10-17.
 - Dogmen Figr/plan memakai companion `grill-me`/`grilling`; fallback `grilling` bila `grill-me` tidak bisa dipanggil — 2026-10-17.
 - Companion dipasang terpisah di `.agents/skills/` (izin user, precheck, commit); Pawang core tidak membundel companion/script Python. Serapan prototype Figr = kontrak, script tetap companion — 2026-10-17.
+- Pawang fleksibel terhadap agent/companion lain; bentrok aturan/ADR → tunjukkan dan tanya user. User pemilik keputusan dan boleh mengubah keputusan lama; catat perubahan — 2026-10-17.
+- Rollback hanya membalik perilaku produk; catatan keputusan/ADR tidak dikembalikan otomatis. Rollback memakai guard `git apply --reverse --3way --index`, protected paths diperluas, dan item build-plan di-uncheck saat complete — 2026-10-17.
 
 ## Arah (roadmap, model: `zip/my-app.zip`)
 
 - Sudah setara: adopt, feature, implement, check, audit (+review), complete, fix-debug, rollback, brief-explore, status, doctor, tests, prototype, release, handoff, document.
-- Sudah diserap: plans (`writing-your-plans` → `skill/references/plans.md`, termasuk syarat grill), dokumen Figr (`figr-prototype-consolidation` → `skill/references/figr-docs.md` + `skill/references/figr-prompt.md`), **kontrak** prototype Figr (`figr-to-prototype` + `prototype-kit` → `skill/references/prototype-figr.md`; script Python/aset tetap companion, tidak dibundel).
+- Sudah diserap: plans (`writing-your-plans` → `skill/references/plans.md`, termasuk syarat grill), dokumen Figr (`figr-prototype-consolidation` → `skill/references/figr-docs.md` + `skill/references/figr-prompt.md`), **kontrak** prototype Figr (`figr-to-prototype` + `prototype-kit` → `skill/references/prototype-figr.md`; script Python/aset tetap companion, tidak dibundel), review kode (`ai-code-comprehension` → `skill/references/review-code.md`; 12 lensa + tiga sumbu). Rollback hardening dari `my-app.zip` (guard git, protected paths, build-plan uncheck) sudah masuk `rollback.md`/`implement.md`/`complete.md`.
 - Kandidat reference baru: `ci`, otomasi opt-in bounded.
 - Gerbang tetap DUA (review spec, izin commit/merge); otomasi tidak boleh melonggarkan gerbang tanpa keputusan tertulis.
 
@@ -69,6 +71,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - `skill/SKILL.md`: mulai di sini saat mengubah perilaku skill.
 - `skill/references/workflow.md`: baca sebelum mengubah `kit.js`, skema JSON, tema, atau gerbang.
 - `skill/references/agents-md.md`: konten produk (panduan AGENTS.md proyek user) — bukan panduan menyusun AGENTS.md repo ini.
+- `skill/references/review-code.md`: review/baca kode (12 lensa, tiga sumbu, companion opt-in).
 - `skill/references/advisor.md`: aturan memasang/membuat/menyerap skill.
 - `skill/references/companions.md`: daftar companion, kapan perlu, cara pasang.
 - `skill/references/figr-docs.md`: alur 4 dokumen Figr + aturan diagram.

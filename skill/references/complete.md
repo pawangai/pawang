@@ -42,9 +42,10 @@ node .pawang/kit.js render history-feature --out .pawang/history/features/03-nam
 ```
 
 - Skema arsip = skema spec + `"completedAt"` + `"findings"`. Hanya entri `closed`/`accepted`/`invalid` yang ikut arsip; `fixed` tetap tinggal di ledger.
-- Penamaan: fitur `NN-nama.html`, rebuild `NN-nama--build-N.html`; fix ke `history/fixes/`; rollback ke `history/rollbacks/YYYY-MM-DD-<target>.html`.
+- Penamaan: fitur `NN-nama.html`, rebuild `NN-nama--build-N.html`; fix ke `history/fixes/`; rollback ke `history/rollbacks/YYYY-MM-DD-<target-archive-stem>.html` (termasuk `--build-N` bila target rebuild).
 - Baca ulang arsip dengan `kit.js extract` untuk memastikan isinya lengkap sebelum mengganti apa pun.
 - Fitur: centang item build-plan via `render build-plan` (extract JSON, ubah `done: true`, render ulang). Fix tidak menyentuh build-plan.
+- Rollback: tulis arsip rollback, baca ulang untuk memastikan lengkap, lalu uncheck item build-plan target (`done: false`) memakai `origin.buildPlanId`; catat path arsip rollback. Jangan hapus arsip fitur asli. Jika arsip atau uncheck gagal, hentikan dan laporkan; jangan menebak. Wajibkan `origin.buildPlanId`. Fallback arsip lama: ambil prefix `^(\d+[a-z]?)`, buang leading zero, lowercase huruf, lalu cocokkan persis dengan ID build-plan; ambigu → tanya user.
 
 ## Reset context
 

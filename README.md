@@ -21,6 +21,7 @@
 - 🛡️ **Otonom dengan dua gerbang:** Setelah spec disetujui, agent berjalan sendiri (implement → check → audit → perbaikan). Manusia hanya hadir saat review spec dan saat izin commit/merge.
 - 🎨 **Menyatu dengan tema project:** Laporan HTML pawang mengikuti token desain repo (font, warna, radius, ukuran dasar) dari DS Figr `prototype/packages/shared/ui`, `prototypes/`, `packages/design-system/`, folder `figr/`, CSS `@theme`, atau tailwind config. Scaffold baru memakai tema bawaan sampai token project tersedia.
 - 📐 **Dokumen Figr + diagram:** grill → 4 dokumen (PRD, flow, desain, edge case) di `.pawang/figr/` → prompt Figr Design <1000 karakter. Diagram tetap Mermaid; viewer HTML dirender lewat `kit.js`.
+- 🔍 **Review kode 12 lensa (pilih 3-6):** pahami/nilai kode AI, diff, atau PR dengan tiga sumbu (Standards, Spec, Comprehension); companion `code-review` opsional.
 
 ---
 
@@ -93,7 +94,7 @@ node .pawang/kit.js status    # orientasi kapan saja (murah, tanpa membaca banya
 | Audit   | otonom                      | Findings (F-01, P0-P3) ke `findings.html`, review independen ke `review.html`                |
 | Selesai | otonom, lalu **minta izin** | Gate akhir, arsip ke `history/`, commit, landing lokal                                       |
 
-**Kapan saja:** `status` (arah kerja), `doctor` (diagnosa), `prototype` (mockup dulu), `rollback` (batalkan fitur), `release` (persiapan rilis), `document` (spesifikasi dari dokumen contoh), `handoff` (catatan lanjut sesi).
+**Kapan saja:** `status` (arah kerja), `doctor` (diagnosa), `review kode` (baca/nilai kode AI, diff, PR), `prototype` (mockup dulu), `rollback` (batalkan fitur), `release` (persiapan rilis), `document` (spesifikasi dari dokumen contoh), `handoff` (catatan lanjut sesi).
 
 ### 🛡️ Gerbang Persetujuan
 
@@ -127,7 +128,7 @@ pawang/
 │   ├── feature.md implement.md check.md audit.md complete.md   # siklus inti
 │   ├── status.md fix-debug.md prototype.md prototype-figr.md tests.md rollback.md
 │   ├── plans.md figr-docs.md figr-prompt.md brief-explore.md release.md doctor.md
-│   ├── adopt.md agents-md.md layout.md advisor.md companions.md handoff.md document.md
+│   ├── adopt.md agents-md.md layout.md advisor.md companions.md handoff.md document.md review-code.md
 │   └── markers.json layout-rules.json gap-signals.md spec-template.md theme-variables.css
 ├── scripts/                  # deterministik & zero-dependency
 │   ├── scan.mjs check-layout.mjs probe.mjs compare-text.mjs
@@ -161,7 +162,7 @@ pawang/
 | `AGENTS.md` | peta + Commands/Verify + `## Jangan` + `## Keputusan penting` + pemicu tautan                               | setup/maintenance |
 | `.pawang/`  | state kerja (`context/` + `coding-standards.html`), prototype, rujukan (`reference/`), riwayat (`history/`) | sepanjang siklus  |
 
-Anti-duplikasi berlaku: spec aktif, findings, review, handoff, dan riwayat hanya ada di `.pawang/`; konvensi hanya di `.pawang/context/coding-standards.html`; larangan dan keputusan permanen hanya di `AGENTS.md`. `docs/` tidak dibuat oleh Pawang — hanya proyek lama (brownfield) yang `docs/`-nya dideteksi lalu ditautkan, tidak dipindah.
+Anti-duplikasi berlaku: spec aktif, findings, review, handoff, dan riwayat hanya ada di `.pawang/`; konvensi hanya di `.pawang/context/coding-standards.html`; larangan dan keputusan permanen hanya di `AGENTS.md`. `docs/` tidak dibuat secara default — proyek lama (brownfield) atau setup companion pilihan user dideteksi lalu ditautkan, tidak dipindah; `docs/` baru hanya atas keputusan eksplisit user.
 
 ### 🎨 Prototype
 

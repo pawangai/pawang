@@ -35,10 +35,10 @@ Fitur terasa terlalu besar untuk satu branch yang bisa direview? **Usul pecah** 
 ## Aturan build history (ringkas)
 
 - **ID build-plan stabil**; jangan renumber setelah item selesai. `origin.buildPlanId` mengikuti ID itu.
-- Attempt dimulai 1. **Rebuild setelah rollback = attempt berikutnya**, bukan mulai dari nol.
-- Sebelum menulis spec baru, cek arsip `.pawang/history/features/NN-nama.html` **belum ada**. Kalau sudah ada dan jelas bentrok dengan pekerjaan ini, berhenti dan tanya user - jangan menimpa.
+- Attempt dimulai 1. **Rebuild setelah rollback = attempt berikutnya**, bukan mulai dari nol. Item build-plan yang di-rollback kembali `done: false`; pilih item itu lagi untuk rebuild.
+- Sebelum menulis spec baru, cek path arsip persis yang akan ditulis: `NN-nama.html` untuk attempt 1, `NN-nama--build-N.html` untuk attempt > 1. Kalau sudah ada dan jelas bentrok, berhenti dan tanya user - jangan menimpa.
 - Slug judul kebab-case (huruf kecil, angka, tanda hubung).
-- Rebuild memakai sufiks `--build-N`, mis. `03-export-laporan--build-2.html` dengan `"attempt": 2` di JSON.
+- Rebuild memakai sufiks `--build-N`, mis. `03-export-laporan--build-2.html` dengan `"attempt": 2` di JSON. Jika rebuild setelah rollback, `nextAttempt = (attempt target ?? 1) + 1`; jangan memakai attempt target dan jangan hardcode `1`.
 
 Catatan: versi lengkap aturan git-proof (membuktikan attempt dari riwayat commit) sengaja disederhanakan di pawang dan bisa diperkuat nanti.
 

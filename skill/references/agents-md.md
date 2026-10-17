@@ -15,7 +15,7 @@ Tujuan: agent baru langsung bekerja tanpa memindai seluruh repo, dan hanya memba
 | `AGENTS.md` | peta, Commands (termasuk Verify), `## Jangan`, `## Keputusan penting`, tautan berpemicu                                                     |
 | `.pawang/`  | state kerja + konvensi (`context/`), prototype generated, rujukan (`reference/`), riwayat (`history/`) — lewat kit.js (lihat `workflow.md`) |
 
-Anti-duplikasi: state, spec, findings, review, handoff, history, dan spesifikasi dokumen hanya di `.pawang/`. Konvensi hanya di `.pawang/context/coding-standards.html` (render `coding-standards`, skema `sections`). Larangan hanya di `## Jangan`; keputusan permanen hanya di `## Keputusan penting`. `docs/` lama proyek brownfield tetap di tempatnya dan hanya ditautkan — tidak dipindah, tidak disalin.
+Anti-duplikasi: state, spec, findings, review, handoff, history, dan spesifikasi dokumen hanya di `.pawang/`. Konvensi hanya di `.pawang/context/coding-standards.html` (render `coding-standards`, skema `sections`). Larangan hanya di `## Jangan`; keputusan permanen hanya di `## Keputusan penting`. `docs/` yang sudah ada — termasuk `docs/agents/` hasil setup companion pilihan user — adalah brownfield: tetap di tempatnya, ditautkan, tidak dipindah/disalin. `docs/` baru hanya atas keputusan eksplisit user.
 
 ## Pola indeks (progressive disclosure)
 
@@ -56,7 +56,7 @@ AGENTS.md
   reference/      # rujukan dokumen per jenis
   prototype/      # HTML statis prototype-kit (generated)
   history/        # arsip pekerjaan selesai
-docs/             # hanya jika proyek sudah punya (brownfield); tidak dibuat
+docs/             # brownfield / opt-in user; tidak dibuat default
 ```
 
 ### Aturan memecah
@@ -74,7 +74,7 @@ docs/             # hanya jika proyek sudah punya (brownfield); tidak dibuat
 - Uang keluar selalu lewat satu service — audit jadi satu titik; 2026-10-16.
 ```
 
-Satu baris per keputusan; tulis tanggal agar keputusan lama mudah ditinjau.
+Satu baris per keputusan; tulis tanggal agar keputusan lama mudah ditinjau. Keputusan lama boleh diubah user: perbarui baris yang ada + tanggal baru; jangan menambah baris duplikat.
 
 ## Proses
 
@@ -97,7 +97,7 @@ Hanya yang memengaruhi perilaku agent:
 - Perintah: salin persis dari script → `## Commands`.
 - E2E/Fallow/Impeccable/MCP/skill: satu baris cara pakai, bukan inventaris.
 - Konvensi → `.pawang/context/coding-standards.html`; larangan → `## Jangan`; keputusan permanen → `## Keputusan penting`.
-- Artefak skill yang dikenal (PRODUCT.md, DESIGN.md, blueprint/, figr/, `.pawang/figr/`, CODING_STANDARDS.md, GLOSSARY.md, dll.): rute atau tautkan di peta dokumen berpemicu. Yang tidak dikenal: tanya user, jangan dipindah atau disalin.
+- Artefak skill yang dikenal (PRODUCT.md, DESIGN.md, blueprint/, figr/, `.pawang/figr/`, `docs/agents/`, CODING_STANDARDS.md, GLOSSARY.md, dll.): rute atau tautkan di peta dokumen berpemicu. Yang tidak dikenal: tanya user, jangan dipindah atau disalin.
 - Companion terpasang (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`): satu baris di `## Companion` (nama + kapan dipakai). Jangan menginventaris semua skill; cara pasang di `companions.md`.
 - "scaffold": AGENTS.md sangat pendek; jangan mengarang struktur.
 - Jangan tulis nilai env/rahasia; nama variabel boleh bila perlu.
@@ -154,7 +154,7 @@ Hanya yang memengaruhi perilaku agent:
 - `.pawang/context/current-feature.html`: baca lewat `node .pawang/kit.js extract` saat ...
 ```
 
-Baris `docs/...` hanya ditambahkan bila proyek sudah punya `docs/` (brownfield) dan ditautkan; jangan membuat `docs/` baru.
+Baris `docs/...` hanya ditambahkan bila `docs/` sudah ada (brownfield/opt-in user) dan ditautkan; jangan membuat `docs/` baru secara default.
 
 ## Monorepo
 

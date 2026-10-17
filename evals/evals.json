@@ -122,6 +122,77 @@
         "Menunjuk skill/references/companions.md untuk cara pasang",
         "Tidak memasang apa pun tanpa izin user"
       ]
+    },
+    {
+      "id": 10,
+      "prompt": "Tolong review cepat fungsi TypeScript ini. Ini hasil AI dan saya curiga ada bug saat request gagal. Jangan ubah kode dulu. `async function loadUser(id) { const res = await fetch(`/api/users/${id}`); const data = await res.json(); return data.name; }`",
+      "expected_output": "Mode Review Cepat, 3-6 lensa relevan, temuan konkret soal res.ok/error response, bukti vs dugaan, tanpa mengedit file atau menulis state .pawang.",
+      "files": [],
+      "assertions": [
+        "Memilih mode Review Cepat dan 3-6 lensa relevan, bukan ke-12 lensa",
+        "Menemukan temuan konkret: respons non-OK tetap di-parse sebagai user/error ditelan",
+        "Menyebut fungsi/baris atau input pemicu konkret",
+        "Membedakan bukti dari dugaan dan tidak mengklaim menjalankan test",
+        "Tidak mengedit atau menulis file/state .pawang",
+        "Memberi langkah perbaikan atau pertanyaan lanjutan"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Review perubahan ini terhadap issue #42 dan standar repo. Jangan ubah kode. Diff: handler POST /users mengubah respons email kosong dari 400 menjadi 500 dan tidak menambah test. Spec: POST /users harus mengembalikan 400 jika email kosong. Standar repo: perubahan perilaku wajib punya test dan error input dipetakan ke 4xx.",
+      "expected_output": "Tiga sumbu terpisah (Standards, Spec, Comprehension), tanpa ranking lintas sumbu; Standards memakai standar repo + baseline, Spec mengutip spec, Comprehension memakai 3-6 lensa; read-only.",
+      "files": [],
+      "assertions": [
+        "Menampilkan tiga judul terpisah: Standards, Spec, Comprehension",
+        "Tidak menggabung atau meranking temuan lintas sumbu",
+        "Standards menyebut standar repo/AGENTS.md dan membedakan pelanggaran keras dari judgement",
+        "Spec mengutip kebutuhan spec dan menemukan ketidaksesuaian 500 vs 400",
+        "Comprehension memakai 3-6 lensa dan menelusuri input normal/kosong/salah",
+        "Tidak mengubah kode/file dan tidak menulis state .pawang"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Jelaskan kode ini dan ajari saya kenapa state-nya bisa basi. Pakai kode saya sebagai contoh. `function useCounter() { const [count, setCount] = useState(0); useEffect(() => { const id = setInterval(() => setCount(count + 1), 1000); return () => clearInterval(id); }, []); return count; }`",
+      "expected_output": "Mode Jelaskan/Belajar; definisi singkat stale closure, contoh di kode user, satu pertanyaan lanjutan; tidak berubah menjadi review penuh.",
+      "files": [],
+      "assertions": [
+        "Memilih mode Jelaskan/Belajar, bukan Review Penuh",
+        "Memberi definisi satu kalimat tentang stale closure",
+        "Menunjukkan penyebabnya di kode user (dependency kosong/count tertangkap)",
+        "Memberi satu pertanyaan lanjutan untuk membaca kode serupa",
+        "Tidak mengedit/menulis file atau mengarang perilaku file lain"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Proyek ini sudah punya setup Matt Pocock: docs/agents/issue-tracker.md (GitHub) dan blok ## Agent skills di AGENTS.md. Review diff ini: src/index.ts mengubah respons email kosong dari 400 menjadi 500. Issue #42: POST /users harus mengembalikan 400 jika email kosong. Jangan ubah docs/ atau kode.",
+      "expected_output": "Memakai docs/agents/issue-tracker.md yang ada, tidak menjalankan setup ulang, tidak membuat/menyalin docs, mempertahankan blok ## Agent skills, dan menjalankan tiga sumbu atau menyatakan Spec skip.",
+      "files": ["evals/fixtures/docs-agents"],
+      "assertions": [
+        "Membaca/memakai docs/agents/issue-tracker.md yang sudah ada",
+        "Tidak menjalankan setup ulang atau membuat docs/agents/ baru",
+        "Tidak menyalin isi docs/agents/ ke .pawang/ dan mempertahankan blok ## Agent skills",
+        "Menjalankan tiga sumbu atau menyatakan Spec dilewati bila issue tidak bisa diakses",
+        "Tidak mengubah kode/file"
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Fitur 4 selesai dan diarsipkan di .pawang/history/features/04-export.html. Target commit 1111111111111111111111111111111111111111, parent 2222222222222222222222222222222222222222, origin.buildPlanId 4. Commit target juga menyentuh .agents/skills/foo dan docs/adr/0007-harga-sen.md. Alasan rollback: export merusak file. Susun draft spec rollback; jangan ubah kode. Tandai verifikasi git yang belum bisa dilakukan karena repo target tidak tersedia.",
+      "expected_output": "Draft spec rollback plan-only dengan preflight checklist, alasan user, protected paths termasuk .agents/**, ADR ditampilkan untuk keputusan user, build-plan di-uncheck saat complete, guard git apply, larangan git revert utuh, dan Gerbang 1; verifikasi git ditandai belum dilakukan.",
+      "files": [],
+      "assertions": [
+        "Plan-only: tidak mengubah kode, hanya menyusun draft spec rollback",
+        "Menyebut protected paths termasuk .agents/** dan konfigurasi agent",
+        "Menampilkan docs/adr/** ke user dan meminta keputusan, tidak mengembalikan ADR otomatis",
+        "Menyebut target/parent SHA penuh, parent tunggal, ancestor, dan guard git apply --reverse --3way --index",
+        "Menyebut larangan git revert seluruh commit dan tidak mengklaim data destruktif bisa dipulihkan",
+        "Menyertakan alasan rollback user di spec",
+        "Menyebut build-plan di-uncheck saat complete dan arsip fitur asli dipertahankan",
+        "Berhenti di Gerbang 1 untuk review spec sebelum implement",
+        "Menandai verifikasi git/preflight sebagai belum dilakukan karena repo target tidak tersedia"
+      ]
     }
   ]
 }

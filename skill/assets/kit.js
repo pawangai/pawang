@@ -592,6 +592,7 @@ ${mermaid}
           kvRows([
             ["Arsip", d.rollback.targetArchive],
             ["Commit", d.rollback.targetCommit],
+            ["Parent", d.rollback.targetParent],
             ["Alasan", d.rollback.reason],
           ]),
         ),
@@ -1067,6 +1068,18 @@ ${mermaid}
           E(
             `current-feature: type "${d.type}" tidak valid (feature|fix|rollback)`,
           );
+        if (d.type === "rollback") {
+          const r = d.rollback || {};
+          if (!r.targetArchive)
+            E("current-feature rollback: rollback.targetArchive wajib");
+          if (!r.targetCommit)
+            E("current-feature rollback: rollback.targetCommit wajib");
+          if (!r.targetParent)
+            E("current-feature rollback: rollback.targetParent wajib");
+          if (!r.reason) E("current-feature rollback: rollback.reason wajib");
+          if (!d.origin || !d.origin.buildPlanId)
+            E("current-feature rollback: origin.buildPlanId wajib");
+        }
         if (!d.title) E("current-feature: title wajib");
         if (Array.isArray(d.steps))
           for (const [i, s] of d.steps.entries())
@@ -1475,6 +1488,7 @@ ${mermaid}
       rollback: {
         targetArchive: "01-x.html",
         targetCommit: "abc",
+        targetParent: "def",
         reason: "rusak",
       },
       steps: [],
