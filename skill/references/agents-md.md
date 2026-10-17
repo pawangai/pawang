@@ -15,7 +15,9 @@ Tujuan: agent baru langsung bekerja tanpa memindai seluruh repo, dan hanya memba
 | `AGENTS.md` | peta, Commands (termasuk Verify), `## Jangan`, `## Keputusan penting`, tautan berpemicu                                                     |
 | `.pawang/`  | state kerja + konvensi (`context/`), prototype generated, rujukan (`reference/`), riwayat (`history/`) — lewat kit.js (lihat `workflow.md`) |
 
-Anti-duplikasi: state, spec, findings, review, handoff, history, dan spesifikasi dokumen hanya di `.pawang/`. Konvensi hanya di `.pawang/context/coding-standards.html` (render `coding-standards`, skema `sections`). Larangan hanya di `## Jangan`; keputusan permanen hanya di `## Keputusan penting`. `docs/` yang sudah ada — termasuk `docs/agents/` hasil setup companion pilihan user — adalah brownfield: tetap di tempatnya, ditautkan, tidak dipindah/disalin. `docs/` baru hanya atas keputusan eksplisit user.
+Anti-duplikasi: state, spec, findings, review, handoff, history, dan spesifikasi dokumen hanya di `.pawang/`. Konvensi hanya di `.pawang/context/coding-standards.html` (render `coding-standards`, skema `sections`). Larangan hanya di `## Jangan`; keputusan permanen hanya di `## Keputusan penting`. `docs/` yang sudah ada — termasuk `docs/agents/` hasil setup companion pilihan user — adalah brownfield: tetap di tempatnya, ditautkan, tidak dipindah/disalin. `docs/` baru hanya atas keputusan eksplisit user; `docs/conventions/` dan `docs/adr/` adalah opt-in untuk konvensi/ADR panjang.
+
+Sumber kanonik file agent: `AGENTS.md` + `.agents/`. `CLAUDE.md`/`GEMINI.md` dan subfolder `.claude` yang tumpang tindih di-symlink setelah isi unik dimigrasikan; `settings.json`/hooks `.claude` tetap nyata. Detail di `agent-files.md`.
 
 ## Pola indeks (progressive disclosure)
 
@@ -30,7 +32,7 @@ Anti-duplikasi: state, spec, findings, review, handoff, history, dan spesifikasi
 
 ### Yang dipindah
 
-Konvensi rinci → `.pawang/context/coding-standards.html` lewat `node .pawang/kit.js render coding-standards` (skema `sections`). State/spec/findings/review/handoff → `.pawang/`. `docs/` lama brownfield tidak dipindah; cukup ditautkan dari peta dokumen.
+Konvensi rinci → `.pawang/context/coding-standards.html` lewat `node .pawang/kit.js render coding-standards` (skema `sections`). Konvensi/ADR panjang yang user pilih → `docs/conventions/`/`docs/adr/`, lalu tautkan dari peta dokumen. State/spec/findings/review/handoff → `.pawang/`. `docs/` lama brownfield tidak dipindah; cukup ditautkan dari peta dokumen.
 
 ### Format tautan: wajib pemicu "kapan dibaca"
 
@@ -97,7 +99,8 @@ Hanya yang memengaruhi perilaku agent:
 - Perintah: salin persis dari script → `## Commands`.
 - E2E/Fallow/Impeccable/MCP/skill: satu baris cara pakai, bukan inventaris.
 - Konvensi → `.pawang/context/coding-standards.html`; larangan → `## Jangan`; keputusan permanen → `## Keputusan penting`.
-- Artefak skill yang dikenal (PRODUCT.md, DESIGN.md, blueprint/, figr/, `.pawang/figr/`, `docs/agents/`, CODING_STANDARDS.md, GLOSSARY.md, dll.): rute atau tautkan di peta dokumen berpemicu. Yang tidak dikenal: tanya user, jangan dipindah atau disalin.
+- Artefak skill yang dikenal (PRODUCT.md, DESIGN.md, blueprint/, figr/, `.pawang/figr/`, `docs/agents/`, `docs/conventions/`, `docs/adr/`, CODING_STANDARDS.md, GLOSSARY.md, dll.): rute atau tautkan di peta dokumen berpemicu. Yang tidak dikenal: tanya user, jangan dipindah atau disalin.
+- `CLAUDE.md`/`GEMINI.md`/`.claude`: audit dan satukan lewat `agent-files.md`; jangan symlink sebelum isi unik dimigrasikan.
 - Companion terpasang (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`): satu baris di `## Companion` (nama + kapan dipakai). Jangan menginventaris semua skill; cara pasang di `companions.md`.
 - "scaffold": AGENTS.md sangat pendek; jangan mengarang struktur.
 - Jangan tulis nilai env/rahasia; nama variabel boleh bila perlu.
@@ -152,6 +155,8 @@ Hanya yang memengaruhi perilaku agent:
 
 - `.pawang/context/coding-standards.html`: baca saat ...
 - `.pawang/context/current-feature.html`: baca lewat `node .pawang/kit.js extract` saat ...
+- `docs/conventions/<area>.md`: baca sebelum mengubah <area> (opt-in).
+- `docs/adr/<nnnn>-<topik>.md`: baca sebelum mengubah <keputusan> (opt-in).
 ```
 
 Baris `docs/...` hanya ditambahkan bila `docs/` sudah ada (brownfield/opt-in user) dan ditautkan; jangan membuat `docs/` baru secara default.

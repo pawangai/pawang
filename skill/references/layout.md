@@ -50,7 +50,9 @@ tests/  e2e/
 
 Dua lane prototype, pilih satu: **lane A** menulis mockup HTML statis di `prototypes/` + `prototypes/theme.css` (tanpa Figr); **lane B** mengalirkan `figr/` -> `figr-to-prototype` -> `prototype/` (React + DS di `prototype/packages/shared/ui`) -> `prototype-kit` -> `.pawang/prototype/` (HTML statis generated, di-commit). Bila ada Figr, DS Figr menang atas `prototypes/theme.css` dan lane A tidak dipakai.
 
-`docs/` bukan folder alur: hanya proyek lama (brownfield) yang sudah punya `docs/`; deteksi dan tautkan di peta dokumen `AGENTS.md`, jangan pindahkan. Konvensi baru ditulis ke `.pawang/context/coding-standards.html`.
+`docs/` bukan folder alur default: hanya brownfield atau opt-in user (`docs/conventions/`, `docs/adr/`, `docs/agents/`); deteksi dan tautkan di peta dokumen `AGENTS.md`, jangan pindahkan. Konvensi pendek ditulis ke `.pawang/context/coding-standards.html`; konvensi/ADR panjang yang user pilih ke `docs/conventions/`/`docs/adr/`.
+
+File agent (`.claude/`, `.agents/`, `CLAUDE.md`, `GEMINI.md`) tidak dihitung sebagai folder proyek; satukan lewat `agent-files.md` (kanonik `AGENTS.md` + `.agents/`).
 
 Arah dependensi (tegakkan dengan alat kalau ada): `apps` boleh memakai `packages`; `packages` tidak mengimpor dari `apps`; `shared/ui` boleh memakai `shared/design-system`; `contracts` tidak bergantung pada paket lain; `database` tidak bergantung pada UI. Alat yang cocok: Fallow (kalau terpasang), dependency-cruiser, `eslint-plugin-boundaries`. Jangan menjanjikan konfigurasi spesifik sebelum memeriksa dokumentasi alatnya.
 

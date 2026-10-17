@@ -31,7 +31,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 
 ## Commands
 
-- Test: `npm test` (kit.js selftest + `bin/cli.mjs --version`)
+- Test: `npm test` (kit.js selftest + `link-agent-files.mjs --selftest` + `bin/cli.mjs --version`)
 - Cek terbit: `npm run pack:dry`
 - Verify: `npm test && npm run pack:dry` (repo ini tanpa typecheck/build)
 
@@ -40,7 +40,8 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - Tetap SATU skill: kemampuan baru = file di `skill/references/` + satu baris di tabel peta `SKILL.md`. Jangan pecah pawang jadi banyak skill.
 - Membuat/menyerap/mengubah skill: WAJIB lewat alur `skill-creator` (draf → prompt uji dengan/tanpa → evaluasi → iterasi) + `node skill/scripts/skill-precheck.mjs <folder>`; hasil serapan = reference + baris peta, bukan skill baru.
 - Bahan serapan dibaca dari `zip/`; jangan membaca salinan di luar repo.
-- Dua lapis secara default: `AGENTS.md` + `.pawang/`. Pawang tidak membuat `docs/` sendiri; `docs/` yang sudah ada (termasuk `docs/agents/` hasil setup companion pilihan user) = brownfield, dideteksi & ditautkan, tidak dipindah/disalin. `docs/` baru hanya atas keputusan eksplisit user.
+- Dua lapis secara default: `AGENTS.md` + `.pawang/`. Pawang tidak membuat docs/ sendiri; docs/ yang sudah ada (termasuk subfolder agents, conventions, adr hasil opt-in user) = brownfield, dideteksi & ditautkan, tidak dipindah/disalin. docs/ baru hanya atas keputusan eksplisit user.
+- File agent: `AGENTS.md` + `.agents/` kanonik; `CLAUDE.md`/`GEMINI.md` dan subfolder `.claude` yang tumpang tindih di-symlink setelah migrasi. Jangan symlink seluruh `.claude` bila ada settings/hooks; aturan di `agent-files.md`.
 - Konvensi → `.pawang/context/coding-standards.html`; larangan → `## Jangan`; keputusan → `## Keputusan penting`.
 - Jangan menulis/mengedit HTML state `.pawang/context|history` manual — selalu lewat `kit.js`. Pengecualian: `.pawang/prototype/` = artefak generated prototype-kit; `.pawang/figr/` = dokumen sumber Figr (Markdown) + prompt; `.pawang/figr/diagrams/` = viewer HTML generated `kit.js`.
 - Prototype lane: ada Figr → DS Figr menang (`.pawang/prototype/kit.js` = runtime; `.pawang/kit.js` = state CLI, jangan ditimpa). Tanpa Figr → lane A (mockup HTML di folder prototypes).
@@ -58,10 +59,12 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - Companion dipasang terpisah di `.agents/skills/` (izin user, precheck, commit); Pawang core tidak membundel companion/script Python. Serapan prototype Figr = kontrak, script tetap companion — 2026-10-17.
 - Pawang fleksibel terhadap agent/companion lain; bentrok aturan/ADR → tunjukkan dan tanya user. User pemilik keputusan dan boleh mengubah keputusan lama; catat perubahan — 2026-10-17.
 - Rollback hanya membalik perilaku produk; catatan keputusan/ADR tidak dikembalikan otomatis. Rollback memakai guard `git apply --reverse --3way --index`, protected paths diperluas, dan item build-plan di-uncheck saat complete — 2026-10-17.
+- File agent disatukan: `AGENTS.md` + `.agents/` kanonik; `CLAUDE.md`/`GEMINI.md` dan subdir `.claude` yang tumpang tindih di-symlink setelah migrasi; settings/hooks `.claude` tetap nyata. docs/conventions dan docs/adr opt-in untuk konvensi/ADR panjang — 2026-10-17.
 
 ## Arah (roadmap, model: `zip/my-app.zip`)
 
 - Sudah setara: adopt, feature, implement, check, audit (+review), complete, fix-debug, rollback, brief-explore, status, doctor, tests, prototype, release, handoff, document.
+- Sudah ditambah: penyatu file agent (`agent-files.md` + `link-agent-files.mjs`) — `AGENTS.md`/`.agents` kanonik, symlink setelah migrasi; `docs/conventions|adr` opt-in.
 - Sudah diserap: plans (`writing-your-plans` → `skill/references/plans.md`, termasuk syarat grill), dokumen Figr (`figr-prototype-consolidation` → `skill/references/figr-docs.md` + `skill/references/figr-prompt.md`), **kontrak** prototype Figr (`figr-to-prototype` + `prototype-kit` → `skill/references/prototype-figr.md`; script Python/aset tetap companion, tidak dibundel), review kode (`ai-code-comprehension` → `skill/references/review-code.md`; 12 lensa + tiga sumbu). Rollback hardening dari `my-app.zip` (guard git, protected paths, build-plan uncheck) sudah masuk `rollback.md`/`implement.md`/`complete.md`.
 - Kandidat reference baru: `ci`, otomasi opt-in bounded.
 - Gerbang tetap DUA (review spec, izin commit/merge); otomasi tidak boleh melonggarkan gerbang tanpa keputusan tertulis.
@@ -72,6 +75,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - `skill/references/workflow.md`: baca sebelum mengubah `kit.js`, skema JSON, tema, atau gerbang.
 - `skill/references/agents-md.md`: konten produk (panduan AGENTS.md proyek user) — bukan panduan menyusun AGENTS.md repo ini.
 - `skill/references/review-code.md`: review/baca kode (12 lensa, tiga sumbu, companion opt-in).
+- `skill/references/agent-files.md`: satukan `AGENTS.md`/`.agents` dengan symlink `CLAUDE.md`/`GEMINI.md`/`.claude` setelah migrasi.
 - `skill/references/advisor.md`: aturan memasang/membuat/menyerap skill.
 - `skill/references/companions.md`: daftar companion, kapan perlu, cara pasang.
 - `skill/references/figr-docs.md`: alur 4 dokumen Figr + aturan diagram.

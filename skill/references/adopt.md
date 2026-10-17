@@ -76,6 +76,16 @@ Bila proyek sudah punya `AGENTS.md` (brownfield), ekstrak tiga jenis isinya: kon
 | Fitur dokumen                  | Peta dokumen: `.pawang/reference/<jenis>/spesifikasi.html`, baca sebelum mengubah fitur itu (dibuat `document.md`)                                                                                                                       |
 | Ketidakcocokan diputuskan user | Keputusan penting                                                                                                                                                                                                                        |
 
+### 7b. Satukan file agent ganda (opsional, izin user)
+
+Jika ada `CLAUDE.md`, `GEMINI.md`, atau `.claude/`, audit dulu:
+
+```bash
+node scripts/link-agent-files.mjs "<path-proyek>"
+```
+
+Migrasikan isi unik sebelum symlink (lihat `agent-files.md`): konvensi/ADR panjang ke `docs/conventions/`/`docs/adr/` opt-in, keputusan pendek ke `AGENTS.md`, aturan khusus digabung atau disimpan di `.claude/`. Jangan symlink seluruh `.claude` bila ada settings/hooks. `--apply` hanya setelah user setuju.
+
 ### 8. Inisiasi `.pawang/` (kalau user ingin alur pawang)
 
 Setelah AGENTS.md beres: salin `assets/kit.js` (folder skill) ke `.pawang/kit.js`, jalankan `node .pawang/kit.js init` (scaffold + deteksi tema sekali), lalu isi `build-plan` (daftar fitur user, ID stabil) dan `project-overview` (dari profil) via `kit.js render` — JSON lewat stdin, skema di `workflow.md`; bila ada konvensi, render `coding-standards` (`{ "sections": [...] }`) ke `.pawang/context/coding-standards.html`. `.html` di `.pawang/` hanya lewat kit.js; jangan mengedit HTML mentah.

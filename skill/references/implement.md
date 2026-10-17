@@ -22,7 +22,7 @@ Terapkan hanya diff produk:
 ```bash
 git diff --binary <target-parent> <target-commit> -- . \
   ':(exclude).pawang/**' ':(exclude)AGENTS.md' ':(exclude)prototypes/**' \
-  ':(exclude).agents/**' ':(exclude).claude/**' ':(exclude)CLAUDE.md' \
+  ':(exclude).agents/**' ':(exclude).claude/**' ':(exclude)CLAUDE.md' ':(exclude)GEMINI.md' \
   ':(exclude)skills-lock.json' ':(exclude)opencode.json' \
   ':(exclude)docs/adr/**' ':(exclude)docs/agents/**' |
   git apply --reverse --3way --index

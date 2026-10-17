@@ -30,7 +30,7 @@
     "spec-driven"
   ],
   "scripts": {
-    "test": "node skill/assets/kit.js selftest && node bin/cli.mjs --version",
+    "test": "node skill/assets/kit.js selftest && node skill/scripts/link-agent-files.mjs --selftest && node bin/cli.mjs --version",
     "pack:dry": "npm pack --dry-run"
   }
 }

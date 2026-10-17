@@ -57,6 +57,7 @@ Susun himpunan path produk dari diff commit target, lalu kecualikan path terlind
 - `.agents/**`
 - `.claude/**`
 - `CLAUDE.md`
+- `GEMINI.md`
 - `skills-lock.json`
 - `opencode.json`
 

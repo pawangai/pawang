@@ -25,6 +25,7 @@ Dipakai di langkah 2 `advisor.md`. Hanya rekomendasikan bila **ada bukti** (prof
 | Ketidakcocokan stack-deploy (mis. SQLite native di Workers) | putuskan stack dengan user            | keputusan, catat di `## Keputusan penting` AGENTS.md |
 | Fitur dokumen (invoice, kwitansi) tanpa spesifikasi         | `document.md`                         | reference pawang                                     |
 | Struktur folder berantakan                                  | `layout.md`                           | reference pawang                                     |
+| `CLAUDE.md`/`GEMINI.md`/`.claude` duplikat atau berbeda     | audit, migrasi, lalu symlink          | `agent-files.md` + skrip                             |
 
 ## C. Pengetahuan teknologi (kandidat skill eksternal, lewat find-skills)
 

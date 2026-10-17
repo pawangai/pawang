@@ -162,9 +162,11 @@ Henti darurat (bukan gerbang, tapi pengaman): hentikan dan lapor user bila (a) p
 
 Anti-duplikasi: spec aktif, findings, review, handoff, riwayat, dan spesifikasi dokumen **hanya** ada di `.pawang/`. Konvensi **hanya** di `.pawang/context/coding-standards.html` (render `coding-standards`, skema `sections`). Larangan **hanya** di `## Jangan` dan keputusan permanen **hanya** di `## Keputusan penting` pada `AGENTS.md`. Peta dan perintah **hanya** di `AGENTS.md`. Jangan menyalin isi satu lapis ke lapis lain; tautkan.
 
-`docs/` tidak dibuat Pawang secara default. `docs/` yang sudah ada — termasuk `docs/agents/` hasil setup companion pilihan user — adalah brownfield: dideteksi, ditautkan dari `AGENTS.md`, isinya tidak dipindah/disalin ke `.pawang/`, dan tidak dijelajahi default. `docs/` baru hanya atas keputusan eksplisit user, bukan default alur.
+`docs/` tidak dibuat Pawang secara default. `docs/` yang sudah ada — termasuk `docs/agents/` hasil setup companion pilihan user — adalah brownfield: dideteksi, ditautkan dari `AGENTS.md`, isinya tidak dipindah/disalin ke `.pawang/`, dan tidak dijelajahi default. `docs/` baru hanya atas keputusan eksplisit user, bukan default alur; `docs/conventions/` dan `docs/adr/` adalah opt-in untuk konvensi/ADR panjang.
 
 Companion (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`) dipasang terpisah di `.agents/skills/`, bukan bagian `.pawang/` dan bukan isi npm Pawang. Daftar, izin, precheck, dan cara pasang ada di `companions.md`.
+
+File agent ganda (`CLAUDE.md`, `GEMINI.md`, `.claude`) disatukan lewat `agent-files.md`: `AGENTS.md`/`.agents` kanonik, symlink setelah isi unik dimigrasikan, dan settings/hooks `.claude` tetap nyata.
 
 ## 6. Tema
 
@@ -180,9 +182,9 @@ Companion (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`) dipasang
 (sekali)  adopt → agents-md → kit.js init → build-plan & project-overview
 per fitur (brief) → (figr-docs → figr-prompt) → (prototype | prototype-figr) → feature ──GERBANG──► implement → check → audit
           → perbaikan findings → complete ──GERBANG──► history/
-kapan saja  status · doctor · review kode · handoff · tests · rollback · release · document
+kapan saja  status · doctor · review kode · file agent · handoff · tests · rollback · release · document
 ```
 
 Lane prototype opsional: tanpa Figr pakai `prototype.md` (lane A, `prototypes/`); bila proyek punya Figr/DS pakai `prototype-figr.md` (lane B, hasil di `.pawang/prototype/`).
 
-Referensi per langkah: spec → `feature.md`/`fix-debug.md`/`rollback.md`; eksekusi → `implement.md`; bukti → `check.md`; kualitas → `audit.md`; review kode eksternal → `review-code.md`; penutup → `complete.md`; orientasi → `status.md`.
+Referensi per langkah: spec → `feature.md`/`fix-debug.md`/`rollback.md`; eksekusi → `implement.md`; bukti → `check.md`; kualitas → `audit.md`; review kode eksternal → `review-code.md`; file agent → `agent-files.md`; penutup → `complete.md`; orientasi → `status.md`.

@@ -10,11 +10,15 @@
 //  1. AGENTS.md (root dan apps/*, packages/*): ukuran, tautan rusak, tautan tanpa pemicu "kapan dibaca"
 //  2. docs/ (legacy/brownfield): file terlalu panjang, yatim, ADR tanpa Status, handoff usang
 //  3. Skill di tingkat proyek: jumlah, biaya konteks (deskripsi dimuat di SETIAP sesi), frontmatter, tumpang tindih
+//  4. File agent ganda: CLAUDE.md/GEMINI.md/.claude belum symlink ke AGENTS.md/.agents
 
 import fs from 'node:fs';
 import path from 'node:path';
 
 const args = process.argv.slice(2);
+const bad = args.filter((a) => a.startsWith('-') && !['--strict', '--all', '--help'].includes(a));
+if (bad.length) { console.error('Flag tidak dikenal: ' + bad.join(', ')); process.exit(2); }
+if (args.includes('--help')) { console.log('Pemakaian: node docs-health.mjs [path-proyek] [--strict] [--all]'); process.exit(0); }
 const root = path.resolve(args.find((a) => !a.startsWith('--')) || process.cwd());
 const strict = args.includes('--strict');
 const showAll = args.includes('--all');
@@ -23,6 +27,10 @@ if (!fs.existsSync(root) || !fs.statSync(root).isDirectory()) { console.error('F
 const read = (f) => { try { return fs.readFileSync(f, 'utf8'); } catch { return null; } };
 const exists = (f) => { try { fs.accessSync(f); return true; } catch { return false; } };
 const isDir = (f) => { try { return fs.statSync(f).isDirectory(); } catch { return false; } };
+const isLink = (f) => { try { return fs.lstatSync(f).isSymbolicLink(); } catch { return false; } };
+const real = (f) => { try { return fs.realpathSync.native(f); } catch { return null; } };
+const norm = (s) => s.replace(/\r\n/g, '\n').replace(/[ \t]+$/gm, '').trim();
+const pointerText = (name) => `# ${name}\n\nFile ini pointer ke AGENTS.md (pawang-pointer: AGENTS.md).\nBaca AGENTS.md; jangan menulis aturan terpisah di sini.\n`;
 const ls = (d) => { try { return fs.readdirSync(d); } catch { return []; } };
 const lines = (t) => t.split('\n').length;
 const tokens = (chars) => Math.ceil(chars / 4); // perkiraan kasar
@@ -66,6 +74,38 @@ for (const f of agentFiles) {
 }
 if (!agentFiles.length) add('WARN', 'AGENTS.md', 'tidak ada AGENTS.md', 'jalankan references/adopt.md lalu references/agents-md.md');
 
+// ---------- 1b. file agent ganda ----------
+const agentsRoot = path.join(root, 'AGENTS.md');
+for (const name of ['CLAUDE.md', 'GEMINI.md']) {
+  const p = path.join(root, name);
+  const linked = isLink(p);
+  if (!linked && !exists(p)) continue;
+  if (linked) {
+    let t = '';
+    try { t = path.resolve(path.dirname(p), fs.readlinkSync(p)); } catch { /* tautan rusak */ }
+    const rt = real(t);
+    if (!rt) add('WARN', name, 'symlink rusak: target tidak dapat dibaca', 'arahkan ke AGENTS.md atau jalankan link-agent-files.mjs');
+    else if (rt !== real(agentsRoot)) add('WARN', name, `symlink ke ${rel(t || p)}`, 'arahkan ke AGENTS.md atau jalankan link-agent-files.mjs');
+  } else {
+    const text = read(p) || '';
+    if (norm(text) !== norm(pointerText(name))) add('WARN', name, 'file nyata, bukan symlink AGENTS.md', 'migrasikan isi unik lalu jalankan link-agent-files.mjs --apply');
+  }
+}
+const claudeRoot = path.join(root, '.claude');
+const agentsDir = path.join(root, '.agents');
+if (isLink(claudeRoot)) add('WARN', '.claude', 'symlink folder; settings/hooks bisa tercampur', 'jadikan folder nyata + symlink subdir (agent-files.md)');
+else if (isDir(claudeRoot)) {
+  for (const sub of ['skills', 'agents', 'commands']) {
+    const c = path.join(claudeRoot, sub), a = path.join(agentsDir, sub);
+    if (isLink(c)) {
+      let t = '';
+      try { t = path.resolve(path.dirname(c), fs.readlinkSync(c)); } catch { /* tautan rusak */ }
+      const rt = real(t);
+      if (!rt || rt !== real(a)) add('WARN', `.claude/${sub}`, `symlink ke ${rel(t || c)}, seharusnya .agents/${sub}`, 'arahkan symlink atau jalankan link-agent-files.mjs');
+    } else if (exists(c) && isDir(a)) add('WARN', `.claude/${sub}`, `folder nyata padahal .agents/${sub} ada`, 'gabungkan lalu symlink; lihat agent-files.md');
+  }
+}
+
 // ---------- 2. docs/ (legacy/brownfield) ----------
 const docsDir = path.join(root, 'docs');
 const docFiles = [];
@@ -88,7 +128,7 @@ for (const f of docFiles) {
   const covered = linkText.includes(r)
     || linkText.split(/\s|`/).some((w) => w.startsWith('docs/') && ((w.endsWith('/') && r.startsWith(w)) || (w.includes('<') && r.startsWith(w.slice(0, w.indexOf('<'))))));
   if (!covered && r !== 'docs/README.md') add('WARN', r, 'yatim: tidak ditautkan dari AGENTS.md atau docs/README.md', 'tambahkan ke peta dokumen dengan pemicu kapan dibaca, atau arsipkan');
-  if (/^docs\/decisions\/(?!README)/.test(r)) {
+  if (/^docs\/(?:adr|decisions)\/(?!README)/.test(r)) {
     const st = (t.match(/^Status:\s*(.+)$/m) || [])[1];
     if (!st) add('ERROR', r, 'keputusan tanpa baris "Status:"', 'tambahkan Status: Accepted atau Superseded by NNNN; catat inti keputusan di ## Keputusan penting AGENTS.md');
     else if (!/^(Accepted|Superseded|Proposed|Deprecated|Rejected)/i.test(st.trim())) add('WARN', r, `Status tidak baku: "${st.trim()}"`, 'pakai Accepted / Superseded by NNNN / Proposed / Deprecated / Rejected');

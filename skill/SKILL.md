@@ -1,6 +1,6 @@
 ---
 name: pawang
-description: Alur kerja agent otonom berbasis spec di .pawang (HTML via kit.js): rencanakan fitur, implement, check, audit, complete; plus adopsi proyek, AGENTS.md, tata letak, build plan/project plan/roadmap/MVP, dokumen rujukan, handoff, prototype Figr/DS, review/baca kode (kode AI, diff/PR, 12 lensa; pilih 3-6), dan tooling. Gunakan saat user menyebut pawang, fitur/spec, menulis build plan/project plan/roadmap/MVP, adopsi proyek, dokumen contoh, atau meminta review/penjelasan kode.
+description: Alur kerja agent otonom berbasis spec di .pawang (HTML via kit.js): rencanakan fitur, implement, check, audit, complete; plus adopsi proyek, AGENTS.md, tata letak, build plan/project plan/roadmap/MVP, dokumen rujukan, handoff, prototype Figr/DS, review/baca kode (kode AI, diff/PR, 12 lensa; pilih 3-6), penyatuan file agent (AGENTS.md/.agents, CLAUDE.md/GEMINI.md), dan tooling. Gunakan saat user menyebut pawang, fitur/spec, menulis build plan/project plan/roadmap/MVP, adopsi proyek, dokumen contoh, meminta review/penjelasan kode, atau merapikan file agent/CLAUDE.md.
 ---
 
 # pawang - alur kerja agent otonom
@@ -28,6 +28,7 @@ Tujuan: mengendalikan satu alur kerja utuh untuk membangun perangkat lunak, dari
 | Setup    | Tentukan/audit tata letak repo                           | `references/layout.md`         |
 | Setup    | Rekomendasi tooling, dokumentasi, skill                  | `references/advisor.md`        |
 | Setup    | Pasang/periksa companion (grill, Figr)                   | `references/companions.md`     |
+| Setup    | Satukan file agent ganda (AGENTS.md/.agents)             | `references/agent-files.md`    |
 | Rencana  | Tulis build-plan & project-overview                      | `references/plans.md`          |
 | Rencana  | Tulis 4 dokumen Figr (PRD, flow, desain, edge)           | `references/figr-docs.md`      |
 | Rencana  | Susun prompt Figr Design dari 4 dokumen                  | `references/figr-prompt.md`    |
@@ -55,7 +56,7 @@ Tujuan: mengendalikan satu alur kerja utuh untuk membangun perangkat lunak, dari
 (sekali)  adopt → agents-md → kit.js init → plans (build-plan + project-overview)
 per fitur (brief) → (figr-docs → figr-prompt) → (prototype | prototype-figr) → feature ──GERBANG: review spec──► implement
           → check → audit → (perbaikan findings) → complete ──GERBANG: izin commit/merge──► arsip
-kapan saja  status · doctor · review kode · handoff · tests · rollback · release · document
+kapan saja  status · doctor · review kode · file agent · handoff · tests · rollback · release · document
 ```
 
 ## Kesalahan umum
@@ -66,5 +67,6 @@ kapan saja  status · doctor · review kode · handoff · tests · rollback · r
 - Memakai lane Figr/grill tanpa companion, atau memasangnya diam-diam; lihat `references/companions.md`.
 - Menaruh 4 dokumen Figr di `figr/` atau menjadikan HTML diagram sebagai sumber; sumbernya `.pawang/figr/*.md` (Mermaid).
 - Memakai alur audit untuk review kode tempelan/PR tanpa spec, atau memakai review kode untuk menggantikan check/audit fitur.
+- Meng-symlink `CLAUDE.md`/`GEMINI.md`/`.claude` sebelum isi uniknya dimigrasikan, atau meng-symlink seluruh `.claude` padahal ada settings/hooks.
 - Mulai implement sebelum spec disetujui, atau commit/merge tanpa izin.
 - Melanjutkan pekerjaan di luar scope spec tanpa bertanya.

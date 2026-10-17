@@ -193,6 +193,20 @@
         "Berhenti di Gerbang 1 untuk review spec sebelum implement",
         "Menandai verifikasi git/preflight sebagai belum dilakukan karena repo target tidak tersedia"
       ]
+    },
+    {
+      "id": 15,
+      "prompt": "Proyek ini punya AGENTS.md, CLAUDE.md berisi konvensi/ADR unik, .agents/skills, dan .claude/skills + settings.json + hooks. Audit dan satukan file agent pakai skrip Pawang. Jangan kehilangan aturan unik dan jangan ubah settings/hooks.",
+      "expected_output": "Menjalankan audit read-only link-agent-files.mjs; melaporkan baris unik CLAUDE.md dan menyarankan migrasi ke docs/conventions|adr atau AGENTS.md; mempertahankan settings/hooks; menolak symlink sebelum migrasi; setelah migrasi symlink CLAUDE.md/GEMINI.md ke AGENTS.md dan .claude/skills ke .agents/skills.",
+      "files": ["evals/fixtures/agent-files"],
+      "assertions": [
+        "Menjalankan audit read-only link-agent-files.mjs sebelum apply dan tidak langsung symlink",
+        "Mengenali CLAUDE.md punya isi unik dan menyarankan docs/conventions|adr atau ## Keputusan penting",
+        "Menyebut settings.json/hooks .claude tetap nyata dan tidak symlink seluruh .claude",
+        "Menyebut .claude/skills → .agents/skills dan pemindahan skill setelah migrasi",
+        "Tidak mengubah file sebelum izin user atau --apply",
+        "Menjalankan --check/verifikasi setelah apply dan tidak mengklaim symlink sebelum migrasi selesai"
+      ]
     }
   ]
 }
