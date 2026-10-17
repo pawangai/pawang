@@ -120,7 +120,7 @@
         "Menyebut wayfinder sebagai companion opsional/user-invoked untuk inisiatif besar",
         "Membedakan companion (.agents/skills/) dari Pawang core",
         "Menjelaskan kapan companion Figr diperlukan dan bahwa lane A tidak butuh",
-        "Menunjuk skill/references/companions.md untuk cara pasang",
+        "Menunjuk skills/pawang/references/companions.md untuk cara pasang",
         "Tidak memasang apa pun tanpa izin user"
       ]
     },
@@ -289,6 +289,20 @@
         "Menulis findings lewat kit.js atau melaporkan read-only bila .pawang tidak ada",
         "Menyebut companion cicd-worker-audit untuk detail Cloudflare, bukan menyalin script Python",
         "Tidak menjalankan deploy/rollback/ruleset/secret atau mengklaim CI hijau tanpa run"
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "pawang, pasang companion cicd-worker untuk proyek OpenCode ini. Saya belum punya file .skill-nya.",
+      "expected_output": "Mengarahkan ke pawang companion atau npx skills add pawangai/pawang --skill cicd-worker -a opencode; tidak memakai --all; tidak memasang diam-diam; menyebut dependensi Python/wrangler dan batas Cloudflare-only; mengingatkan precheck.",
+      "files": [],
+      "assertions": [
+        "Mengarahkan ke pawang companion list/info/add atau npx skills add pawangai/pawang --skill cicd-worker",
+        "Tidak memakai --all karena akan ikut memasang core pawang dan companion pengembangan",
+        "Tidak memasang diam-diam; meminta izin atau memakai mode print sebelum --run",
+        "Menyebut dependensi Python 3/wrangler/gh dan batas Cloudflare-only",
+        "Mengingatkan precheck dan membaca SKILL.md/script sebelum dipakai",
+        "Tidak menyalin script/template worker ke core atau npm"
       ]
     }
   ]

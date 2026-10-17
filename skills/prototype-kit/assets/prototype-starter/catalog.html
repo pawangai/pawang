@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Katalog Kit</title>
+<link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="prototype.css">
+</head><body><main class="k-page" id="cat"></main>
+<script src="icons.js"></script><script src="prototype.js"></script>
+<script>
+const sec=(t,b)=>K.card(t,b)+'<br>';
+const tones=['neutral','primary','success','warning','danger','training'];
+document.getElementById('cat').innerHTML=
+ K.pageHead('Katalog Kit')+
+ sec('Button',['primary','secondary','ghost','danger'].map(v=>K.button({label:v,variant:v,icon:'plus'})).join(' ')+' '+K.button({label:'sm',size:'sm'})+' '+K.button({label:'disabled',state:'disabled'})) +
+ sec('Pill & badge & avatar',tones.map(t=>K.pill(t,t)).join(' ')+' '+K.countBadge(3)+' '+K.countBadge(9,'danger')+' '+K.avatar('Siti Rahma')) +
+ sec('Banner',tones.map(t=>K.banner('Banner '+t,t)).join('<br>')) +
+ sec('KPI',K.kpiStrip([{label:'Pasien',value:128,note:'+4'},{label:'Tertunda',value:7,tone:'danger'}])) +
+ sec('Info rows + meter',K.infoRows([['Nama','Siti'],['Kota','Depok']])+'<br>'+K.meter(65,100,{label:'Kuota'})+'<br>'+K.meter(90,100,{label:'Hampir penuh'})) +
+ sec('Timeline',K.timeline([{at:'10:00',by:'Admin',text:'Dibuat',tone:'primary'},{at:'11:30',text:'Gagal',tone:'danger'}])) +
+ sec('Table',K.table({cols:[{key:'a',label:'A'},{key:'b',label:'B',align:'right'}],rows:[{a:'x',b:1},{a:'y',b:2}]})) +
+ sec('Form',K.field({label:'Nama',name:'n',hint:'Petunjuk'})+K.field({label:'Email',name:'e',error:'Wajib diisi'})+K.searchInput()+'<br>'+K.toggle({label:'Aktif',checked:true})) +
+ sec('Empty state',K.empty({title:'Belum ada data',text:'Tambah data pertama'})) +
+ sec('Dialog & toast',K.button({label:'Buka dialog',action:'dialog:open:demo'})+' '+K.button({label:'Toast',variant:'secondary',action:'toast:success:Tersimpan'})) +
+ sec('Ikon',Object.keys(K_ICONS).map(n=>`<span title="${n}">${K.icon(n,{size:20})}</span>`).join(' '))+
+ K.dialogHtml('demo',{title:'Contoh dialog',body:'Isi dialog.'});
+</script></body></html>

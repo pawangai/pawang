@@ -1,6 +1,6 @@
 # Companion - skill pendamping Pawang
 
-Tujuan: membedakan **Pawang core** dari **companion** yang dipasang terpisah, supaya user tidak bingung saat skill wayfinder/Figr/grill tidak ditemukan. Pawang core = `skill/` yang dipasang `npx pawang init` (SKILL.md, references, scripts `.mjs`, `assets/kit.js`). Companion = skill lain di `.agents/skills/`, tidak ikut npm Pawang.
+Tujuan: membedakan **Pawang core** dari **companion** yang dipasang terpisah, supaya user tidak bingung saat skill wayfinder/Figr/grill tidak ditemukan. Pawang core = `skills/pawang/` yang dipasang `npx pawang init` (SKILL.md, references, scripts `.mjs`, `assets/kit.js`). Companion = skill lain di `.agents/skills/`; sumber empat companion Figr/CICD ada di `skills/<nama>/` repo ini dan tidak ikut npm.
 
 ## Aturan
 
@@ -21,11 +21,21 @@ Tujuan: membedakan **Pawang core** dari **companion** yang dipasang terpisah, su
 | `wayfinder` + `domain-modeling` | Peta keputusan lintas sesi + domain model                    | `plans.md` A3 untuk inisiatif >1 sesi/berkabut                                    | `npx skills add mattpocock/skills --skill wayfinder domain-modeling -a opencode` |
 | `research` + `prototype`        | Tiket wayfinder tipe research/prototype                      | Hanya bila wayfinder membuat tiket tipe itu                                       | `npx skills add mattpocock/skills --skill research prototype -a opencode`        |
 | `setup-matt-pocock-skills`      | Setup GitHub Issues + `docs/agents/`                         | Sekali per repo sebelum wayfinder dipakai                                         | `npx skills add mattpocock/skills --skill setup-matt-pocock-skills -a opencode`  |
-| `figr-to-prototype`             | Hulu lane B: scaffold, audit DS, data store                  | Proyek punya `figr/` dan akan dirapikan                                           | File `.skill`/repo companion; nama folder & frontmatter: `figr-to-prototype`     |
-| `prototype-kit`                 | Hilir lane B: HTML statis ke `.pawang/prototype/`            | Setelah `prototype/` React siap dikunci                                           | File `.skill`/repo companion; nama folder: `prototype-kit`                       |
-| `cicd-worker`                   | CI/CD Cloudflare Workers: preview, migrasi, deploy, rollback | Proyek Workers yang butuh pipeline penuh; bukan default                           | File `.skill` lokal; precheck; script Python                                     |
-| `cicd-worker-audit`             | Audit read-only Worker/CI + verdict                          | Sebelum/sesudah pipeline Worker; butuh checklist Cloudflare                       | File `.skill` lokal; precheck; script Python                                     |
+| `figr-to-prototype`             | Hulu lane B: scaffold, audit DS, data store                  | Proyek punya `figr/` dan akan dirapikan                                           | `npx skills add pawangai/pawang --skill figr-to-prototype -a opencode`           |
+| `prototype-kit`                 | Hilir lane B: HTML statis ke `.pawang/prototype/`            | Setelah `prototype/` React siap dikunci                                           | `npx skills add pawangai/pawang --skill prototype-kit -a opencode`               |
+| `cicd-worker`                   | CI/CD Cloudflare Workers: preview, migrasi, deploy, rollback | Proyek Workers yang butuh pipeline penuh; bukan default                           | `npx skills add pawangai/pawang --skill cicd-worker -a opencode`                 |
+| `cicd-worker-audit`             | Audit read-only Worker/CI + verdict                          | Sebelum/sesudah pipeline Worker; butuh checklist Cloudflare                       | `npx skills add pawangai/pawang --skill cicd-worker-audit -a opencode`           |
 | `triage`                        | Intake issue/PR + agent brief + `.out-of-scope/`             | Proyek memakai tracker issue/PR dan butuh penyaringan masuk                       | `npx skills add mattpocock/skills --skill triage -a opencode` (butuh setup)      |
+
+Empat companion terakhir tinggal di repo Pawang (`skills/`) dan tidak ikut npm. CLI Pawang bisa membantu:
+
+```bash
+pawang companion list
+pawang companion info <nama>
+pawang companion add <nama> --run
+```
+
+`--list` menampilkan empat companion ini dan core `pawang`; pada source tertentu bisa ikut `.agents/skills/` pengembangan. Selalu pakai `--skill` eksplisit; **jangan `--all`**.
 
 Catatan:
 
@@ -62,9 +72,9 @@ Contoh Figr docs:
 npx skills add mattpocock/skills --skill grilling -a opencode
 ```
 
-## Pasang dari file `.skill` lokal
+## Pasang dari file `.skill` lokal / release
 
-File `.skill` adalah arsip zip. Ekstrak ke `.agents/skills/` (paling sederhana, tanpa lock sementara):
+Fallback offline: unduh aset `.skill` dari GitHub Releases repo Pawang. File `.skill` adalah arsip zip. Ekstrak ke `.agents/skills/` (paling sederhana, tanpa lock sementara):
 
 ```bash
 unzip -q <nama>.skill -d .agents/skills

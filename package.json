@@ -13,7 +13,7 @@
   },
   "files": [
     "bin",
-    "skill",
+    "skills/pawang",
     "README.md",
     "LICENSE"
   ],
@@ -30,7 +30,7 @@
     "spec-driven"
   ],
   "scripts": {
-    "test": "node skill/assets/kit.js selftest && node skill/scripts/link-agent-files.mjs --selftest && node bin/cli.mjs --version",
+    "test": "node skills/pawang/assets/kit.js selftest && node skills/pawang/scripts/link-agent-files.mjs --selftest && node bin/cli.mjs --version && node bin/cli.mjs companion list",
     "pack:dry": "npm pack --dry-run"
   }
 }

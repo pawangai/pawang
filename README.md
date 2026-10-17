@@ -47,7 +47,7 @@ Setelah terpasang, buka sesi agent di proyek lalu minta: **"pawang, adopsi proye
 
 ### 🧩 Companion (opsional, dipasang terpisah)
 
-Pawang core tidak membundel companion. Pasang di `.agents/skills/` dengan izin user; detail, nama folder, dan precheck ada di `skill/references/companions.md`.
+Pawang core tidak membundel companion. Empat companion Figr/CICD tinggal di repo yang sama (`skills/`) dan dipasang dari GitHub; sisanya dari sumber masing-masing. Pasang di `.agents/skills/` dengan izin user; detail, nama folder, dan precheck ada di `skills/pawang/references/companions.md`.
 
 | Companion                                    | Invoke                          | Kapan perlu                             | Pasang                                                                                    |
 | -------------------------------------------- | ------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -57,16 +57,26 @@ Pawang core tidak membundel companion. Pasang di `.agents/skills/` dengan izin u
 | `setup-matt-pocock-skills`                   | user                            | Setup GitHub Issues + `docs/agents/`    | `npx skills add mattpocock/skills --skill setup-matt-pocock-skills -a opencode`           |
 | `triage`                                     | user                            | Intake issue/PR + agent brief           | `npx skills add mattpocock/skills --skill triage -a opencode` (butuh setup)               |
 | `code-review`                                | model                           | Review diff/PR dua sumbu                | `npx skills add mattpocock/skills --skill code-review -a opencode`                        |
-| `figr-to-prototype`                          | model                           | Lane B hulu (proyek punya `figr/`)      | File `.skill`/repo companion; folder `figr-to-prototype`                                  |
-| `prototype-kit`                              | model                           | Lane B hilir (HTML statis)              | File `.skill`/repo companion; folder `prototype-kit`                                      |
-| `cicd-worker`                                | model                           | CI/CD Cloudflare Workers                | File `.skill` lokal; precheck; script Python                                              |
-| `cicd-worker-audit`                          | model                           | Audit CI/CD Cloudflare Workers          | File `.skill` lokal; precheck; script Python                                              |
+| `figr-to-prototype`                          | model                           | Lane B hulu (proyek punya `figr/`)      | `npx skills add pawangai/pawang --skill figr-to-prototype -a opencode`                    |
+| `prototype-kit`                              | model                           | Lane B hilir (HTML statis)              | `npx skills add pawangai/pawang --skill prototype-kit -a opencode`                        |
+| `cicd-worker`                                | model                           | CI/CD Cloudflare Workers                | `npx skills add pawangai/pawang --skill cicd-worker -a opencode`                          |
+| `cicd-worker-audit`                          | model                           | Audit CI/CD Cloudflare Workers          | `npx skills add pawangai/pawang --skill cicd-worker-audit -a opencode`                    |
 
 `wayfinder`, `setup-matt-pocock-skills`, dan `triage` **user-invoked** (`disable-model-invocation`): Pawang akan meminta kamu memicunya. Sisanya **model-invoked**: model boleh memilihnya saat konteks cocok. Peta/tiket wayfinder ada di GitHub Issues dan `docs/agents/` (opt-in), bukan di `.pawang/`; build-plan + project-overview tetap ditulis ke `.pawang/` setelah peta selesai. `grill-me` sudah dihapus.
 
+CLI companion:
+
+```bash
+pawang companion list
+pawang companion info <nama>
+pawang companion add <nama> --run
+```
+
+Jangan memakai `npx skills add pawangai/pawang --all`: `--all` memasang semua skill yang terdeteksi, termasuk core `pawang` (dan pada source tertentu `.agents/skills/` pengembangan). Selalu pakai `--skill` eksplisit.
+
 Jangan pasang `to-spec`, `to-tickets`, `implement`, atau `implement-spec` sebagai companion: konsepnya sudah ada di `feature.md`, `plans.md`, `implement.md`, `parallel.md`, dan `orchestrate.md`.
 
-`figr-to-prototype` dan `prototype-kit` bukan hasil serapan penuh: kontraknya sudah ada di `skill/references/prototype-figr.md`, tetapi script Python/asetnya tetap companion.
+`figr-to-prototype` dan `prototype-kit` bukan hasil serapan penuh: kontraknya sudah ada di `skills/pawang/references/prototype-figr.md`, tetapi script Python/asetnya tetap companion.
 
 **Alat advisor (opsional, bukan syarat alur):**
 
@@ -76,7 +86,7 @@ Jangan pasang `to-spec`, `to-tickets`, `implement`, atau `implement-spec` sebaga
 | `skill-creator`   | Buat/uji/iterasi skill    | sudah global    |
 | `skill-inspector` | Audit skill pihak ketiga  | belum terpasang |
 
-Cara pasang dan aturan precheck ada di `skill/references/companions.md`; jangan menduplikasi skill yang sudah global.
+Cara pasang dan aturan precheck ada di `skills/pawang/references/companions.md`; jangan menduplikasi skill yang sudah global.
 
 ---
 
@@ -141,11 +151,12 @@ Prinsip: **progressive disclosure** — `SKILL.md` hanya peta; agent membaca sat
 
 ## 📂 Struktur Folder
 
-**1. Skill (repo ini, dipasang sebagai `pawang/`):**
+**1. Skill core (sumber `skills/pawang/`, dipasang sebagai `pawang/`):**
 
 ```
 pawang/
 ├── SKILL.md                  # peta topik + prinsip + kontrak .pawang/kit.js
+├── companions.json           # metadata CLI `pawang companion`
 ├── references/
 │   ├── workflow.md           # dasar: loop, config, skema JSON, aturan dua lapis
 │   ├── feature.md implement.md check.md audit.md complete.md   # siklus inti
@@ -161,6 +172,8 @@ pawang/
 └── assets/
     └── kit.js                # disalin ke .pawang/kit.js tiap proyek
 ```
+
+Repo sumber berisi `skills/pawang/` (core, ikut npm), `skills/<nama>/` (empat companion; tidak ikut npm), dan `skills/pawang/companions.json` (metadata CLI `pawang companion`). Pasang companion lewat `npx skills add` atau `pawang companion add`.
 
 **2. State proyek (`.pawang/`, dibuat `kit.js init`):**
 

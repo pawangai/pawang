@@ -2,7 +2,7 @@
 
 ## Ringkasan
 
-Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti pola `zip/e2e.zip`: `skill/SKILL.md` hanya peta routing; detail per topik di `skill/references/` (satu file per topik, mandiri, dibaca SATU per tugas). Visi: memperluas pawang meniru alur `zip/my-app.zip` (Blueprints) agar menjadi alur kerja agent lengkap: onboarding → rencana → loop feature → implement → check → audit → complete → otomasi.
+Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti pola `zip/e2e.zip`: `skills/pawang/SKILL.md` hanya peta routing; detail per topik di `skills/pawang/references/` (satu file per topik, mandiri, dibaca SATU per tugas). Visi: memperluas pawang meniru alur `zip/my-app.zip` (Blueprints) agar menjadi alur kerja agent lengkap: onboarding → rencana → loop feature → implement → check → audit → complete → otomasi.
 
 ## Cara kerja
 
@@ -18,29 +18,33 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 
 ## Repository layout
 
-- `bin/cli.mjs` — CLI pemasang (`init`, `--project`, `--target`, `--force`).
-- `skill/SKILL.md` — peta routing; hanya prinsip, tabel topik→reference, alur, kesalahan umum.
-- `skill/references/<topik>.md` — detail, satu topik per file, mandiri (+ data: markers.json, layout-rules.json, gap-signals.md, spec-template.md, theme-variables.css). Orkestrasi: `parallel.md` (dalam satu fitur) dan `orchestrate.md` (batch lintas fitur).
-- `skill/scripts/*.mjs` — deterministik, zero-dep, tanpa LLM.
-- `skill/assets/kit.js` — generator/pembaca state `.pawang` (HTML); disalin ke `.pawang/kit.js` di proyek user.
+- `bin/cli.mjs` — CLI pemasang (`init`, `--project`, `--target`, `--force`) + companion (`list`, `info`, `add`).
+- `skills/pawang/` — core Pawang (SKILL.md, references, scripts, assets, companions.json); ikut npm dan disalin `npx pawang init`.
+- `skills/pawang/SKILL.md` — peta routing; hanya prinsip, tabel topik→reference, alur, kesalahan umum.
+- `skills/pawang/references/<topik>.md` — detail, satu topik per file, mandiri (+ data: markers.json, layout-rules.json, gap-signals.md, spec-template.md, theme-variables.css). Orkestrasi: `parallel.md` (dalam satu fitur) dan `orchestrate.md` (batch lintas fitur).
+- `skills/<nama>/` — sumber empat companion (`figr-to-prototype`, `prototype-kit`, `cicd-worker`, `cicd-worker-audit`); tidak ikut npm; dipasang via `npx skills add pawangai/pawang --skill <nama>`.
+- `skills/pawang/companions.json` — metadata CLI `pawang companion list|info|add`.
+- `skills/pawang/scripts/*.mjs` — deterministik, zero-dep, tanpa LLM.
+- `skills/pawang/assets/kit.js` — generator/pembaca state `.pawang` (HTML); disalin ke `.pawang/kit.js` di proyek user.
 - `assets/`, `README.md`, `LICENSE` — materi npm (lihat `files` package.json).
-- `.agents/skills/` — companion terpasang (proyek): `wayfinder` + `grilling` + `domain-modeling` + `research` + `prototype` + `setup-matt-pocock-skills` (mattpocock/skills), `figr-to-prototype`, dan `prototype-kit`; bukan skill baru Pawang. Daftar companion alur ada di `skill/references/companions.md`; companion review kode opsional diatur di `skill/references/review-code.md`.
+- `.agents/skills/` — companion terpasang (proyek): `wayfinder` + `grilling` + `domain-modeling` + `research` + `prototype` + `setup-matt-pocock-skills` (mattpocock/skills), `figr-to-prototype`, dan `prototype-kit`; bukan skill baru Pawang. Daftar companion alur ada di `skills/pawang/references/companions.md`; companion review kode opsional diatur di `skills/pawang/references/review-code.md`.
 - Alat advisor global (bukan companion alur): `find-skills` + `skill-creator`; `skill-inspector` belum terpasang. Jangan duplikasi di project.
 - `evals/` — definisi tes skill (tidak ikut npm).
 - `pawang-workspace/` — snapshot/fixture/hasil eval (gitignored).
-- `zip/` — KOTAK MASUK bahan skill, lokal (gitignored): skill/paket skill mentah ditaruh di sini sebelum diolah. Bahan dibaca DARI `zip/` (bukan salinan luar repo). Sekarang: `e2e.zip` (model struktur), `my-app.zip` (model alur Blueprints), `skills-package.zip` (sudah diserap), `writing-your-plans.skill`, `figr-to-prototype.skill`, `prototype-kit.skill`, `figr-prototype-consolidation.skill` (keempatnya sudah diserap sebagai reference/kontrak; tetap sumber + companion), `cicd-worker.skill` + `cicd-worker-audit.skill` (bahan companion Cloudflare; detail tidak diserap ke core).
+- `zip/` — KOTAK MASUK bahan skill, lokal (gitignored): skill/paket skill mentah ditaruh di sini sebelum diolah. Bahan dibaca DARI `zip/` (bukan salinan luar repo). Sekarang: `e2e.zip` (model struktur), `my-app.zip` (model alur Blueprints), `skills-package.zip` (sudah diserap), `writing-your-plans.skill`, `figr-to-prototype.skill`, `prototype-kit.skill`, `figr-prototype-consolidation.skill` (keempatnya sudah diserap sebagai reference/kontrak; tetap sumber + companion), `cicd-worker.skill` + `cicd-worker-audit.skill` (bahan companion Cloudflare; detail tidak diserap ke core). Salinan publik empat companion aktif (Figr + CICD) ada di `skills/`. Bukan sumber distribusi; yang dirilis hanya hasil olahan di `skills/`.
 
 ## Commands
 
-- Test: `npm test` (kit.js selftest + `link-agent-files.mjs --selftest` + `bin/cli.mjs --version`)
+- Test: `npm test` (kit.js selftest + `link-agent-files.mjs --selftest` + `bin/cli.mjs --version` + `bin/cli.mjs companion list`)
 - Cek terbit: `npm run pack:dry`
 - Verify: `npm test && npm run pack:dry` (repo ini tanpa typecheck/build)
 
 ## Jangan (aturan keras)
 
-- Tetap SATU skill: kemampuan baru = file di `skill/references/` + satu baris di tabel peta `SKILL.md`. Jangan pecah pawang jadi banyak skill.
-- Membuat/menyerap/mengubah skill: WAJIB lewat alur `skill-creator` (draf → prompt uji dengan/tanpa → evaluasi → iterasi) + `node skill/scripts/skill-precheck.mjs <folder>`; hasil serapan = reference + baris peta, bukan skill baru.
+- Tetap SATU skill: kemampuan baru = file di `skills/pawang/references/` + satu baris di tabel peta `SKILL.md`. Jangan pecah pawang jadi banyak skill.
+- Membuat/menyerap/mengubah skill: WAJIB lewat alur `skill-creator` (draf → prompt uji dengan/tanpa → evaluasi → iterasi) + `node skills/pawang/scripts/skill-precheck.mjs <folder>`; hasil serapan = reference + baris peta, bukan skill baru.
 - Bahan serapan dibaca dari `zip/`; jangan membaca salinan di luar repo.
+- Jangan mempublikasikan arsip mentah `zip/`; audit provenance/lisensi sebelum merilis companion.
 - Wayfinder: peta/tiket keputusan di GitHub Issues; build-plan baru ditulis setelah peta selesai; jangan menyalin peta/tiket ke `.pawang/`.
 - Dua lapis secara default: `AGENTS.md` + `.pawang/`. Pawang tidak membuat docs/ sendiri; docs/ yang sudah ada (termasuk subfolder agents, conventions, adr hasil opt-in user) = brownfield, dideteksi & ditautkan, tidak dipindah/disalin. docs/ baru hanya atas keputusan eksplisit user.
 - File agent: `AGENTS.md` + `.agents/` kanonik; `CLAUDE.md`/`GEMINI.md` dan subfolder `.claude` yang tumpang tindih di-symlink setelah migrasi. Jangan symlink seluruh `.claude` bila ada settings/hooks; aturan di `agent-files.md`.
@@ -69,12 +73,14 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - Batch lintas fitur: state sementara `batch.html` via kit.js; Gate 1 review spec batch (satu approval, bisa tolak per item); Gate 2 izin commit/merge batch; satu commit per fitur + satu merge batch; satu work item per worktree — 2026-10-17.
 - `triage` tetap companion user-invoked; `.out-of-scope/` brownfield. Jangan pasang `to-spec`/`to-tickets`/`implement`/`implement-spec` sebagai companion — 2026-10-17.
 - CI/CD core generik & local-first (`ci.md`/`ci-audit.md`); detail Cloudflare Workers (wrangler preview, binding, Workers Builds, template/script) tetap companion, bukan bundel core. Preview tidak dianggap aman tanpa isolasi per binding — 2026-10-17.
+- Companion Figr/CICD tinggal di repo yang sama di `skills/`, distribusi via `npx skills add pawangai/pawang --skill <nama>`, bukan npm. `--all` dilarang karena ikut memasang core `pawang` dan, tergantung source, `.agents/skills/` pengembangan — 2026-10-17.
+- Satu folder sumber `skills/`: `skills/pawang/` = core (ikut npm), `skills/<nama>/` = companion (tidak ikut npm). `package.json files` hanya membawa `skills/pawang` — 2026-10-17.
 
 ## Arah (roadmap, model: `zip/my-app.zip`)
 
 - Sudah setara: adopt, feature, implement, check, audit (+review), complete, fix-debug, rollback, brief-explore, status, doctor, tests, ci (+audit), prototype, release, handoff, document.
 - Sudah ditambah: penyatu file agent (`agent-files.md` + `link-agent-files.mjs`) — `AGENTS.md`/`.agents` kanonik, symlink setelah migrasi; `docs/conventions|adr` opt-in.
-- Sudah diserap: plans (`writing-your-plans` → `skill/references/plans.md`, termasuk syarat grilling), dokumen Figr (`figr-prototype-consolidation` → `skill/references/figr-docs.md` + `skill/references/figr-prompt.md`), **kontrak** prototype Figr (`figr-to-prototype` + `prototype-kit` → `skill/references/prototype-figr.md`; script Python/aset tetap companion, tidak dibundel), review kode (`ai-code-comprehension` → `skill/references/review-code.md`; 12 lensa + tiga sumbu). Rollback hardening dari `my-app.zip` (guard git, protected paths, build-plan uncheck) sudah masuk `rollback.md`/`implement.md`/`complete.md`.
+- Sudah diserap: plans (`writing-your-plans` → `skills/pawang/references/plans.md`, termasuk syarat grilling), dokumen Figr (`figr-prototype-consolidation` → `skills/pawang/references/figr-docs.md` + `skills/pawang/references/figr-prompt.md`), **kontrak** prototype Figr (`figr-to-prototype` + `prototype-kit` → `skills/pawang/references/prototype-figr.md`; script Python/aset tetap companion, tidak dibundel), review kode (`ai-code-comprehension` → `skills/pawang/references/review-code.md`; 12 lensa + tiga sumbu). Rollback hardening dari `my-app.zip` (guard git, protected paths, build-plan uncheck) sudah masuk `rollback.md`/`implement.md`/`complete.md`.
 - Sudah ditambah: wayfinder sebagai companion plan inisiatif besar (GitHub Issues + `docs/agents/`); `grill-me` dihapus, `grilling` tetap.
 - Sudah ditambah: orkestrasi paralel (`parallel.md`) dan batch lintas fitur (`orchestrate.md` + `batch.html`); TDD/spec durable/tracer-bullet masuk `feature.md`/`plans.md`/`implement.md`; `triage` tetap companion.
 - Sudah ditambah: `ci.md` (pipeline generik local-first) + `ci-audit.md` (audit CI/CD read-only); detail Cloudflare Workers tetap companion (`cicd-worker`/`cicd-worker-audit`). Kandidat berikutnya: otomasi opt-in bounded.
@@ -92,21 +98,22 @@ Single-context: `GLOSSARY.md` + `docs/adr/` at the root. See `docs/agents/domain
 
 ## Peta dokumen (baca hanya yang relevan dengan tugasmu)
 
-- `skill/SKILL.md`: mulai di sini saat mengubah perilaku skill.
-- `skill/references/workflow.md`: baca sebelum mengubah `kit.js`, skema JSON, tema, atau gerbang.
-- `skill/references/agents-md.md`: konten produk (panduan AGENTS.md proyek user) — bukan panduan menyusun AGENTS.md repo ini.
-- `skill/references/review-code.md`: review/baca kode (12 lensa, tiga sumbu, companion opt-in).
-- `skill/references/parallel.md`: orkestrator dispatch dalam satu fitur (cap, brief hemat, guard worktree).
-- `skill/references/orchestrate.md`: batch lintas fitur/tiket (`batch.html`, frontier, merge sequential, dua gerbang).
-- `skill/references/agent-files.md`: satukan `AGENTS.md`/`.agents` dengan symlink `CLAUDE.md`/`GEMINI.md`/`.claude` setelah migrasi.
-- `skill/references/advisor.md`: aturan memasang/membuat/menyerap skill.
-- `skill/references/companions.md`: daftar companion, kapan perlu, cara pasang.
-- `skill/references/ci.md`: pasang/rawat pipeline CI, hook, ruleset, preview/deploy (local-first).
-- `skill/references/ci-audit.md`: audit CI/CD read-only (drift, isolasi preview, findings).
+- `skills/pawang/SKILL.md`: mulai di sini saat mengubah perilaku skill.
+- `skills/pawang/references/workflow.md`: baca sebelum mengubah `kit.js`, skema JSON, tema, atau gerbang.
+- `skills/pawang/references/agents-md.md`: konten produk (panduan AGENTS.md proyek user) — bukan panduan menyusun AGENTS.md repo ini.
+- `skills/pawang/references/review-code.md`: review/baca kode (12 lensa, tiga sumbu, companion opt-in).
+- `skills/pawang/references/parallel.md`: orkestrator dispatch dalam satu fitur (cap, brief hemat, guard worktree).
+- `skills/pawang/references/orchestrate.md`: batch lintas fitur/tiket (`batch.html`, frontier, merge sequential, dua gerbang).
+- `skills/pawang/references/agent-files.md`: satukan `AGENTS.md`/`.agents` dengan symlink `CLAUDE.md`/`GEMINI.md`/`.claude` setelah migrasi.
+- `skills/pawang/references/advisor.md`: aturan memasang/membuat/menyerap skill.
+- `skills/pawang/references/companions.md`: daftar companion, kapan perlu, cara pasang.
+- `skills/README.md`: sumber empat companion + peringatan `--skill`/`--all`.
+- `skills/pawang/references/ci.md`: pasang/rawat pipeline CI, hook, ruleset, preview/deploy (local-first).
+- `skills/pawang/references/ci-audit.md`: audit CI/CD read-only (drift, isolasi preview, findings).
 - `docs/agents/issue-tracker.md`: tracker GitHub + operasi wayfinder (map, tiket, blocking).
 - `docs/agents/domain.md`: aturan konsumsi `GLOSSARY.md`/`docs/adr/` (single-context).
-- `skill/references/figr-docs.md`: alur 4 dokumen Figr + aturan diagram.
-- `skill/references/figr-prompt.md`: template prompt Figr Design (<1000 karakter).
+- `skills/pawang/references/figr-docs.md`: alur 4 dokumen Figr + aturan diagram.
+- `skills/pawang/references/figr-prompt.md`: template prompt Figr Design (<1000 karakter).
 - `.pawang/context/coding-standards.html`: konvensi repo (baca sebelum mengubah kode/dokumen).
 - `.pawang/context/build-plan.html`: roadmap aktif; baca lewat `node .pawang/kit.js extract`.
 - `evals/evals.json`: definisi prompt uji; hasil run ada di `pawang-workspace/`.
