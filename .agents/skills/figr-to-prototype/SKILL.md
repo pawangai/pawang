@@ -44,56 +44,47 @@ Jadi "DS jadi source of truth" berlaku sejak DS itu ada di `prototype/`. Sebelum
 ## Alur
 
 ### 0. Baca dulu
-
 Baca `AGENTS.md` repo bila ada. Lalu baca DS dengan urutan yang ditetapkannya: `instructions.md` (AGENTS DS) →
 `design.md` → `guides/*.md` yang relevan → grep `index.css` → cek `src/components/`. Di mode sync, baca juga
 `.figr-raw/PENDING-MERGE.md` dan `packages/shared/ui/CHANGELOG.md` bila ada: itu riwayat keputusan sebelumnya.
 
 ### 1. Scaffold / sync
-
 ```bash
 python scripts/scaffold.py [--figr figr] [--out prototype] [--pm npm|pnpm|yarn|bun]
 ```
-
 Skrip membaca isi `figr/`, memilih yang **terbaru** bila ada beberapa kandidat sejenis (yang lain dilaporkan
-"diabaikan"), lalu menjalankan mode init atau sync. Di mode init ia juga melakukan _wiring_: `package.json`
+"diabaikan"), lalu menjalankan mode init atau sync. Di mode init ia juga melakukan *wiring*: `package.json`
 (vite-plus dipin ke versi saat itu), `index.html`, `vite.config.ts`, `tsconfig.json`, `AGENTS.md`, kit `src/store/`,
 dan menulis ulang import `figr-ds-*` di `src/index.css`. File yang sudah ada tidak pernah ditimpa oleh wiring.
 Di mode sync, item `[manual]` dicatat di `.figr-raw/PENDING-MERGE.md`; selesaikan sesuai `references/ds-sync.md` bagian 4.
 
 ### 2. Baseline
-
 ```bash
 cd prototype && <pm> install && npx vp build && npx vp check
 ```
-
 Catat hasilnya sebelum mengubah apa pun. Normal pada hasil Figr awal: build lolos, `vp check` gagal hanya karena
 format. Lihat `references/vite-plus.md` untuk jebakan yang sudah ditemui.
 
 ### 3. Format, di langkah tersendiri
-
 `npx vp check --fix`. Ini memecah baris panjang menjadi ratusan baris (perilaku yang diharapkan). Format **sebelum**
 refactor supaya diff refactor hanya berisi perubahan makna. `packages/shared/ui` tidak ikut diformat (disengaja).
 
 ### 4. Audit
-
 ```bash
 python scripts/audit.py --root prototype [--full] [--json audit.json]
 ```
-
 Baca laporannya, jangan hanya meneruskan angkanya. Yang paling penting: `undefined-token` (class tanpa style tanpa
 pesan error), `ds-missing-import`, `duplicate-ds-component`, `promote-candidate`, `icon-gap`,
 `direct-data-import` / `local-copy-of-data` / `legacy-mock-query` (data belum terpusat), `ds-docs-drift`
 (DS tidak sinkron dengan dokumennya), dan `figr-contract`.
 
 ### 5. Refactor, berurutan dari risiko terkecil
-
 Tabel padanan dan keputusan ada di `references/ds-mapping.md`, **baca sebelum mengganti komponen apa pun**.
 
 1. Perbaiki `undefined-token` yang punya padanan di DS (mis. `bg-skeleton` → `Skeleton`).
 2. Bersihkan warning lint yang nyata tanpa mengubah perilaku.
-3. Ganti komponen lokal yang duplikat DS (_drop-in_, lalu _adapt_).
-4. **Perbarui DS** untuk yang tidak punya padanan (_add-to-ds_): token, ikon, komponen admin. DS adalah master, jadi
+3. Ganti komponen lokal yang duplikat DS (*drop-in*, lalu *adapt*).
+4. **Perbarui DS** untuk yang tidak punya padanan (*add-to-ds*): token, ikon, komponen admin. DS adalah master, jadi
    prototype harus mengikuti DS dan DS harus memuat semua yang dipakai prototype. Caranya, file mana yang ikut
    berubah, dan cek kontras ada di `references/ds-sync.md`.
 5. **Pusatkan data**: model data dinamis di `src/store`, screen membaca/menulis lewat db, bukan konstanta dan
@@ -104,7 +95,6 @@ Setelah tiap kelompok: `npx vp check` dan `npx vp build`. Untuk perubahan visual
 dan buka layar terkait dengan `?figr_screen=<id>` (id di `src/screens.figr.json`), termasuk `?sim=loading|error|empty`.
 
 ### 6. Verifikasi dan laporan
-
 Jalankan `vp check`, `vp test run` (bila ada tes), `vp build`, dan audit sekali lagi. Laporkan:
 
 1. **Hasil**: angka sebelum → sesudah (audit, `vp check`, tes, ukuran build).
@@ -164,7 +154,6 @@ python $S/ds_to_tokens.py prototype/packages/shared/ui .pawang/prototype/tokens.
 python $S/build_icons.py prototype/src .pawang/prototype/icons.js --ds prototype/packages/shared/ui
 python $S/check_prototype.py .pawang/prototype/
 ```
-
 Selebihnya (rencana → kit → data → screen → verifikasi) ikuti `SKILL.md` `prototype-kit`, dengan penyesuaian ini:
 
 - **Repo = `prototype/src`, bukan `prototype/`.** Bila repo = `prototype/`, `scan_repo.py` ikut menghitung `.figr-raw` dan
