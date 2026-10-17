@@ -52,7 +52,7 @@ node .pawang/kit.js init      # scaffold .pawang/ (context, reference, history, 
 node .pawang/kit.js status    # orientasi kapan saja (murah, tanpa membaca banyak file)
 ```
 
-3. Isi `build-plan.html` (daftar fitur) dan `project-overview.html` bersama user.
+3. Isi `build-plan.html` (daftar fitur) dan `project-overview.html` bersama user lewat `references/plans.md` (wawancara/Figr, persetujuan user, render via kit.js).
 
 **Siklus per fitur:**
 
@@ -103,7 +103,7 @@ pawang/
 │   ├── workflow.md           # dasar: loop, config, skema JSON, aturan dua lapis
 │   ├── feature.md implement.md check.md audit.md complete.md   # siklus inti
 │   ├── status.md fix-debug.md prototype.md prototype-figr.md tests.md rollback.md
-│   ├── brief-explore.md release.md doctor.md
+│   ├── plans.md brief-explore.md release.md doctor.md
 │   ├── adopt.md agents-md.md layout.md advisor.md handoff.md document.md
 │   └── markers.json layout-rules.json gap-signals.md spec-template.md theme-variables.css
 ├── scripts/                  # deterministik & zero-dependency

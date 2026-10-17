@@ -25,7 +25,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - `assets/`, `README.md`, `LICENSE` — materi npm (lihat `files` package.json).
 - `evals/` — definisi tes skill (tidak ikut npm).
 - `pawang-workspace/` — snapshot/fixture/hasil eval (gitignored).
-- `zip/` — KOTAK MASUK bahan skill, lokal (gitignored): skill/paket skill mentah ditaruh di sini sebelum diolah. Bahan dibaca DARI `zip/` (bukan salinan luar repo). Sekarang: `e2e.zip` (model struktur), `my-app.zip` (model alur Blueprints), `skills-package.zip` (sudah diserap), `writing-your-plans.skill`, `figr-to-prototype.skill`, `prototype-kit.skill` (menunggu).
+- `zip/` — KOTAK MASUK bahan skill, lokal (gitignored): skill/paket skill mentah ditaruh di sini sebelum diolah. Bahan dibaca DARI `zip/` (bukan salinan luar repo). Sekarang: `e2e.zip` (model struktur), `my-app.zip` (model alur Blueprints), `skills-package.zip` (sudah diserap), `writing-your-plans.skill`, `figr-to-prototype.skill`, `prototype-kit.skill` (ketiganya sudah diserap sebagai reference/kontrak; tetap sumber + companion).
 
 ## Commands
 
@@ -54,7 +54,8 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 ## Arah (roadmap, model: `zip/my-app.zip`)
 
 - Sudah setara: adopt, feature, implement, check, audit (+review), complete, fix-debug, rollback, brief-explore, status, doctor, tests, prototype, release, handoff, document.
-- Kandidat reference baru: plans (`writing-your-plans`), prototype Figr (`figr-to-prototype` + `prototype-kit`), `ci`, otomasi opt-in bounded.
+- Sudah diserap: plans (`writing-your-plans` → `references/plans.md`), prototype Figr (`figr-to-prototype` + `prototype-kit` → `references/prototype-figr.md`).
+- Kandidat reference baru: `ci`, otomasi opt-in bounded.
 - Gerbang tetap DUA (review spec, izin commit/merge); otomasi tidak boleh melonggarkan gerbang tanpa keputusan tertulis.
 
 ## Peta dokumen (baca hanya yang relevan dengan tugasmu)

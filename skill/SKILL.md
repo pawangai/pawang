@@ -1,6 +1,6 @@
 ---
 name: pawang
-description: Alur kerja agent otonom berbasis spec di folder .pawang (HTML dibuat lewat kit.js): rencanakan fitur, kerjakan, verifikasi, audit, selesaikan; plus adopsi proyek, penulisan AGENTS.md, tata letak, spesifikasi dokumen rujukan, handoff, prototype dari Figr/DS, dan rekomendasi tooling. Gunakan saat user menyebut pawang, mengerjakan fitur/spec, mengadopsi proyek, atau membuat dokumen meniru contoh.
+description: Alur kerja agent otonom berbasis spec di .pawang (HTML via kit.js): rencanakan fitur, implement, check, audit, complete; plus adopsi proyek, AGENTS.md, tata letak, build plan/project plan/roadmap/MVP, dokumen rujukan, handoff, prototype Figr/DS, dan tooling. Gunakan saat user menyebut pawang, fitur/spec, menulis build plan/project plan/roadmap/MVP, adopsi proyek, atau dokumen contoh.
 ---
 
 # pawang - alur kerja agent otonom
@@ -25,6 +25,7 @@ Tujuan: mengendalikan satu alur kerja utuh untuk membangun perangkat lunak, dari
 | Setup    | Tulis/rawat AGENTS.md                              | `references/agents-md.md`      |
 | Setup    | Tentukan/audit tata letak repo                     | `references/layout.md`         |
 | Setup    | Rekomendasi tooling, dokumentasi, skill            | `references/advisor.md`        |
+| Rencana  | Tulis build-plan & project-overview                | `references/plans.md`          |
 | Rencana  | Tulis spec fitur dari build-plan                   | `references/feature.md`        |
 | Rencana  | Tulis spec fix ad-hoc                              | `references/fix-debug.md`      |
 | Rencana  | Tulis spec rollback                                | `references/rollback.md`       |
@@ -45,7 +46,7 @@ Tujuan: mengendalikan satu alur kerja utuh untuk membangun perangkat lunak, dari
 ## Alur singkat
 
 ```
-(sekali)  adopt → agents-md → kit.js init → build-plan + project-overview
+(sekali)  adopt → agents-md → kit.js init → plans (build-plan + project-overview)
 per fitur (brief) → (prototype | prototype-figr) → feature ──GERBANG: review spec──► implement
           → check → audit → (perbaikan findings) → complete ──GERBANG: izin commit/merge──► arsip
 kapan saja  status · doctor · handoff · tests · rollback · release · document

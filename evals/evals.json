@@ -41,6 +41,33 @@
         "Mengenali .pawang/, prototypes/, prototype/, figr/ sebagai folder sah (tidak dilaporkan tak terdaftar)",
         "notes.md meminta persetujuan sebelum tidy"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "pawang, susun build-plan dan project-overview untuk aplikasi catatan utang warung. Kebutuhannya: untuk pemilik warung; MVP catat utang pelanggan, tandai lunas, rekap harian; data lokal SQLite; React + TypeScript; deploy desktop lokal; tanpa login. Tulis draftnya dulu.",
+      "expected_output": "Draft build-plan (item berukuran fitur) dan draft project-overview (minimal 5 field) ditampilkan di notes; tidak menulis file atau mengubah .pawang/context sebelum user menyetujui; tidak membuat blueprint/ atau docs/.",
+      "files": [],
+      "assertions": [
+        "Tidak mengubah build-plan/project-overview sebelum persetujuan user",
+        "notes memuat draft build-plan dengan item berukuran fitur (bukan langkah scaffold/prototype)",
+        "notes memuat draft project-overview dengan minimal 5 field (summary, problem, users, stack, data, ui, deployment, constraints)",
+        "notes meminta persetujuan user dan berhenti (tulis nol file)",
+        "Tidak membuat folder blueprint/ atau docs/"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "proyek ini sudah punya Figr dan design system. Buat prototype HTML-nya pakai pawang.",
+      "expected_output": "Menyebut lane Figr dan urutan companion figr-to-prototype -> prototype-kit; berhenti untuk persetujuan plan dan tabel gap DS; output di .pawang/prototype/; .pawang/kit.js utuh; tanpa folder prototypes/; meminta izin sebelum memasang companion.",
+      "files": [],
+      "assertions": [
+        "Menyebut companion figr-to-prototype dan prototype-kit (atau urutan hulu->hilir) dan tidak meniru script sendiri",
+        "Berhenti untuk persetujuan plan + tabel gap DS sebelum menulis file",
+        "Tidak membuat folder prototypes/ (lane A tidak dipakai karena ada Figr)",
+        "Menyebut output di .pawang/prototype/ (bukan prototype/ di akar)",
+        "Tidak menimpa .pawang/kit.js",
+        "Meminta izin user sebelum memasang companion"
+      ]
     }
   ]
 }
