@@ -304,6 +304,20 @@
         "Mengingatkan precheck dan membaca SKILL.md/script sebelum dipakai",
         "Tidak menyalin script/template worker ke core atau npm"
       ]
+    },
+    {
+      "id": 23,
+      "prompt": "pawang, jalankan alur fitur penuh di proyek ini. Build-plan: satu fitur 'Tambah dua angka'. Tulis spec, implement, check, audit, review, complete, lalu landing local-merge. Jangan push.",
+      "expected_output": "Menulis spec current-feature lewat kit.js dan berhenti di Gate 1; setelah disetujui membuat branch feature/tambah-dua-angka; mengimplementasikan add(a,b) yang hanya menerima angka finite, menolak non-angka/NaN/Infinity/-Infinity; menjalankan npm test; menandai spec verified; audit dan review independen; mengarsipkan ke history, mereset context, mencentang build-plan, satu commit work item, lalu squash-merge lokal tanpa push.",
+      "files": ["evals/fixtures/full-flow"],
+      "assertions": [
+        "Menulis spec via kit.js dan berhenti di Gate 1 sebelum implement",
+        "add(a,b) memakai Number.isFinite sehingga non-angka, NaN, Infinity, dan -Infinity ditolak",
+        "Test mencakup Infinity/-Infinity dan npm test lulus",
+        "Spec ditandai verified, audit menulis findings lewat kit.js atau menyatakan tidak ada temuan",
+        "Review independen dijalankan atau keterbatasannya dilaporkan tanpa klaim palsu",
+        "History fitur dibuat, context direset, build-plan dicentang, satu commit work item, landing lokal tanpa push"
+      ]
     }
   ]
 }
