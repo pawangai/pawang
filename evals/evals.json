@@ -262,6 +262,34 @@
         "Memilih sequential meskipun user meminta paralel",
         "Tidak membiarkan worker menulis file yang sama"
       ]
+    },
+    {
+      "id": 20,
+      "prompt": "pawang, proyek ini belum punya CI. Pasang CI minimal yang menjalankan Verify yang sudah ada di AGENTS.md. Jangan push, jangan ubah remote, dan jangan deploy.",
+      "expected_output": "Membaca ci.md; inspeksi AGENTS.md/Commands, manifest/lockfile, workflow/hook; memakai satu Verify typecheck-then-test-then-build; membuat workflow PR + default branch, permission read-only, install lockfile-safe, runtime pin; tidak menimpa CI; berhenti sebelum push/ruleset/secret/deploy; laporan prepared locally.",
+      "files": [],
+      "assertions": [
+        "Mengikuti references/ci.md dan tidak mengarang pipeline di luar Verify",
+        "Memakai perintah Verify yang sama dari AGENTS.md dengan urutan typecheck, test, build",
+        "Workflow hanya trigger pull_request + push branch default dengan permission minimal",
+        "Tidak push, membuat ruleset, menyetel secret, atau deploy",
+        "Tidak menimpa CI yang ada dan tidak mengarang test/runner",
+        "Melaporkan prepared locally, remote untouched, plus blocker dan next action"
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "pawang, audit CI/CD proyek Cloudflare Workers ini. Jangan ubah apa pun. Fokus preview, secret, ruleset, dan worker.",
+      "expected_output": "Membaca ci-audit.md; audit read-only lokal; memeriksa drift Verify, trigger/permission, secret by name, isolasi preview per binding, cleanup, migrasi, rollback, required check; mencatat findings P0-P3 via kit.js bila ada; verdict READY/NEEDS WORK/UNSAFE; detail Worker memakai companion cicd-worker-audit bila tersedia; tidak menulis atau menjalankan remote.",
+      "files": [],
+      "assertions": [
+        "Mengikuti references/ci-audit.md dan tidak mengubah file/workflow",
+        "Memeriksa isolasi preview per binding dan menandai resource produksi bersama sebagai UNSAFE/P0",
+        "Tidak menampilkan nilai secret; hanya nama atau kategori",
+        "Menulis findings lewat kit.js atau melaporkan read-only bila .pawang tidak ada",
+        "Menyebut companion cicd-worker-audit untuk detail Cloudflare, bukan menyalin script Python",
+        "Tidak menjalankan deploy/rollback/ruleset/secret atau mengklaim CI hijau tanpa run"
+      ]
     }
   ]
 }

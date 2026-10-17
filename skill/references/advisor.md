@@ -1,6 +1,6 @@
 # Advisor - rekomendasi tooling, konvensi, & skill
 
-Tujuan: tentukan **apa yang perlu ditambahkan, dan dalam bentuk apa**, tanpa membuat konteks membengkak — berbasis bukti dan atas persetujuan user. Kebutuhan test/CI dibahas di `tests.md`; kesehatan AGENTS.md, konvensi, dan skill diukur di `doctor.md` — di sini cukup merujuk ke sana.
+Tujuan: tentukan **apa yang perlu ditambahkan, dan dalam bentuk apa**, tanpa membuat konteks membengkak — berbasis bukti dan atas persetujuan user. Kebutuhan test dibahas di `tests.md`, CI/CD di `ci.md`; kesehatan AGENTS.md, konvensi, dan skill diukur di `doctor.md` — di sini cukup merujuk ke sana.
 
 ## Prinsip
 
@@ -29,7 +29,7 @@ Tujuan: tentukan **apa yang perlu ditambahkan, dan dalam bentuk apa**, tanpa mem
 
 ### 2. Cari celah
 
-Cocokkan dengan `references/gap-signals.md`; tambahkan temuan handoff ("Masalah terbuka" berulang) dan kesalahan yang diulang agent. Baris test/CI bukan tugas di sini — ikuti `tests.md`.
+Cocokkan dengan `references/gap-signals.md`; tambahkan temuan handoff ("Masalah terbuka" berulang) dan kesalahan yang diulang agent. Baris test bukan tugas di sini — ikuti `tests.md`; CI/CD ikuti `ci.md`.
 
 ### 3. Rekomendasikan
 

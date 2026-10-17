@@ -45,9 +45,8 @@ Fitur terasa terlalu besar untuk satu branch yang bisa direview? **Usul pecah** 
 - Attempt dimulai 1. **Rebuild setelah rollback = attempt berikutnya**, bukan mulai dari nol. Item build-plan yang di-rollback kembali `done: false`; pilih item itu lagi untuk rebuild.
 - Sebelum menulis spec baru, cek path arsip persis yang akan ditulis: `NN-nama.html` untuk attempt 1, `NN-nama--build-N.html` untuk attempt > 1. Kalau sudah ada dan jelas bentrok, berhenti dan tanya user - jangan menimpa.
 - Slug judul kebab-case (huruf kecil, angka, tanda hubung).
-- Rebuild memakai sufiks `--build-N`, mis. `03-export-laporan--build-2.html` dengan `"attempt": 2` di JSON. Jika rebuild setelah rollback, `nextAttempt = (attempt target ?? 1) + 1`; jangan memakai attempt target dan jangan hardcode `1`.
-
-Catatan: versi lengkap aturan git-proof (membuktikan attempt dari riwayat commit) sengaja disederhanakan di pawang dan bisa diperkuat nanti.
+- Rebuild memakai sufiks `--build-N`, mis. `03-export-laporan--build-2.html` dengan `"attempt": 2` di JSON.
+- **Attempt dibekukan dari riwayat.** Sebelum menulis spec, hitung kandidat dari (a) arsip persis di `.pawang/history/features/` (`NN-nama.html` = 1, `NN-nama--build-N.html` = N) dan (b) commit yang menyentuh path arsip itu (`git log -- <path>`). `attempt = maksimum kandidat + 1`; jika hanya satu sumber tersedia, pakai sumber itu. Arsip/commit bentrok, duplikat, atau ambigu → berhenti dan tanya user; jangan menebak atau menimpa. Rebuild setelah rollback minimal memakai `attempt target + 1`.
 
 ## Spec durable - kontrak untuk agent
 

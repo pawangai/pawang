@@ -117,7 +117,7 @@ JSON
 Isi spec:
 
 - path arsip target; `rollback.targetCommit` dan `rollback.targetParent` berisi SHA penuh (40/64 sesuai object format), keduanya resolve di repo saat ini;
-- `origin.buildPlanId` item build-plan target; jika target rebuild, catat `origin.attempt` = attempt target. Rebuild berikutnya memakai attempt target + 1 (lihat `feature.md`); `complete` hanya memakai `origin.buildPlanId` untuk uncheck;
+- `origin.buildPlanId` item build-plan target; jika target rebuild, catat `origin.attempt` = attempt target. Rebuild berikutnya memakai aturan attempt di `feature.md` (arsip + riwayat commit), minimal attempt target + 1; `complete` hanya memakai `origin.buildPlanId` untuk uncheck;
 - alasan user;
 - path produk yang dibawa target dan daftar path terlindungi;
 - path keputusan `docs/adr/**`/`docs/agents/**` yang tersentuh, beserta keputusan user;

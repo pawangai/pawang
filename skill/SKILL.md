@@ -1,6 +1,6 @@
 ---
 name: pawang
-description: Alur kerja agent otonom berbasis spec di .pawang (HTML via kit.js): rencanakan fitur, implement, check, audit, complete; orkestrasi paralel dalam satu fitur dan batch lintas fitur/tiket; plus adopsi proyek, AGENTS.md, tata letak, build plan/project plan/roadmap/MVP, inisiatif besar lintas sesi (wayfinder), dokumen rujukan, handoff, prototype Figr/DS, review/baca kode (kode AI, diff/PR, 12 lensa; pilih 3-6), penyatuan file agent (AGENTS.md/.agents, CLAUDE.md/GEMINI.md), dan tooling. Gunakan saat user menyebut pawang, fitur/spec, paralel/batch, menulis build plan/project plan/roadmap/MVP, inisiatif besar/wayfinder, adopsi proyek, menulis/meninjau AGENTS.md, dokumen contoh, meminta review/penjelasan kode, atau merapikan file agent/CLAUDE.md.
+description: Alur kerja agent otonom berbasis spec di .pawang (HTML via kit.js): rencanakan fitur, implement, check, audit, complete; orkestrasi paralel dalam satu fitur dan batch lintas fitur/tiket; plus adopsi proyek, AGENTS.md, tata letak, build plan/project plan/roadmap/MVP, inisiatif besar lintas sesi (wayfinder), dokumen rujukan, handoff, prototype Figr/DS, review/baca kode (kode AI, diff/PR, 12 lensa; pilih 3-6), penyatuan file agent (AGENTS.md/.agents, CLAUDE.md/GEMINI.md), CI/CD (pipeline, hook, ruleset, preview, audit CI), dan tooling. Gunakan saat user menyebut pawang, fitur/spec, paralel/batch, CI/CD/pipeline/audit CI, menulis build plan/project plan/roadmap/MVP, inisiatif besar/wayfinder, adopsi proyek, menulis/meninjau AGENTS.md, dokumen contoh, meminta review/penjelasan kode, atau merapikan file agent/CLAUDE.md.
 ---
 
 # pawang - alur kerja agent otonom
@@ -30,6 +30,7 @@ Tujuan: mengendalikan satu alur kerja utuh untuk membangun perangkat lunak, dari
 | Setup    | Rekomendasi tooling, dokumentasi, skill                  | `references/advisor.md`        |
 | Setup    | Pasang/periksa companion (grilling, wayfinder, Figr)     | `references/companions.md`     |
 | Setup    | Satukan file agent ganda (AGENTS.md/.agents)             | `references/agent-files.md`    |
+| Setup    | Pasang/rawat CI/CD, hook, ruleset, preview               | `references/ci.md`             |
 | Rencana  | Tulis build-plan & project-overview (wayfinder)          | `references/plans.md`          |
 | Rencana  | Tulis 4 dokumen Figr (PRD, flow, desain, edge)           | `references/figr-docs.md`      |
 | Rencana  | Susun prompt Figr Design dari 4 dokumen                  | `references/figr-prompt.md`    |
@@ -46,6 +47,7 @@ Tujuan: mengendalikan satu alur kerja utuh untuk membangun perangkat lunak, dari
 | Periksa  | Verifikasi perilaku + walkthrough manual                 | `references/check.md`          |
 | Periksa  | Audit kualitas/keamanan + findings                       | `references/audit.md`          |
 | Periksa  | Review/baca kode (kode AI, diff/PR, 12 lensa; pilih 3-6) | `references/review-code.md`    |
+| Periksa  | Audit CI/CD read-only                                    | `references/ci-audit.md`       |
 | Selesai  | Gate akhir, arsip, commit, landing                       | `references/complete.md`       |
 | Rawat    | Orientasi & satu langkah berikutnya                      | `references/status.md`         |
 | Rawat    | Diagnosa kesehatan `.pawang` & docs                      | `references/doctor.md`         |
@@ -61,7 +63,7 @@ per fitur (brief) → (figr-docs → figr-prompt) → (prototype | prototype-fig
           → check → audit → (perbaikan findings) → complete ──GERBANG: izin commit/merge──► arsip
 batch      plans → orchestrate (spec batch) ──GERBANG: review spec batch──► worker paralel
           → check/audit per cabang → merge sequential → complete ──GERBANG: izin commit/merge batch──► arsip
-kapan saja  status · doctor · review kode · file agent · handoff · tests · rollback · release · document
+kapan saja  status · doctor · review kode · file agent · handoff · tests · ci · ci-audit · rollback · release · document
 ```
 
 ## Kesalahan umum
@@ -73,6 +75,7 @@ kapan saja  status · doctor · review kode · file agent · handoff · tests ·
 - Menulis build-plan sebelum peta wayfinder selesai, atau menyalin peta/tiket GitHub ke `.pawang/`.
 - Menaruh 4 dokumen Figr di `figr/` atau menjadikan HTML diagram sebagai sumber; sumbernya `.pawang/figr/*.md` (Mermaid).
 - Memakai alur audit untuk review kode tempelan/PR tanpa spec, atau memakai review kode untuk menggantikan check/audit fitur.
+- Mengarang CI/pipeline atau menjalankan aksi remote (push, ruleset, secret, deploy) saat setup CI tanpa izin; atau menganggap preview aman tanpa memeriksa isolasi binding. Lihat `references/ci.md`/`references/ci-audit.md`.
 - Menjalankan worker paralel tanpa cap, membiarkan worker menulis `.pawang/`/git, atau memparalelkan perbaikan findings.
 - Memakai batch untuk satu fitur atau untuk item yang dependen/file-nya beririsan; membuat satu squash commit untuk seluruh batch.
 - Memasang `to-spec`/`to-tickets`/`implement`/`implement-spec` sebagai companion; konsepnya sudah ada di core.

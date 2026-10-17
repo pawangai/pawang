@@ -15,17 +15,17 @@ Dipakai di langkah 2 `advisor.md`. Hanya rekomendasikan bila **ada bukti** (prof
 
 ## B. Proses dan tooling (dari profil `adopt.md`)
 
-| Sinyal                                                      | Rekomendasi                           | Bentuk                                               |
-| ----------------------------------------------------------- | ------------------------------------- | ---------------------------------------------------- |
-| Tidak ada test, atau script `test` tanpa file test          | siapkan test unit                     | tooling, bukan skill                                 |
-| Tidak ada CI                                                | workflow dasar: lint, typecheck, test | tooling                                              |
-| Mode prototype tanpa E2E                                    | E2E untuk alur tulis data             | tooling + skill E2E bila ada                         |
-| Fallow ada di dependensi tetapi tidak di CI atau script     | gerbang `npx fallow audit`            | tooling (sesuai dokumentasi Fallow)                  |
-| File rahasia ada tetapi izin `opencode.json` belum melarang | `harden-permissions.mjs`              | script (persetujuan user)                            |
-| Ketidakcocokan stack-deploy (mis. SQLite native di Workers) | putuskan stack dengan user            | keputusan, catat di `## Keputusan penting` AGENTS.md |
-| Fitur dokumen (invoice, kwitansi) tanpa spesifikasi         | `document.md`                         | reference pawang                                     |
-| Struktur folder berantakan                                  | `layout.md`                           | reference pawang                                     |
-| `CLAUDE.md`/`GEMINI.md`/`.claude` duplikat atau berbeda     | audit, migrasi, lalu symlink          | `agent-files.md` + skrip                             |
+| Sinyal                                                      | Rekomendasi                                         | Bentuk                                               |
+| ----------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------- |
+| Tidak ada test, atau script `test` tanpa file test          | siapkan test unit                                   | tooling, bukan skill                                 |
+| Tidak ada CI                                                | workflow dasar `Verify` (lint/typecheck/test/build) | `ci.md`                                              |
+| Mode prototype tanpa E2E                                    | E2E untuk alur tulis data                           | tooling + skill E2E bila ada                         |
+| Fallow ada di dependensi tetapi tidak di CI atau script     | gerbang `npx fallow audit`                          | tooling (sesuai dokumentasi Fallow)                  |
+| File rahasia ada tetapi izin `opencode.json` belum melarang | `harden-permissions.mjs`                            | script (persetujuan user)                            |
+| Ketidakcocokan stack-deploy (mis. SQLite native di Workers) | putuskan stack dengan user                          | keputusan, catat di `## Keputusan penting` AGENTS.md |
+| Fitur dokumen (invoice, kwitansi) tanpa spesifikasi         | `document.md`                                       | reference pawang                                     |
+| Struktur folder berantakan                                  | `layout.md`                                         | reference pawang                                     |
+| `CLAUDE.md`/`GEMINI.md`/`.claude` duplikat atau berbeda     | audit, migrasi, lalu symlink                        | `agent-files.md` + skrip                             |
 
 ## C. Pengetahuan teknologi (kandidat skill eksternal, lewat find-skills)
 

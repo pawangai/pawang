@@ -26,6 +26,7 @@
 - 🧭 **Wayfinder untuk inisiatif besar:** peta tujuan + tiket keputusan lintas sesi di GitHub Issues, satu tiket per sesi; setelah peta selesai, hasilnya menjadi build-plan + project-overview di `.pawang/`.
 - 🔍 **Review kode 12 lensa (pilih 3-6):** pahami/nilai kode AI, diff, atau PR dengan tiga sumbu (Standards, Spec, Comprehension); companion `code-review` opsional.
 - 🔗 **File agent rapi:** `AGENTS.md` + `.agents/` jadi sumber kanonik; `CLAUDE.md`, `GEMINI.md`, dan subfolder `.claude` di-symlink setelah isi unik dimigrasikan. Settings/hooks `.claude` tetap nyata.
+- 🚦 **CI/CD local-first:** satu `Verify`, workflow PR + branch default, hook pre-push opt-in, ruleset sebagai gerbang remote terpisah, dan audit CI read-only. Detail Cloudflare Workers tetap companion.
 
 ---
 
@@ -58,6 +59,8 @@ Pawang core tidak membundel companion. Pasang di `.agents/skills/` dengan izin u
 | `code-review`                                | model                           | Review diff/PR dua sumbu                | `npx skills add mattpocock/skills --skill code-review -a opencode`                        |
 | `figr-to-prototype`                          | model                           | Lane B hulu (proyek punya `figr/`)      | File `.skill`/repo companion; folder `figr-to-prototype`                                  |
 | `prototype-kit`                              | model                           | Lane B hilir (HTML statis)              | File `.skill`/repo companion; folder `prototype-kit`                                      |
+| `cicd-worker`                                | model                           | CI/CD Cloudflare Workers                | File `.skill` lokal; precheck; script Python                                              |
+| `cicd-worker-audit`                          | model                           | Audit CI/CD Cloudflare Workers          | File `.skill` lokal; precheck; script Python                                              |
 
 `wayfinder`, `setup-matt-pocock-skills`, dan `triage` **user-invoked** (`disable-model-invocation`): Pawang akan meminta kamu memicunya. Sisanya **model-invoked**: model boleh memilihnya saat konteks cocok. Peta/tiket wayfinder ada di GitHub Issues dan `docs/agents/` (opt-in), bukan di `.pawang/`; build-plan + project-overview tetap ditulis ke `.pawang/` setelah peta selesai. `grill-me` sudah dihapus.
 
@@ -114,7 +117,7 @@ node .pawang/kit.js status    # orientasi kapan saja (murah, tanpa membaca banya
 - `pawang, jalankan batch fitur 1-3` — `orchestrate.md` menyusun `batch.html` + DAG, berhenti di **Gate 1 batch**, lalu worker worktree + merge sequential. **Gate 2** meminta izin commit/merge batch; satu commit per fitur + satu merge batch.
 - Implementasi paralel hanya jika `steps[].files` terisi, disjoint, dan tanpa migrasi/skema bersama. Selain itu sequential.
 
-**Kapan saja:** `status` (arah kerja), `doctor` (diagnosa), `review kode` (baca/nilai kode AI, diff, PR), `file agent` (satukan AGENTS.md/.agents dengan symlink), `prototype` (mockup dulu), `rollback` (batalkan fitur), `release` (persiapan rilis), `document` (spesifikasi dari dokumen contoh), `handoff` (catatan lanjut sesi).
+**Kapan saja:** `status` (arah kerja), `doctor` (diagnosa), `review kode` (baca/nilai kode AI, diff, PR), `file agent` (satukan AGENTS.md/.agents dengan symlink), `ci` (pasang/rawat pipeline), `audit ci` (audit CI/CD read-only), `prototype` (mockup dulu), `rollback` (batalkan fitur), `release` (persiapan rilis), `document` (spesifikasi dari dokumen contoh), `handoff` (catatan lanjut sesi).
 
 ### 🛡️ Gerbang Persetujuan
 
@@ -147,7 +150,7 @@ pawang/
 │   ├── workflow.md           # dasar: loop, config, skema JSON, aturan dua lapis
 │   ├── feature.md implement.md check.md audit.md complete.md   # siklus inti
 │   ├── status.md fix-debug.md prototype.md prototype-figr.md tests.md rollback.md
-│   ├── plans.md figr-docs.md figr-prompt.md brief-explore.md release.md doctor.md
+│   ├── plans.md figr-docs.md figr-prompt.md brief-explore.md ci.md ci-audit.md release.md doctor.md
 │   ├── adopt.md agents-md.md layout.md advisor.md companions.md handoff.md document.md review-code.md agent-files.md
 │   ├── parallel.md           # orkestrator dispatch dalam satu fitur
 │   ├── orchestrate.md        # batch lintas fitur/tiket + batch.html

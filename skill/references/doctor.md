@@ -59,6 +59,7 @@ Kalau drift terdeteksi, **sarankan `node .pawang/kit.js theme --refresh`**, jang
 - `.gitignore` masih memuat aturan pengabaian bahan mentah `reference/`: file asli dan folder `_work/`.
 - `.gitignore` **tidak** mengabaikan `prototypes/` atau `.pawang/prototype/.manifest.json`; keduanya wajib di-commit.
 - Git singkat: branch, bersih/kotor, commit terakhir, ahead/behind upstream. Bukan repo git = masalah setup.
+- Workflow CI ada tetapi tidak menjalankan `Verify` yang sama, atau permission/triggernya lebar: sarankan `ci-audit.md`. Doctor tetap read-only; jangan mengubah workflow dari sini.
 
 ### 6. State kerja
 

@@ -28,7 +28,7 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - Alat advisor global (bukan companion alur): `find-skills` + `skill-creator`; `skill-inspector` belum terpasang. Jangan duplikasi di project.
 - `evals/` — definisi tes skill (tidak ikut npm).
 - `pawang-workspace/` — snapshot/fixture/hasil eval (gitignored).
-- `zip/` — KOTAK MASUK bahan skill, lokal (gitignored): skill/paket skill mentah ditaruh di sini sebelum diolah. Bahan dibaca DARI `zip/` (bukan salinan luar repo). Sekarang: `e2e.zip` (model struktur), `my-app.zip` (model alur Blueprints), `skills-package.zip` (sudah diserap), `writing-your-plans.skill`, `figr-to-prototype.skill`, `prototype-kit.skill`, `figr-prototype-consolidation.skill` (keempatnya sudah diserap sebagai reference/kontrak; tetap sumber + companion).
+- `zip/` — KOTAK MASUK bahan skill, lokal (gitignored): skill/paket skill mentah ditaruh di sini sebelum diolah. Bahan dibaca DARI `zip/` (bukan salinan luar repo). Sekarang: `e2e.zip` (model struktur), `my-app.zip` (model alur Blueprints), `skills-package.zip` (sudah diserap), `writing-your-plans.skill`, `figr-to-prototype.skill`, `prototype-kit.skill`, `figr-prototype-consolidation.skill` (keempatnya sudah diserap sebagai reference/kontrak; tetap sumber + companion), `cicd-worker.skill` + `cicd-worker-audit.skill` (bahan companion Cloudflare; detail tidak diserap ke core).
 
 ## Commands
 
@@ -68,15 +68,16 @@ Pawang = SATU skill besar + CLI pemasang (`npx pawang init`). Struktur mengikuti
 - Orkestrasi paralel: agent utama satu-satunya penulis state/git; worker read-only atau worktree-only; cap 3 read-only / 2 browser / 2 write; repair findings sequential. Implementasi paralel hanya jika `steps[].files` terisi, disjoint, tanpa migrasi/skema bersama — 2026-10-17.
 - Batch lintas fitur: state sementara `batch.html` via kit.js; Gate 1 review spec batch (satu approval, bisa tolak per item); Gate 2 izin commit/merge batch; satu commit per fitur + satu merge batch; satu work item per worktree — 2026-10-17.
 - `triage` tetap companion user-invoked; `.out-of-scope/` brownfield. Jangan pasang `to-spec`/`to-tickets`/`implement`/`implement-spec` sebagai companion — 2026-10-17.
+- CI/CD core generik & local-first (`ci.md`/`ci-audit.md`); detail Cloudflare Workers (wrangler preview, binding, Workers Builds, template/script) tetap companion, bukan bundel core. Preview tidak dianggap aman tanpa isolasi per binding — 2026-10-17.
 
 ## Arah (roadmap, model: `zip/my-app.zip`)
 
-- Sudah setara: adopt, feature, implement, check, audit (+review), complete, fix-debug, rollback, brief-explore, status, doctor, tests, prototype, release, handoff, document.
+- Sudah setara: adopt, feature, implement, check, audit (+review), complete, fix-debug, rollback, brief-explore, status, doctor, tests, ci (+audit), prototype, release, handoff, document.
 - Sudah ditambah: penyatu file agent (`agent-files.md` + `link-agent-files.mjs`) — `AGENTS.md`/`.agents` kanonik, symlink setelah migrasi; `docs/conventions|adr` opt-in.
 - Sudah diserap: plans (`writing-your-plans` → `skill/references/plans.md`, termasuk syarat grilling), dokumen Figr (`figr-prototype-consolidation` → `skill/references/figr-docs.md` + `skill/references/figr-prompt.md`), **kontrak** prototype Figr (`figr-to-prototype` + `prototype-kit` → `skill/references/prototype-figr.md`; script Python/aset tetap companion, tidak dibundel), review kode (`ai-code-comprehension` → `skill/references/review-code.md`; 12 lensa + tiga sumbu). Rollback hardening dari `my-app.zip` (guard git, protected paths, build-plan uncheck) sudah masuk `rollback.md`/`implement.md`/`complete.md`.
 - Sudah ditambah: wayfinder sebagai companion plan inisiatif besar (GitHub Issues + `docs/agents/`); `grill-me` dihapus, `grilling` tetap.
 - Sudah ditambah: orkestrasi paralel (`parallel.md`) dan batch lintas fitur (`orchestrate.md` + `batch.html`); TDD/spec durable/tracer-bullet masuk `feature.md`/`plans.md`/`implement.md`; `triage` tetap companion.
-- Kandidat reference baru: `ci`, otomasi opt-in bounded.
+- Sudah ditambah: `ci.md` (pipeline generik local-first) + `ci-audit.md` (audit CI/CD read-only); detail Cloudflare Workers tetap companion (`cicd-worker`/`cicd-worker-audit`). Kandidat berikutnya: otomasi opt-in bounded.
 - Gerbang tetap DUA (review spec, izin commit/merge); otomasi tidak boleh melonggarkan gerbang tanpa keputusan tertulis.
 
 ## Agent skills
@@ -100,6 +101,8 @@ Single-context: `GLOSSARY.md` + `docs/adr/` at the root. See `docs/agents/domain
 - `skill/references/agent-files.md`: satukan `AGENTS.md`/`.agents` dengan symlink `CLAUDE.md`/`GEMINI.md`/`.claude` setelah migrasi.
 - `skill/references/advisor.md`: aturan memasang/membuat/menyerap skill.
 - `skill/references/companions.md`: daftar companion, kapan perlu, cara pasang.
+- `skill/references/ci.md`: pasang/rawat pipeline CI, hook, ruleset, preview/deploy (local-first).
+- `skill/references/ci-audit.md`: audit CI/CD read-only (drift, isolasi preview, findings).
 - `docs/agents/issue-tracker.md`: tracker GitHub + operasi wayfinder (map, tiket, blocking).
 - `docs/agents/domain.md`: aturan konsumsi `GLOSSARY.md`/`docs/adr/` (single-context).
 - `skill/references/figr-docs.md`: alur 4 dokumen Figr + aturan diagram.

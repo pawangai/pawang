@@ -29,7 +29,7 @@ Minimal: tanpa coverage, browser, CI, snapshot, atau arsitektur test besar kecua
 2. Tambah atau rapikan script test.
 3. Tambah satu contoh test kecil untuk logika nyata; kalau tidak ada, test helper mini untuk membuktikan runner jalan.
 4. Update Commands di `AGENTS.md` dengan perintah test asli dan watch bila ada.
-5. Kalau `Verify` sudah ada, sisipkan perintah test di antara typecheck dan build. **Jangan membuat CI atau menambah Verify hanya karena `/tests` dipanggil.**
+5. Kalau `Verify` sudah ada, sisipkan perintah test di antara typecheck dan build. **Jangan membuat CI atau menambah Verify hanya karena `/tests` dipanggil**; setup CI eksplisit ada di `ci.md`.
 6. Update coding-standards di `.pawang/` hanya bila perlu catatan test spesifik stack, lewat `kit.js render coding-standards`.
 
 ### 4. Verifikasi

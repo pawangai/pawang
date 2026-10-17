@@ -15,15 +15,17 @@ Tujuan: membedakan **Pawang core** dari **companion** yang dipasang terpisah, su
 
 ## Companion alur Pawang
 
-| Companion                       | Peran                                             | Kapan perlu                                                                       | Sumber/pasang                                                                    |
-| ------------------------------- | ------------------------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `grilling`                      | Wawancara design tree/frontier                    | `figr-docs.md` (4 dokumen Figr) dan `plans.md` A2 (keputusan bercabang satu sesi) | `npx skills add mattpocock/skills --skill grilling -a opencode`                  |
-| `wayfinder` + `domain-modeling` | Peta keputusan lintas sesi + domain model         | `plans.md` A3 untuk inisiatif >1 sesi/berkabut                                    | `npx skills add mattpocock/skills --skill wayfinder domain-modeling -a opencode` |
-| `research` + `prototype`        | Tiket wayfinder tipe research/prototype           | Hanya bila wayfinder membuat tiket tipe itu                                       | `npx skills add mattpocock/skills --skill research prototype -a opencode`        |
-| `setup-matt-pocock-skills`      | Setup GitHub Issues + `docs/agents/`              | Sekali per repo sebelum wayfinder dipakai                                         | `npx skills add mattpocock/skills --skill setup-matt-pocock-skills -a opencode`  |
-| `figr-to-prototype`             | Hulu lane B: scaffold, audit DS, data store       | Proyek punya `figr/` dan akan dirapikan                                           | File `.skill`/repo companion; nama folder & frontmatter: `figr-to-prototype`     |
-| `prototype-kit`                 | Hilir lane B: HTML statis ke `.pawang/prototype/` | Setelah `prototype/` React siap dikunci                                           | File `.skill`/repo companion; nama folder: `prototype-kit`                       |
-| `triage`                        | Intake issue/PR + agent brief + `.out-of-scope/`  | Proyek memakai tracker issue/PR dan butuh penyaringan masuk                       | `npx skills add mattpocock/skills --skill triage -a opencode` (butuh setup)      |
+| Companion                       | Peran                                                        | Kapan perlu                                                                       | Sumber/pasang                                                                    |
+| ------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `grilling`                      | Wawancara design tree/frontier                               | `figr-docs.md` (4 dokumen Figr) dan `plans.md` A2 (keputusan bercabang satu sesi) | `npx skills add mattpocock/skills --skill grilling -a opencode`                  |
+| `wayfinder` + `domain-modeling` | Peta keputusan lintas sesi + domain model                    | `plans.md` A3 untuk inisiatif >1 sesi/berkabut                                    | `npx skills add mattpocock/skills --skill wayfinder domain-modeling -a opencode` |
+| `research` + `prototype`        | Tiket wayfinder tipe research/prototype                      | Hanya bila wayfinder membuat tiket tipe itu                                       | `npx skills add mattpocock/skills --skill research prototype -a opencode`        |
+| `setup-matt-pocock-skills`      | Setup GitHub Issues + `docs/agents/`                         | Sekali per repo sebelum wayfinder dipakai                                         | `npx skills add mattpocock/skills --skill setup-matt-pocock-skills -a opencode`  |
+| `figr-to-prototype`             | Hulu lane B: scaffold, audit DS, data store                  | Proyek punya `figr/` dan akan dirapikan                                           | File `.skill`/repo companion; nama folder & frontmatter: `figr-to-prototype`     |
+| `prototype-kit`                 | Hilir lane B: HTML statis ke `.pawang/prototype/`            | Setelah `prototype/` React siap dikunci                                           | File `.skill`/repo companion; nama folder: `prototype-kit`                       |
+| `cicd-worker`                   | CI/CD Cloudflare Workers: preview, migrasi, deploy, rollback | Proyek Workers yang butuh pipeline penuh; bukan default                           | File `.skill` lokal; precheck; script Python                                     |
+| `cicd-worker-audit`             | Audit read-only Worker/CI + verdict                          | Sebelum/sesudah pipeline Worker; butuh checklist Cloudflare                       | File `.skill` lokal; precheck; script Python                                     |
+| `triage`                        | Intake issue/PR + agent brief + `.out-of-scope/`             | Proyek memakai tracker issue/PR dan butuh penyaringan masuk                       | `npx skills add mattpocock/skills --skill triage -a opencode` (butuh setup)      |
 
 Catatan:
 
@@ -38,6 +40,7 @@ Catatan:
 - `figr-to-prototype` dan `prototype-kit` **bukan skill hasil serapan penuh**: kontraknya sudah ada di `prototype-figr.md`, tetapi script Python/asetnya tetap di companion. Itu sebabnya keduanya masih perlu dipasang, dan tidak ada script yang ditulis ulang di Pawang.
 - `figr-to-prototype` dan `prototype-kit` menjalankan script Python; pastikan Python 3 tersedia di proyek user. Pawang tidak membundel script itu.
 - Folder dan `name` di frontmatter companion adalah `figr-to-prototype`; jangan memakai nama lain.
+- `cicd-worker`/`cicd-worker-audit` khusus Cloudflare Workers; core tetap memakai `ci.md`/`ci-audit.md`. Sebelum dipakai, baca `SKILL.md` + script dan jalankan dengan hati-hati: `render.py` menerima placeholder mentah, punya `--force`, dan memakai action tag; `audit.py` read-only tetapi punya keterbatasan (symlink, JSONC, TOML Python <3.11). Jangan menjalankan mutasi remote tanpa izin.
 - Lane A (`prototypes/`) tidak membutuhkan companion Figr.
 - Bila lane B aktif (`figr/`, `prototype/packages/shared/ui`, atau `.pawang/prototype/`), `doctor` memberi **WARN** bila `figr-to-prototype`/`prototype-kit` belum terpasang. Warning saja, bukan blocker; lane B tetap berhenti sampai companion dipasang dengan izin user.
 

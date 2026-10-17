@@ -7,6 +7,7 @@ Tujuan: menyiapkan konfigurasi dan bukti kesiapan deploy Render atau Vercel seca
 - **Tanpa deploy.** Jangan deploy, menghubungkan provider, membuat service remote, menyetel env remote, push, atau publish tanpa izin eksplisit.
 - **Tanpa nilai rahasia.** Baca `.env.example` untuk nama variabel saja. **Jangan buka `.env` atau file rahasia lain**, dan jangan menulis nilai secret ke file mana pun.
 - Opsional saja. Jangan jadikan langkah wajib siklus build.
+- Pipeline/CI, preview, dan audit pipeline ada di `ci.md`/`ci-audit.md`; reference ini fokus kesiapan deploy.
 - Perubahan sekecil mungkin; setup deploy tidak boleh jadi framework DevOps besar.
 
 ## Input
