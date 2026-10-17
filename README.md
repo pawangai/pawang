@@ -20,6 +20,7 @@
 - ⚙️ **Arsitektur Tangguh:** Desain sistem yang fleksibel, cepat, dan siap diandalkan untuk berbagai skala kebutuhan.
 - 🛡️ **Otonom dengan dua gerbang:** Setelah spec disetujui, agent berjalan sendiri (implement → check → audit → perbaikan). Manusia hanya hadir saat review spec dan saat izin commit/merge.
 - 🎨 **Menyatu dengan tema project:** Laporan HTML pawang mengikuti token desain repo (font, warna, radius, ukuran dasar) dari DS Figr `prototype/packages/shared/ui`, `prototypes/`, `packages/design-system/`, folder `figr/`, CSS `@theme`, atau tailwind config. Scaffold baru memakai tema bawaan sampai token project tersedia.
+- 📐 **Dokumen Figr + diagram:** grill → 4 dokumen (PRD, flow, desain, edge case) di `.pawang/figr/` → prompt Figr Design <1000 karakter. Diagram tetap Mermaid; viewer HTML dirender lewat `kit.js`.
 
 ---
 
@@ -37,6 +38,18 @@ npx pawang init --force      # perbarui ke versi terbaru
 ```
 
 Setelah terpasang, buka sesi agent di proyek lalu minta: **"pawang, adopsi proyek ini"**.
+
+### 🧩 Companion (opsional, dipasang terpisah)
+
+Pawang core tidak membundel companion. Pasang di `.agents/skills/` dengan izin user; detail, nama folder, dan precheck ada di `skill/references/companions.md`.
+
+| Companion               | Kapan perlu                            | Pasang                                                                   |
+| ----------------------- | -------------------------------------- | ------------------------------------------------------------------------ |
+| `grill-me` + `grilling` | Dokumen Figr / wawancara plan mendalam | `npx skills add mattpocock/skills --skill grill-me grilling -a opencode` |
+| `figr-to-prototype`     | Lane B hulu (proyek punya `figr/`)     | File `.skill`/repo companion; folder `figr-to-prototype`                 |
+| `prototype-kit`         | Lane B hilir (HTML statis)             | File `.skill`/repo companion                                             |
+
+`figr-to-prototype` dan `prototype-kit` bukan hasil serapan penuh: kontraknya sudah ada di `skill/references/prototype-figr.md`, tetapi script Python/asetnya tetap companion. `find-skills`, `skill-creator`, dan `skill-inspector` adalah alat advisor opsional, bukan syarat alur Pawang.
 
 ---
 
@@ -103,8 +116,8 @@ pawang/
 │   ├── workflow.md           # dasar: loop, config, skema JSON, aturan dua lapis
 │   ├── feature.md implement.md check.md audit.md complete.md   # siklus inti
 │   ├── status.md fix-debug.md prototype.md prototype-figr.md tests.md rollback.md
-│   ├── plans.md brief-explore.md release.md doctor.md
-│   ├── adopt.md agents-md.md layout.md advisor.md handoff.md document.md
+│   ├── plans.md figr-docs.md figr-prompt.md brief-explore.md release.md doctor.md
+│   ├── adopt.md agents-md.md layout.md advisor.md companions.md handoff.md document.md
 │   └── markers.json layout-rules.json gap-signals.md spec-template.md theme-variables.css
 ├── scripts/                  # deterministik & zero-dependency
 │   ├── scan.mjs check-layout.mjs probe.mjs compare-text.mjs
@@ -123,6 +136,7 @@ pawang/
 ├── context/                  # state kerja aktif
 │   ├── project-overview.html  build-plan.html  current-feature.html
 │   ├── findings.html  review.html  handoff.html  coding-standards.html
+├── figr/                     # 4 dokumen Figr + prompt (Markdown, di-commit); diagrams/ generated
 ├── reference/                # rujukan dokumen per jenis (invoice/, kontrak/, ...)
 │   └── <jenis>/              # file mentah (gitignored) + spesifikasi.html + _work/
 ├── prototype/                # HTML statis prototype-kit (lane B; di-commit, runtime kit.js sendiri)
@@ -144,7 +158,7 @@ Anti-duplikasi berlaku: spec aktif, findings, review, handoff, dan riwayat hanya
 Ada dua lane; pilih satu sesuai kondisi proyek:
 
 - **Lane A (tanpa Figr):** mockup statis di `prototypes/` + satu `prototypes/theme.css` (template token: `references/theme-variables.css`). Lihat `references/prototype.md`.
-- **Lane B (ada Figr/DS):** `figr/` → companion `figr-to-prototype` → `prototype/` (React + DS di `prototype/packages/shared/ui`) → companion `prototype-kit` → `.pawang/prototype/` (HTML statis, di-commit). Lihat `references/prototype-figr.md`.
+- **Lane B (ada Figr/DS):** `.pawang/figr/` (4 dokumen) → `references/figr-prompt.md` → Figr Design → `figr/` → companion `figr-to-prototype` → `prototype/` (React + DS di `prototype/packages/shared/ui`) → companion `prototype-kit` → `.pawang/prototype/` (HTML statis, di-commit). Lihat `references/prototype-figr.md`.
 
 Bila `figr/` ada, lane A tidak dipakai. Ada dua `kit.js`: `.pawang/kit.js` mengelola state Pawang (jangan ditimpa), sedangkan `.pawang/prototype/kit.js` adalah runtime browser prototype-kit. Tema DS Figr menang atas `prototypes/theme.css`; font-family dan font-size dasar mengikuti project (`--text-base`), ukuran lain relatif (`em`).
 
@@ -152,15 +166,16 @@ Bila `figr/` ada, lane A tidak dipakai. Ada dua `kit.js`: `.pawang/kit.js` menge
 
 ## 🧰 Perintah `kit.js`
 
-| Perintah                                | Kegunaan                                                             |
-| --------------------------------------- | -------------------------------------------------------------------- |
-| `init`                                  | Scaffold `.pawang/` + deteksi tema project sekali                    |
-| `render <tipe>`                         | JSON (stdin/`--in`) → HTML standar — satu-satunya cara menulis state |
-| `extract <file>`                        | Baca kembali JSON dari HTML                                          |
-| `status`                                | Ringkasan seluruh state (spec aktif, findings, review, tema)         |
-| `check`                                 | Validasi integritas; exit 1 bila rusak                               |
-| `theme [--refresh\|--default\|--check]` | Kelola snapshot tema (render tidak pernah memindai CSS)              |
-| `selftest`                              | Uji mandiri                                                          |
+| Perintah                                | Kegunaan                                                                |
+| --------------------------------------- | ----------------------------------------------------------------------- |
+| `init`                                  | Scaffold `.pawang/` + deteksi tema project sekali                       |
+| `render <tipe>`                         | JSON (stdin/`--in`) → HTML standar — satu-satunya cara menulis state    |
+| `render diagram --from <file.md>`       | Blok Mermaid → viewer HTML generated (default `.pawang/figr/diagrams/`) |
+| `extract <file>`                        | Baca kembali JSON dari HTML                                             |
+| `status`                                | Ringkasan seluruh state (spec aktif, findings, review, tema)            |
+| `check`                                 | Validasi integritas; exit 1 bila rusak                                  |
+| `theme [--refresh\|--default\|--check]` | Kelola snapshot tema (render tidak pernah memindai CSS)                 |
+| `selftest`                              | Uji mandiri                                                             |
 
 ---
 

@@ -26,7 +26,7 @@ Kalau build-plan masih stub placeholder atau project-overview belum ada, bilang 
 1. Baris target di build-plan lewat `node .pawang/kit.js extract .pawang/context/build-plan.html`, termasuk apakah parent sudah dipecah (4a, 4b).
 2. project-overview: model data, route, stack, UI/UX, dan open questions yang menyentuh fitur ini.
 3. Yang sudah ada: item build-plan checked sebelumnya dan, bila perlu, git history, untuk membaca dependency.
-4. Design reference: bila `prototypes/` ada (lane A) atau `.pawang/prototype/` ada (lane B), sebut mockup yang berlaku.
+4. Design reference: bila `.pawang/figr/03-interface-designs.md` ada, sebut dokumen itu; bila `prototypes/` ada (lane A) atau `.pawang/prototype/` ada (lane B), sebut mockup yang berlaku.
 
 Sintesis, jangan dump isi file.
 

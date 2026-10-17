@@ -27,7 +27,9 @@ Cek `AGENTS.md` dan artefak skill: section Commands, tautan ber-pemicu, dan dupl
 
 - `.pawang/context/coding-standards.html` ada dan valid (konvensi proyek).
 - `.pawang/prototype/` bila ada: `index.html`, `kit.js`, `tokens.css`, `kit.css`, `.manifest.json`.
-- Artefak skill dikenal yang terpasang (mis. `PRODUCT.md`, `DESIGN.md`, `blueprint/`, `figr/`, `CODING_STANDARDS.md`, `GLOSSARY.md`): laporkan dan cek tautannya; jangan menebak yang tak dikenal.
+- `.pawang/figr/` bila ada: `01-PRD.md`, `02-user-flows.md`, `03-interface-designs.md`, `04-edge-cases.md`, `prompt.md`; `diagrams/` opsional.
+- Artefak skill dikenal yang terpasang (mis. `PRODUCT.md`, `DESIGN.md`, `blueprint/`, `figr/`, `.pawang/figr/`, `CODING_STANDARDS.md`, `GLOSSARY.md`): laporkan dan cek tautannya; jangan menebak yang tak dikenal.
+- Companion Figr/grill yang tidak terpasang bukan masalah kesehatan; bila proyek memakai lane Figr atau wawancara mendalam, arahkan ke `companions.md`.
 
 ### 3. Audit skill pihak ketiga
 
@@ -49,6 +51,7 @@ Kalau drift terdeteksi, **sarankan `node .pawang/kit.js theme --refresh`**, jang
 
 - File wajib `.pawang/`: `kit.js`, `config.json`, `theme.json`, dan isi `context/` (`project-overview.html`, `build-plan.html`, `current-feature.html`, `findings.html`, `review.html`, `handoff.html`, `coding-standards.html`).
 - `.pawang/prototype/` opsional (artefak generated); bila ada, periksa kelengkapannya di §2.
+- `.pawang/figr/` opsional (dokumen sumber Markdown); bila ada, periksa kelengkapannya di §2.
 - `config.json` valid (kegagalan validasi sudah terlihat dari `kit.js check`).
 - `.gitignore` masih memuat aturan pengabaian bahan mentah `reference/`: file asli dan folder `_work/`.
 - Git singkat: branch, bersih/kotor, commit terakhir, ahead/behind upstream. Bukan repo git = masalah setup.
@@ -82,7 +85,7 @@ Label: **Lulus** bila semua sehat; **Perlu perhatian** bila ada peringatan yang 
 3. Bukan repo git: inisialisasi git sebelum memakai siklus build.
 4. Tema drift: `node .pawang/kit.js theme --refresh`.
 5. `AGENTS.md` atau dokumen bermasalah: arahkan ke reference `agents-md`; `docs/` lama (legacy) cukup ditautkan atau diarsipkan.
-6. `.pawang/prototype/` bermasalah: arahkan ke `prototype-figr`/`prototype-kit` (companion) setelah izin user.
+6. `.pawang/prototype/` bermasalah: arahkan ke `prototype-figr`/`prototype-kit` (companion) setelah izin user. `.pawang/figr/` tidak lengkap: arahkan ke `figr-docs.md`/`figr-prompt.md`.
 7. Spec aktif belum selesai: `implement` atau `status`.
 8. Findings P0/P1 terbuka: bawa ke spec fix atau `implement`; yang `fixed` di-audit ulang.
 9. Semua sehat: lanjut dengan `status` untuk progres atau tulis spec fitur berikutnya.

@@ -65,16 +65,16 @@ Lanjutkan dengan profil ini; ke AGENTS.md hanya yang memengaruhi perilaku agent.
 
 Bila proyek sudah punya `AGENTS.md` (brownfield), ekstrak tiga jenis isinya: konvensi → `.pawang/context/coding-standards.html`; keputusan → `## Keputusan penting`; larangan → `## Jangan`. Detail per-area lama tetap di tempatnya — tautkan, jangan pindahkan.
 
-| Temuan                         | Masuk sebagai                                                                                                                                                                                                           |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Script test/lint/build/dev     | `## Commands` (salin persis)                                                                                                                                                                                            |
-| E2E / Fallow / Impeccable      | Perintah E2E + aturan alur tulis data; perintah analisis; peta dokumen UI                                                                                                                                               |
-| MCP/skill terpasang            | Satu baris alat yang tersedia                                                                                                                                                                                           |
-| Cloudflare Workers             | Perintah dev/deploy/`wrangler types`; larangan baca/commit `.dev.vars`; daftar binding                                                                                                                                  |
-| Aturan prototype / tata letak  | Konvensi & Jangan; `## Repository layout` lewat `layout.md`                                                                                                                                                             |
-| Artefak skill dikenal          | `PRODUCT.md`/`DESIGN.md`, `blueprint/`, `figr/`, `CODING_STANDARDS.md`, `GLOSSARY.md`, `docs/` lama: tautkan di peta dokumen dengan pemicu; tak dikenal -> tanya user (maks ~6 pertanyaan satu giliran, jangan menebak) |
-| Fitur dokumen                  | Peta dokumen: `.pawang/reference/<jenis>/spesifikasi.html`, baca sebelum mengubah fitur itu (dibuat `document.md`)                                                                                                      |
-| Ketidakcocokan diputuskan user | Keputusan penting                                                                                                                                                                                                       |
+| Temuan                         | Masuk sebagai                                                                                                                                                                                                                            |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Script test/lint/build/dev     | `## Commands` (salin persis)                                                                                                                                                                                                             |
+| E2E / Fallow / Impeccable      | Perintah E2E + aturan alur tulis data; perintah analisis; peta dokumen UI                                                                                                                                                                |
+| MCP/skill/companion terpasang  | Satu baris alat yang tersedia; companion Pawang dicatat di `## Companion` (lihat `companions.md`)                                                                                                                                        |
+| Cloudflare Workers             | Perintah dev/deploy/`wrangler types`; larangan baca/commit `.dev.vars`; daftar binding                                                                                                                                                   |
+| Aturan prototype / tata letak  | Konvensi & Jangan; `## Repository layout` lewat `layout.md`                                                                                                                                                                              |
+| Artefak skill dikenal          | `PRODUCT.md`/`DESIGN.md`, `blueprint/`, `figr/`, `.pawang/figr/`, `CODING_STANDARDS.md`, `GLOSSARY.md`, `docs/` lama: tautkan di peta dokumen dengan pemicu; tak dikenal -> tanya user (maks ~6 pertanyaan satu giliran, jangan menebak) |
+| Fitur dokumen                  | Peta dokumen: `.pawang/reference/<jenis>/spesifikasi.html`, baca sebelum mengubah fitur itu (dibuat `document.md`)                                                                                                                       |
+| Ketidakcocokan diputuskan user | Keputusan penting                                                                                                                                                                                                                        |
 
 ### 8. Inisiasi `.pawang/` (kalau user ingin alur pawang)
 
@@ -91,6 +91,14 @@ Tiga skill alat — tawarkan sekali, jelaskan biaya konteks per sesi, lewati yan
 1. **skill-inspector**: `npx skills add https://github.com/nvidia/skillspector --skill skill-inspector -a opencode`. Belum ada pemeriksanya — cek dengan `node scripts/skill-precheck.mjs` (salinan sementara), baca `SKILL.md`, cek audit/sumber di skills.sh, tunjukkan ke user, baru pasang.
 2. **find-skills**: `npx skills add https://github.com/vercel-labs/skills --skill find-skills -a opencode` — periksa dulu (`skill-precheck.mjs` + inspector).
 3. **skill-creator**: `npx skills add https://github.com/anthropics/skills --skill skill-creator -a opencode` — sama.
+
+### 11. Tawarkan companion sesuai kebutuhan (izin user)
+
+Jangan pasang default. Tawarkan hanya bila proyek membutuhkannya; daftar lengkap dan cara pasang ada di `companions.md`.
+
+- Proyek memakai Figr/DS → `figr-to-prototype` (hulu) + `prototype-kit` (hilir). Hentikan lane Figr sampai companion terpasang.
+- Butuh dokumen Figr atau wawancara plan mendalam → `grill-me` + `grilling`. Fallback `grilling` bila `grill-me` tidak bisa dipanggil.
+- Catat companion yang terpasang sebagai satu baris di `## Companion` AGENTS.md; jangan menginventaris semua skill.
 
 Tanpa `-y`, tingkat proyek, commit ke git; laporkan tambahan beban konteks (`doctor.md`). Skill berikutnya wajib lewat pemeriksaan lapis `advisor.md`.
 

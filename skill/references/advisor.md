@@ -39,6 +39,8 @@ Tabel maksimal 5-7 baris (format `gap-signals.md`): temuan, bukti, rekomendasi, 
 
 **a. Cek dulu.** Skill terpasang (dari `doctor.md` + daftar sesi ini), `.pawang/context/` (konvensi dan keputusan), dan skill bawaan paket (`node_modules/<paket>/skills`). Sudah cukup? Perbaiki pemicunya, jangan menambah. Artefak skill yang dikenal (mis. `PRODUCT.md`/`DESIGN.md`, `blueprint/`, `figr/`, `CODING_STANDARDS.md`, `GLOSSARY.md`) dirutekan ke `.pawang/context/coding-standards.html` atau tautan berpemicu di AGENTS.md; yang tak dikenal tanyakan ke user.
 
+Companion inti Pawang (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`) **bukan kandidat find-skills**; daftar, sumber, dan cara pasangnya ada di `companions.md`. find-skills dipakai untuk kebutuhan di luar companion inti.
+
 **b. Cari lewat find-skills.** Kalau `find-skills` terpasang, panggil; kalau belum, tawarkan memasangnya (butuh persetujuan; `adopt.md` langkah 10 menawarkannya lebih dulu):
 
 ```

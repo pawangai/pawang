@@ -18,7 +18,8 @@ Jangan pakai untuk bug, perbaikan kecil, atau fitur tunggal yang sudah jelas; it
 Pilih sumber berdasarkan situasi; bila jelas, langsung pakai satu jalur atau gabungkan:
 
 - **A. Wawancara terstruktur.** Tanyakan keputusan yang hanya ada di kepala user, satu giliran maksimal sekitar enam pertanyaan. Cabang yang wajib: problem dan success measure; users/roles; MVP in/out; data; tech dan constraints; monetization; UI/UX dan platform; deployment; usage/constraints; build order. Cari fakta sendiri dari repo sebelum bertanya, supaya user hanya menjawab keputusan. Jawaban yang ditunda menjadi `(belum diputuskan)`.
-- **B. File Figr.** Baca `01-PRD.md`, `02-user-flows.md`, `03-interface-designs.md`, `04-edge-cases.md` dari folder `figr/`. Bawa fakta; konfirmasi proposal. Bila user menyebut file yang tidak tersedia, minta file itu; jangan mengarang isinya.
+- **A2. Grill (keputusan bercabang).** Bila keputusan desain/produk saling bergantung, panggil skill `grill-me` (fallback `grilling`): design tree, frontier, dan ronde. Ajukan seluruh frontier dalam satu ronde dengan rekomendasi; tunggu jawaban sebelum ronde berikutnya. Jika keduanya tidak tersedia, tawarkan pemasangan (lihat `companions.md`); bila lanjut tanpa grill, tandai setiap cabang yang tidak dijawab `(belum diputuskan)`. Batas enam pertanyaan tetap untuk wawancara biasa; grill boleh satu ronde lebih panjang.
+- **B. File Figr.** Baca `01-PRD.md`, `02-user-flows.md`, `03-interface-designs.md`, `04-edge-cases.md` dari `.pawang/figr/` (fallback `figr/` untuk proyek lama). Bawa fakta; konfirmasi proposal. Bila empat dokumen belum ada, buat lewat `figr-docs.md` (grill dulu), jangan mengarang isinya.
 - **C. Kombinasi.** Pakai Figr sebagai kerangka, lalu wawancara hanya untuk keputusan terbuka, konflik, atau bagian yang tidak dicakup (mis. monetization).
 
 ## Langkah
@@ -67,7 +68,7 @@ Pilih sumber berdasarkan situasi; bila jelas, langsung pakai satu jalur atau gab
 
 ## Bila memakai Figr
 
-- Baca keempat file; file yang tidak ada dilaporkan, bukan ditebak.
+- Baca keempat file dari `.pawang/figr/`; file yang tidak ada dilaporkan, bukan ditebak. Bila belum ada, buat lewat `figr-docs.md` (grill dulu).
 - Bawa sebagai fakta: roles dan enum dari kode, route/screen, temuan dengan Basis P, dan semua yang ditandai **Wajib**.
 - Konfirmasi proposal: `[ASUMSI]`, `[KEPUTUSAN DIBUTUHKAN]`, "Usulan", Q terbuka, dan edge case Basis U. Sebelum dikonfirmasi, tulis `(belum diputuskan)`, bukan requirement.
 - Bila jawaban user bertentangan dengan file Figr, user menang. Sebut kontradiksinya sekali agar file sumber bisa diperbaiki.
@@ -91,4 +92,5 @@ Pilih sumber berdasarkan situasi; bila jelas, langsung pakai satu jalur atau gab
 - Item build-plan yang terlalu teknis, terlalu besar, atau tidak terlihat user.
 - Mengganti, menomori ulang, atau menghapus item yang sudah selesai.
 - Menaruh plan di `blueprint/` atau `docs/`, atau mengedit HTML `.pawang/` manual.
+- Menaruh empat dokumen Figr di `figr/` atau mencampurnya dengan output mentah.
 - Menambah fitur di build-plan tanpa memperbarui project-overview.

@@ -12,7 +12,8 @@
 //   node .pawang/kit.js selftest                      uji mandiri kit.js
 //
 // Tipe render: current-feature, findings, review, handoff, build-plan, project-overview,
-//              coding-standards, history-feature, history-fix, history-rollback, document-spec.
+//              coding-standards, history-feature, history-fix, history-rollback, document-spec,
+//              diagram.
 
 "use strict";
 (async () => {
@@ -36,6 +37,7 @@
     "history-fix": null,
     "history-rollback": null,
     "document-spec": null,
+    diagram: null,
   };
 
   const TITLE_OF = {
@@ -50,6 +52,7 @@
     "history-fix": "Arsip fix",
     "history-rollback": "Arsip rollback",
     "document-spec": "Spesifikasi dokumen",
+    diagram: "Diagram",
   };
 
   const FEATURE_STATUSES = [
@@ -409,6 +412,9 @@ th{background:var(--p-bg);font-size:.8em;text-transform:uppercase;letter-spacing
 .warnbox{border-color:#d97706;background:#fffbeb;color:#7c2d12}
 .warnbox h2{color:#b45309}
 .empty{color:var(--p-muted);font-style:italic}
+pre.mermaid{background:var(--p-bg);border:1px solid var(--p-border);border-radius:8px;padding:12px;overflow:auto;text-align:center}
+details{margin-top:8px;color:var(--p-muted);font-size:.87em}
+details pre{text-align:left;overflow:auto;background:var(--p-bg);border:1px solid var(--p-border);border-radius:8px;padding:10px}
 footer{margin-top:28px;color:var(--p-muted);font-size:.8em;text-align:center}
 .kv{display:grid;grid-template-columns:170px 1fr;gap:4px 12px;font-size:.93em}
 .kv .k{color:var(--p-muted)}
@@ -418,6 +424,13 @@ footer{margin-top:28px;color:var(--p-muted);font-size:.8em;text-align:center}
     const theme = loadTheme();
     const title = data.title || TITLE_OF[type] || type;
     const embedded = JSON.stringify(data).replace(/</g, "\\u003c");
+    const mermaid =
+      type === "diagram"
+        ? `<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+</script>`
+        : "";
     return `<!doctype html>
 <html lang="id">
 <head>
@@ -432,6 +445,7 @@ ${bodyHtml}
 <footer>pawang kit.js - ${esc(nowIso())}</footer>
 </div>
 <script type="application/json" id="pawang-data">${embedded}</script>
+${mermaid}
 </body>
 </html>
 `;
@@ -766,6 +780,30 @@ ${bodyHtml}
             .join("")
         );
       }
+      case "diagram": {
+        const diagrams = Array.isArray(d.diagrams)
+          ? d.diagrams
+          : d.source
+            ? [{ title: d.title || "Diagram", source: d.source }]
+            : [];
+        let body =
+          `<header class="site"><div class="kind">diagram</div><h1>${esc(d.title || "Diagram")}</h1>${badge(diagrams.length + " diagram", "muted")}</header>` +
+          (d.from
+            ? `<section><p class="empty">Sumber: <code>${esc(d.from)}</code>. HTML ini generated; jangan diedit manual.</p></section>`
+            : "");
+        if (!diagrams.length)
+          body +=
+            '<section><p class="empty">Belum ada diagram. Tambahkan blok mermaid ke Markdown sumber.</p></section>';
+        for (const [i, dia] of diagrams.entries()) {
+          const source = dia.source || "";
+          body +=
+            `<section><h2>${esc(dia.title || `Diagram ${i + 1}`)}</h2>` +
+            `<pre class="mermaid">${esc(source)}</pre>` +
+            `<details><summary>Sumber Mermaid</summary><pre>${esc(source)}</pre></details>` +
+            `</section>`;
+        }
+        return body;
+      }
       default:
         return `<header class="site"><h1>${esc(type)}</h1></header><section><pre>${esc(JSON.stringify(d, null, 2))}</pre></section>`;
     }
@@ -794,27 +832,52 @@ ${bodyHtml}
         `tipe render tidak dikenal: ${type || "(kosong)"}\nTipe: ${Object.keys(TYPES).join(", ")}`,
         2,
       );
+    const from = flag("--from");
+    if (from && type !== "diagram") die("--from hanya untuk tipe diagram", 2);
+
     let out = flag("--out");
+    let data;
+    if (from) {
+      const mdPath = path.resolve(from);
+      let md;
+      try {
+        md = fs.readFileSync(mdPath, "utf8");
+      } catch (e) {
+        die(`tidak bisa membaca ${from}: ${e.message}`);
+      }
+      const diagrams = [...md.matchAll(/```mermaid\s*\n([\s\S]*?)```/g)].map(
+        (m, i) => ({
+          title: `Diagram ${i + 1}`,
+          source: m[1].trim(),
+        }),
+      );
+      if (!diagrams.length) die(`tidak ada blok mermaid di ${from}`, 2);
+      const base = path.basename(mdPath, path.extname(mdPath));
+      data = { title: base, from: rel(mdPath), diagrams };
+      if (!out) out = path.join(BASE, "figr", "diagrams", base + ".html");
+    } else {
+      let raw;
+      const inFile = flag("--in");
+      try {
+        raw = inFile
+          ? fs.readFileSync(inFile, "utf8")
+          : fs.readFileSync(0, "utf8");
+      } catch (e) {
+        die(`tidak bisa membaca JSON input: ${e.message}`);
+      }
+      if (!raw.trim())
+        die(
+          "input JSON kosong (kirim lewat stdin atau --in <file>, atau pakai --from untuk diagram)",
+          2,
+        );
+      try {
+        data = JSON.parse(raw);
+      } catch (e) {
+        die(`JSON tidak valid: ${e.message}`);
+      }
+    }
     if (!out && TYPES[type]) out = path.join(BASE, TYPES[type]);
     if (!out) die(`tipe "${type}" butuh --out <file>`, 2);
-
-    let raw;
-    const inFile = flag("--in");
-    try {
-      raw = inFile
-        ? fs.readFileSync(inFile, "utf8")
-        : fs.readFileSync(0, "utf8");
-    } catch (e) {
-      die(`tidak bisa membaca JSON input: ${e.message}`);
-    }
-    if (!raw.trim())
-      die("input JSON kosong (kirim lewat stdin atau --in <file>)", 2);
-    let data;
-    try {
-      data = JSON.parse(raw);
-    } catch (e) {
-      die(`JSON tidak valid: ${e.message}`);
-    }
     const html = page(type, data, renderBody(type, data));
     writeFileMk(path.resolve(out), html);
     console.log(`render ${type} -> ${rel(path.resolve(out))}`);
@@ -1423,6 +1486,13 @@ ${bodyHtml}
       pemilik: "PT X",
       sections: [{ title: "1. Halaman", lines: ["A4"] }],
     },
+    diagram: {
+      title: "Contoh diagram",
+      from: ".pawang/figr/02-user-flows.md",
+      diagrams: [
+        { title: "Alur", source: "flowchart TD\n  A[Login] --> B[Dashboard]" },
+      ],
+    },
   };
 
   function cmdSelftest() {
@@ -1440,6 +1510,13 @@ ${bodyHtml}
         const html = fs.readFileSync(file, "utf8");
         if (!html.includes("</html>") || !html.includes("--p-bg")) {
           console.log(`GAGAL ${type}: HTML tidak lengkap`);
+          fail++;
+        }
+        if (
+          type === "diagram" &&
+          (!html.includes('class="mermaid"') || !html.includes("mermaid@11"))
+        ) {
+          console.log(`GAGAL ${type}: viewer Mermaid tidak lengkap`);
           fail++;
         }
       } catch (e) {

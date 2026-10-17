@@ -40,6 +40,7 @@ Tautan berjudul saja tidak membantu agent memutuskan:
 ## Peta dokumen (baca hanya yang relevan dengan tugasmu)
 
 - `.pawang/context/coding-standards.html`: baca SEBELUM mengubah skema, migrasi, query, atau menambah endpoint.
+- `.pawang/figr/`: 4 dokumen sumber Figr + prompt; baca sebelum desain/prototype Figr (lihat `figr-docs.md`).
 - `.pawang/reference/<jenis>/spesifikasi.html`: baca sebelum mengubah fitur dokumen <jenis> (lihat `document.md`).
 - `.pawang/context/current-feature.html`: spec aktif checkout ini; baca lewat `node .pawang/kit.js extract`.
 - `apps/<app>/docs/API.md`: dokumen lama app (brownfield); baca saat mengubah endpoint app itu — jangan dipindah.
@@ -51,6 +52,7 @@ Tautan berjudul saja tidak membantu agent memutuskan:
 AGENTS.md
 .pawang/          # state kerja pawang (lihat workflow.md)
   context/        # state aktif + coding-standards.html
+  figr/           # 4 dokumen Figr + prompt (Markdown); diagrams/ generated
   reference/      # rujukan dokumen per jenis
   prototype/      # HTML statis prototype-kit (generated)
   history/        # arsip pekerjaan selesai
@@ -95,11 +97,12 @@ Hanya yang memengaruhi perilaku agent:
 - Perintah: salin persis dari script → `## Commands`.
 - E2E/Fallow/Impeccable/MCP/skill: satu baris cara pakai, bukan inventaris.
 - Konvensi → `.pawang/context/coding-standards.html`; larangan → `## Jangan`; keputusan permanen → `## Keputusan penting`.
-- Artefak skill yang dikenal (PRODUCT.md, DESIGN.md, blueprint/, figr/, CODING_STANDARDS.md, GLOSSARY.md, dll.): rute atau tautkan di peta dokumen berpemicu. Yang tidak dikenal: tanya user, jangan dipindah atau disalin.
+- Artefak skill yang dikenal (PRODUCT.md, DESIGN.md, blueprint/, figr/, `.pawang/figr/`, CODING_STANDARDS.md, GLOSSARY.md, dll.): rute atau tautkan di peta dokumen berpemicu. Yang tidak dikenal: tanya user, jangan dipindah atau disalin.
+- Companion terpasang (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`): satu baris di `## Companion` (nama + kapan dipakai). Jangan menginventaris semua skill; cara pasang di `companions.md`.
 - "scaffold": AGENTS.md sangat pendek; jangan mengarang struktur.
 - Jangan tulis nilai env/rahasia; nama variabel boleh bila perlu.
 - Fitur dokumen: `.pawang/reference/<jenis>/spesifikasi.html` ada → baris peta dokumen per jenis + larangan: "Jangan mengubah teks/tata letak dokumen tanpa memperbarui spesifikasi dan menjalankan verifikasi (lihat `document.md`)."
-- Tata letak: `## Repository layout` lewat `layout.md`; folder tingkat atas di sana (backtick) otomatis sah — pastikan `.pawang/`, `prototypes/`, `prototype/`, dan `figr/` terdaftar bila ada.
+- Tata letak: `## Repository layout` lewat `layout.md`; folder tingkat atas di sana (backtick) otomatis sah — pastikan `.pawang/`, `.pawang/figr/`, `prototypes/`, `prototype/`, dan `figr/` terdaftar bila ada.
 
 ## Template AGENTS.md
 
@@ -119,6 +122,11 @@ Hanya yang memengaruhi perilaku agent:
 ## Stack
 
 <bahasa, framework, DB, library kunci>
+
+## Companion (bila terpasang)
+
+- `grill-me`/`grilling`: wawancara dokumen Figr/plan mendalam.
+- `figr-to-prototype` + `prototype-kit`: lane Figr; hanya bila proyek memakai Figr.
 
 ## Repository layout
 

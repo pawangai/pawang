@@ -21,6 +21,10 @@ Tujuan: satu tempat untuk aturan inti folder `.pawang/`, `kit.js`, skema data, g
 │   ├── kit.js                # runtime browser prototype-kit (bukan .pawang/kit.js)
 │   ├── .manifest.json        # manifest hasil generate
 │   └── <layar>.html          # mockup + aset
+├── figr/                     # dokumen sumber Figr (Markdown, di-commit)
+│   ├── 01-PRD.md ... 04-edge-cases.md
+│   ├── prompt.md             # prompt Figr Design yang sudah diisi
+│   └── diagrams/             # opsional: viewer HTML generated kit.js
 ├── reference/                # rujukan dokumen/desain per jenis
 │   └── <jenis>/              # mis. invoice/, kontrak/, sertifikat/
 │       ├── <file mentah>     # docx/pdf/png/jpeg/html asli (gitignored)
@@ -49,7 +53,7 @@ Semua file `.html` di `.pawang/` dibuat dan diperbarui **hanya** lewat `node .pa
 | `node .pawang/kit.js theme [--refresh\|--default\|--check]` | Lihat / deteksi ulang / reset / cek drift tema.                                                                          |
 | `node .pawang/kit.js selftest`                              | Uji mandiri kit.js.                                                                                                      |
 
-Pengecualian: `context/` dan `history/` selalu ditulis lewat `.pawang/kit.js`. `.pawang/prototype/` adalah artefak generated prototype-kit (HTML statis + runtime `kit.js` sendiri) — jangan diedit atau ditimpa lewat Pawang; regenerasi lewat lane prototype di `prototype-figr.md`.
+Pengecualian: `context/` dan `history/` selalu ditulis lewat `.pawang/kit.js`. `.pawang/prototype/` adalah artefak generated prototype-kit (HTML statis + runtime `kit.js` sendiri) — jangan diedit atau ditimpa lewat Pawang; regenerasi lewat lane prototype di `prototype-figr.md`. `.pawang/figr/` adalah dokumen sumber Figr (Markdown) + prompt; ditulis agent, bukan state HTML. Viewer diagram di `.pawang/figr/diagrams/` adalah artefak generated `kit.js` — jangan diedit manual.
 
 Pola pemakaian tipikal:
 
@@ -74,6 +78,7 @@ Tipe render dan path default:
 | `coding-standards`                                 | `.pawang/context/coding-standards.html`                      |
 | `history-feature` `history-fix` `history-rollback` | wajib `--out` (`.pawang/history/...`)                        |
 | `document-spec`                                    | wajib `--out` (`.pawang/reference/<jenis>/spesifikasi.html`) |
+| `diagram`                                          | `--from <file.md>` → `.pawang/figr/diagrams/<nama>.html`     |
 
 ## 3. Skema data (JSON per tipe)
 
@@ -150,14 +155,16 @@ Henti darurat (bukan gerbang, tapi pengaman): hentikan dan lapor user bila (a) p
 
 ## 5. Aturan dua lapis
 
-| Lokasi      | Isi                                                                                                            | Ditulis kapan            |
-| ----------- | -------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| `AGENTS.md` | peta proyek, Commands/Verify, `## Jangan`, `## Keputusan penting`, tautan berpemicu                            | setup & maintenance saja |
-| `.pawang/`  | state kerja + konvensi (`context/`), prototype generated, rujukan dokumen (`reference/`), riwayat (`history/`) | sepanjang siklus fitur   |
+| Lokasi      | Isi                                                                                                                                    | Ditulis kapan            |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| `AGENTS.md` | peta proyek, Commands/Verify, `## Jangan`, `## Keputusan penting`, tautan berpemicu                                                    | setup & maintenance saja |
+| `.pawang/`  | state kerja + konvensi (`context/`), prototype generated, dokumen Figr (`figr/`), rujukan dokumen (`reference/`), riwayat (`history/`) | sepanjang siklus fitur   |
 
 Anti-duplikasi: spec aktif, findings, review, handoff, riwayat, dan spesifikasi dokumen **hanya** ada di `.pawang/`. Konvensi **hanya** di `.pawang/context/coding-standards.html` (render `coding-standards`, skema `sections`). Larangan **hanya** di `## Jangan` dan keputusan permanen **hanya** di `## Keputusan penting` pada `AGENTS.md`. Peta dan perintah **hanya** di `AGENTS.md`. Jangan menyalin isi satu lapis ke lapis lain; tautkan.
 
 `docs/` tidak dibuat atau diajarkan Pawang. Proyek lama (brownfield) yang sudah punya `docs/` mendeteksinya saat adopt lalu menautkannya dari `AGENTS.md`; isinya tidak dipindah ke `.pawang/` dan tidak dijelajahi default — baca hanya saat tautan berpemicu menyuruh.
+
+Companion (`grill-me`/`grilling`, `figr-to-prototype`, `prototype-kit`) dipasang terpisah di `.agents/skills/`, bukan bagian `.pawang/` dan bukan isi npm Pawang. Daftar, izin, precheck, dan cara pasang ada di `companions.md`.
 
 ## 6. Tema
 
@@ -171,7 +178,7 @@ Anti-duplikasi: spec aktif, findings, review, handoff, riwayat, dan spesifikasi 
 
 ```
 (sekali)  adopt → agents-md → kit.js init → build-plan & project-overview
-per fitur (brief) → (prototype | prototype-figr) → feature ──GERBANG──► implement → check → audit
+per fitur (brief) → (figr-docs → figr-prompt) → (prototype | prototype-figr) → feature ──GERBANG──► implement → check → audit
           → perbaikan findings → complete ──GERBANG──► history/
 kapan saja  status · doctor · handoff · tests · rollback · release · document
 ```

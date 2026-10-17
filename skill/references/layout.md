@@ -16,7 +16,7 @@ Aturan teks mudah dilanggar, jadi 3 lapis: **aturan** (section `## Repository la
 
 ## Preset
 
-Pilih satu, konfirmasi ke user kalau ambigu, lalu patuhi. `.pawang/`, `prototypes/`, `prototype/`, dan `figr/` = folder sah alur pawang; tulis selalu di tabel `## Repository layout` supaya audit mengenalinya (folder tanpa pendaftaran ditandai "folder tidak terdaftar").
+Pilih satu, konfirmasi ke user kalau ambigu, lalu patuhi. `.pawang/`, `.pawang/figr/`, `.pawang/prototype/`, `prototypes/`, `prototype/`, dan `figr/` = folder sah alur pawang; tulis selalu di tabel `## Repository layout` supaya audit mengenalinya (folder tanpa pendaftaran ditandai "folder tidak terdaftar").
 
 **Aplikasi tunggal** (satu deployable, atau prototype):
 
@@ -25,7 +25,8 @@ src/            kode aplikasi (routes, components, lib, db)
 scripts/        skrip satu tujuan: seed, migrasi data, utilitas dev
 tests/          unit dan integration
 e2e/            test E2E
-.pawang/        state kerja pawang: context, reference, prototype, history (lihat workflow.md)
+.pawang/        state kerja pawang: context, figr, reference, prototype, history (lihat workflow.md)
+.pawang/figr/   4 dokumen Figr + prompt (Markdown, di-commit); diagrams/ generated
 prototypes/     lane A: mockup HTML & theme.css sebelum fitur UI
 prototype/      lane B: hasil figr-to-prototype (React + shared/ui)
 figr/           lane B: sumber desain Figr
@@ -74,6 +75,7 @@ Preset: <aplikasi tunggal | monorepo>.
 | `packages/shared/ui/` | komponen UI bersama              | memakai design-system            |
 | `scripts/`            | skrip satu tujuan                | `scripts/<kata-kerja-objek>.mjs` |
 | `.pawang/`            | state kerja pawang               | context/history lewat kit.js     |
+| `.pawang/figr/`       | dokumen sumber Figr + prompt     | Markdown, di-commit              |
 | `.pawang/prototype/`  | HTML statis generated            | artefak prototype-kit, di-commit |
 | `prototypes/`         | lane A: mockup HTML & tema       | hapus setelah dipakai            |
 | `prototype/`          | lane B: React + DS hasil Figr    | `packages/shared/ui`             |

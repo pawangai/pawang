@@ -32,7 +32,7 @@
     "^AGENTS\\.md$", "^CLAUDE\\.md$", "^GEMINI\\.md$", "^PRODUCT\\.md$", "^DESIGN\\.md$",
     "^package\\.json$", "^pnpm-lock\\.yaml$", "^pnpm-workspace\\.yaml$", "^package-lock\\.json$", "^yarn\\.lock$", "^bun\\.lockb?$", "^deno\\.jsonc?$", "^deno\\.lock$",
     "^tsconfig.*\\.json$", "\\.config\\.[cm]?[jt]s$", "\\.config\\.json$", "\\.d\\.ts$",
-    "^wrangler\\.(jsonc?|toml)$", "^opencode\\.jsonc?$", "^biome\\.jsonc?$", "^turbo\\.json$", "^nx\\.json$", "^components\\.json$", "^knip\\.json", "^fallow\\.toml$",
+    "^wrangler\\.(jsonc?|toml)$", "^opencode\\.jsonc?$", "^biome\\.jsonc?$", "^turbo\\.json$", "^nx\\.json$", "^components\\.json$", "^knip\\.json", "^fallow\\.toml$", "^skills-lock\\.json$",
     "^Dockerfile", "^docker-compose", "^Makefile$", "^index\\.html$",
     "^lefthook\\.yml$", "^renovate\\.json$", "^vercel\\.json$", "^netlify\\.toml$", "^fly\\.toml$",
     "^go\\.mod$", "^go\\.sum$", "^Cargo\\.(toml|lock)$", "^pyproject\\.toml$", "^requirements.*\\.txt$"

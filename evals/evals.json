@@ -68,6 +68,60 @@
         "Tidak menimpa .pawang/kit.js",
         "Meminta izin user sebelum memasang companion"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "pawang, buat 4 dokumen Figr untuk aplikasi kasir multi-cabang: PRD, user flow, interface design, dan edge case. Ada prototype lama di file txt. Simpan hasilnya di .pawang/figr, jangan di figr/.",
+      "expected_output": "Menampilkan ronde grill pertama (design tree/frontier) dan berhenti menunggu jawaban; belum menulis dokumen; menyebut output nanti di .pawang/figr/ (bukan figr/) dan prompt Figr setelah dokumen selesai.",
+      "files": [],
+      "assertions": [
+        "Memanggil grill-me/grilling atau menampilkan ronde grill pertama sebelum menulis",
+        "Tidak menulis empat dokumen sebelum user menjawab",
+        "Menyebut output nanti di .pawang/figr/, bukan figr/",
+        "Menyebut penanda kejujuran dan diagram Mermaid",
+        "Tidak mengarang angka/screen; inventaris dari file atau bertanya",
+        "Mengarahkan ke figr-prompt.md untuk prompt Figr Design setelah dokumen selesai"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "4 dokumen Figr sudah ada di .pawang/figr/. Buat prompt Figr Design untuk proyek fe-erp, DS medilana-ds di /sources/medilana-ds, output React di fe-erp/modules, mulai dari fe-crm. Simpan prompt-nya.",
+      "expected_output": "Menghasilkan prompt <1000 karakter tanpa placeholder tersisa; menyebut 4 dokumen dengan 01-PRD sebagai acuan screen; aturan DS; output per screen + state; minta persetujuan daftar screen; menyimpan di .pawang/figr/prompt.md.",
+      "files": [],
+      "assertions": [
+        "Prompt final <1000 karakter",
+        "Tidak ada placeholder [PROJECT]/[DS_NAME]/[MODULE] yang tersisa",
+        "Menyebut 01-PRD sebagai acuan daftar screen dan 02/03/04 sebagai konteks",
+        "Memuat aturan DS: token, tanpa hardcode, pola baru ke DS bukan design.md root",
+        "Memuat state dari 04-edge-cases.md dan instruksi berhenti untuk persetujuan",
+        "Prompt disimpan di .pawang/figr/prompt.md"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "pawang, susun build-plan dari 4 dokumen Figr di .pawang/figr/. Ada beberapa keputusan terbuka soal modul kembar dan migrasi route; jangan menebak.",
+      "expected_output": "Memanggil grill-me/grilling atau mengajukan pertanyaan grill untuk keputusan terbuka; membaca 4 dokumen dari .pawang/figr/; tidak menebak; berhenti menunggu jawaban/persetujuan sebelum menulis state.",
+      "files": [],
+      "assertions": [
+        "Memanggil grill-me/grilling atau mengajukan pertanyaan grill untuk keputusan terbuka",
+        "Membaca empat dokumen dari .pawang/figr/, bukan figr/",
+        "Cabang yang belum dijawab ditandai (belum diputuskan), bukan diisi tebakan",
+        "Berhenti menunggu jawaban/persetujuan sebelum menulis state",
+        "Tidak menulis plan ke blueprint/ atau docs/"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "pawang, companion apa saja yang perlu dipasang untuk proyek yang sudah punya Figr dan DS? Jangan pasang dulu.",
+      "expected_output": "Membedakan Pawang core dari companion; menyebut grill-me/grilling, figr-to-prototype, prototype-kit; menjelaskan kapan perlu; menunjuk companions.md; tidak memasang tanpa izin.",
+      "files": [],
+      "assertions": [
+        "Menyebut grill-me/grilling, figr-to-prototype, dan prototype-kit sebagai companion",
+        "Membedakan companion (.agents/skills/) dari Pawang core",
+        "Menjelaskan kapan companion Figr diperlukan dan bahwa lane A tidak butuh",
+        "Menunjuk skill/references/companions.md untuk cara pasang",
+        "Tidak memasang apa pun tanpa izin user"
+      ]
     }
   ]
 }
