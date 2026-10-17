@@ -1,7 +1,7 @@
 {
   "name": "cicd-worker-audit",
   "displayName": "CI/CD Worker Audit",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Audit read-only CI/CD Cloudflare Workers: preview, binding, secret, ruleset, cleanup, migrasi, dan rollback.",
   "author": {
     "name": "Pawang AI",

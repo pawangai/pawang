@@ -1,6 +1,6 @@
 {
   "name": "pawang",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Alur kerja agent otonom berbasis spec: folder .pawang (state HTML via kit.js), siklus feature-implement-check-audit-complete, plus adopsi proyek, AGENTS.md, dokumen rujukan, dan tema project.",
   "license": "MIT",
   "repository": {

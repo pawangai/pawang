@@ -1,7 +1,7 @@
 {
   "name": "prototype-kit",
   "displayName": "Prototype Kit",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Mengubah screen Figr/React menjadi prototype HTML statis di .pawang/prototype/.",
   "author": {
     "name": "Pawang AI",

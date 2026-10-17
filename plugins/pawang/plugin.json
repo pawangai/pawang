@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "pawang",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Alur kerja agent otonom berbasis spec: rencana, implement, check, audit, dan complete dengan state .pawang. Termasuk adopsi proyek, AGENTS.md, paralel, batch, Figr, review kode, CI, dan prototype.",
   "author": {
     "name": "Pawang AI",

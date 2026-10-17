@@ -4,7 +4,7 @@
 
 | Versi                   | Didukung |
 | ----------------------- | -------- |
-| `0.1.x` (rilis terbaru) | Ya       |
+| `0.2.x` (rilis terbaru) | Ya       |
 | Lebih lama              | Tidak    |
 
 Perbarui ke rilis terbaru sebelum melaporkan masalah.

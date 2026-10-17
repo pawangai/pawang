@@ -1,7 +1,7 @@
 {
   "name": "figr-to-prototype",
   "displayName": "Figr to Prototype",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Menyusun hasil Figr di folder figr/ menjadi scaffold prototype/ (React + design system) yang bisa dijalankan dan dirawat.",
   "author": {
     "name": "Pawang AI",

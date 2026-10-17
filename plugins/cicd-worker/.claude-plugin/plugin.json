@@ -1,7 +1,7 @@
 {
   "name": "cicd-worker",
   "displayName": "CI/CD Cloudflare Workers",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Menyiapkan pipeline Cloudflare Workers: GitHub Actions, Worker Previews, E2E, ruleset, cleanup, deploy, dan rollback.",
   "author": {
     "name": "Pawang AI",
