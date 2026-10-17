@@ -75,6 +75,14 @@ Periksa nama folder hasil ekstrak: harus `figr-to-prototype`. Jika arsip sumber 
    ```
 5. Lanjutkan langkah yang tertunda; jangan mengulang instalasi.
 
-## Bukan companion inti
+## Companion advisor (opsional)
 
-`find-skills`, `skill-creator`, dan `skill-inspector` adalah alat advisor opsional, bukan syarat alur Pawang. Cara menilai dan memasangnya ada di `advisor.md`; jangan mencampurnya dengan companion Figr/grill.
+Bukan syarat alur Pawang core/Figr. Gunakan saat perlu mencari, membuat, atau mengaudit skill. **Cek dulu apakah sudah terpasang** (global atau proyek); jangan menduplikasi skill yang sama.
+
+| Companion         | Peran                                      | Pasang                                                                                      |
+| ----------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| `find-skills`     | Cari skill dari skills.sh                  | `npx skills add https://github.com/vercel-labs/skills --skill find-skills -a opencode`      |
+| `skill-creator`   | Buat/uji/iterasi skill                     | `npx skills add https://github.com/anthropics/skills --skill skill-creator -a opencode`     |
+| `skill-inspector` | Audit statis + semantik skill pihak ketiga | `npx skills add https://github.com/nvidia/skillspector --skill skill-inspector -a opencode` |
+
+Status di repo Pawang ini: `find-skills` dan `skill-creator` sudah terpasang **global**; `skill-inspector` belum. Di proyek lain, cek dulu sebelum memasang. Cara menilai kandidat ada di `advisor.md`; baca `SKILL.md` dan precheck sebelum dipakai.

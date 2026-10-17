@@ -49,7 +49,17 @@ Pawang core tidak membundel companion. Pasang di `.agents/skills/` dengan izin u
 | `figr-to-prototype`     | Lane B hulu (proyek punya `figr/`)     | File `.skill`/repo companion; folder `figr-to-prototype`                 |
 | `prototype-kit`         | Lane B hilir (HTML statis)             | File `.skill`/repo companion                                             |
 
-`figr-to-prototype` dan `prototype-kit` bukan hasil serapan penuh: kontraknya sudah ada di `skill/references/prototype-figr.md`, tetapi script Python/asetnya tetap companion. `find-skills`, `skill-creator`, dan `skill-inspector` adalah alat advisor opsional, bukan syarat alur Pawang.
+`figr-to-prototype` dan `prototype-kit` bukan hasil serapan penuh: kontraknya sudah ada di `skill/references/prototype-figr.md`, tetapi script Python/asetnya tetap companion.
+
+**Alat advisor (opsional, bukan syarat alur):**
+
+| Alat              | Peran                     | Status          |
+| ----------------- | ------------------------- | --------------- |
+| `find-skills`     | Cari skill dari skills.sh | sudah global    |
+| `skill-creator`   | Buat/uji/iterasi skill    | sudah global    |
+| `skill-inspector` | Audit skill pihak ketiga  | belum terpasang |
+
+Cara pasang dan aturan precheck ada di `skill/references/companions.md`; jangan menduplikasi skill yang sudah global.
 
 ---
 
