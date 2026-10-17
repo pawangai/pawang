@@ -13,6 +13,13 @@ Tujuan: membedakan **Pawang core** dari **companion** yang dipasang terpisah, su
 - **`npx skills add` tidak bisa membaca file `.skill` langsung.** Ekstrak dulu, baru pasang folder hasilnya (lihat bawah).
 - **Jangan pasang ulang `grill-me`.** Skill itu sudah dihapus; isi wawancaranya ada di `grilling`, dan wayfinder memanggil `grilling` langsung.
 
+## Surface plugin
+
+- Plugin `pawang` hanya membawa core; companion tidak ikut. Empat companion repo tersedia sebagai plugin terpisah: `/plugin install <nama>@pawang` (Claude/ChatGPT) atau `gemini skills install ... --path skills/<nama>`.
+- `pawang companion` (CLI) tidak tersedia saat Pawang dipasang sebagai plugin karena `bin/` tidak dibundel. Gunakan perintah marketplace atau `npx skills add` dari tabel di bawah.
+- Di surface plugin, companion dianggap terpasang bila muncul di daftar skill/plugin sesi; jangan hanya memeriksa `.agents/skills/`.
+- Mode lite tidak mendukung companion. Hentikan tugas yang membutuhkannya dan arahkan ke surface full.
+
 ## Companion alur Pawang
 
 | Companion                       | Peran                                                        | Kapan perlu                                                                       | Sumber/pasang                                                                    |
@@ -53,6 +60,19 @@ Catatan:
 - `cicd-worker`/`cicd-worker-audit` khusus Cloudflare Workers; core tetap memakai `ci.md`/`ci-audit.md`. Sebelum dipakai, baca `SKILL.md` + script dan jalankan dengan hati-hati: `render.py` menerima placeholder mentah, punya `--force`, dan memakai action tag; `audit.py` read-only tetapi punya keterbatasan (symlink, JSONC, TOML Python <3.11). Jangan menjalankan mutasi remote tanpa izin.
 - Lane A (`prototypes/`) tidak membutuhkan companion Figr.
 - Bila lane B aktif (`figr/`, `prototype/packages/shared/ui`, atau `.pawang/prototype/`), `doctor` memberi **WARN** bila `figr-to-prototype`/`prototype-kit` belum terpasang. Warning saja, bukan blocker; lane B tetap berhenti sampai companion dipasang dengan izin user.
+
+## Pasang sebagai plugin
+
+Empat companion repo tersedia sebagai plugin terpisah di katalog `pawang`:
+
+```bash
+/plugin install figr-to-prototype@pawang
+/plugin install prototype-kit@pawang
+/plugin install cicd-worker@pawang
+/plugin install cicd-worker-audit@pawang
+```
+
+ChatGPT/Codex memakai marketplace `pawangai/pawang`; Perplexity mengimpor folder `plugins/<nama>`. Hanya untuk surface full; di lite companion tidak tersedia.
 
 ## Pasang dari skills.sh / GitHub
 

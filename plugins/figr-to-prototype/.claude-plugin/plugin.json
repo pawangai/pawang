@@ -1,0 +1,19 @@
+{
+  "name": "figr-to-prototype",
+  "displayName": "Figr to Prototype",
+  "version": "0.1.2",
+  "description": "Menyusun hasil Figr di folder figr/ menjadi scaffold prototype/ (React + design system) yang bisa dijalankan dan dirawat.",
+  "author": {
+    "name": "Pawang AI",
+    "url": "https://github.com/pawangai/pawang"
+  },
+  "homepage": "https://github.com/pawangai/pawang",
+  "repository": "https://github.com/pawangai/pawang",
+  "license": "MIT",
+  "keywords": [
+    "agent",
+    "skill",
+    "pawang",
+    "figr-to-prototype"
+  ]
+}

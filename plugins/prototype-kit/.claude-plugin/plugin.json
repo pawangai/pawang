@@ -1,0 +1,19 @@
+{
+  "name": "prototype-kit",
+  "displayName": "Prototype Kit",
+  "version": "0.1.2",
+  "description": "Mengubah screen Figr/React menjadi prototype HTML statis di .pawang/prototype/.",
+  "author": {
+    "name": "Pawang AI",
+    "url": "https://github.com/pawangai/pawang"
+  },
+  "homepage": "https://github.com/pawangai/pawang",
+  "repository": "https://github.com/pawangai/pawang",
+  "license": "MIT",
+  "keywords": [
+    "agent",
+    "skill",
+    "pawang",
+    "prototype-kit"
+  ]
+}

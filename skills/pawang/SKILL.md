@@ -7,11 +7,17 @@ description: "Alur kerja agent otonom berbasis spec di .pawang (HTML via kit.js)
 
 Tujuan: mengendalikan satu alur kerja utuh untuk membangun perangkat lunak, dari adopsi proyek sampai fitur selesai, dengan spec sebagai pusat dan state di folder `.pawang/`. Setelah spec disetujui, agent bekerja otonom; manusia hanya hadir di dua gerbang.
 
+## Surface: full atau lite
+
+- **Full** bila surface punya shell, Node, git, dan repo proyek yang bisa ditulis (Claude Code, Cowork, ChatGPT Work/Codex, Gemini CLI, Antigravity, opencode). Jalankan alur penuh.
+- **Lite** bila salah satunya tidak ada (claude.ai Chat, ChatGPT Chat, Gemini app, Perplexity chat, atau sandbox tanpa Node/git). Baca `references/lite.md`; jangan menulis `.pawang/`, jangan menjalankan `kit.js`, dan jangan mengaku sudah test/commit. Untuk implement/complete, hentikan dan arahkan ke surface full.
+
 ## Prinsip
 
 - **Dua gerbang manusia saja**: (1) review spec `current-feature.html`, (2) izin commit/merge di `complete`. Selebihnya otonom: implement → check → audit → perbaikan findings → siap complete berjalan sendiri. Henti darurat: macet melewati `autonomous.maxRepairAttempts`, butuh keputusan produk, atau pekerjaan keluar scope.
 - **User pemilik keputusan.** Aturan proyek, companion, dan ADR adalah default; jika bentrok, tunjukkan dan minta keputusan. Keputusan lama boleh diubah user (perbarui dokumen + tanggal); rollback untuk fitur yang sudah diimplementasikan, bukan catatan keputusan.
 - **Progressive disclosure.** File ini hanya peta. Pilih **satu** reference sesuai tugas, baca, kerjakan. Jangan membaca banyak reference sekaligus.
+- **Path skill.** Script dijalankan dari folder yang memuat `SKILL.md` ini, bukan dari root proyek. Di Claude Code gunakan `${CLAUDE_SKILL_DIR}`; di agent lain, resolusi path folder skill sebelum menjalankan `node scripts/...`.
 - **HTML state `.pawang/` HANYA dibuat lewat `node .pawang/kit.js`.** Agent mengirim JSON, kit.js yang menulis HTML. Jangan pernah menulis atau mengedit HTML state mentah. Pengecualian: `.pawang/prototype/` = artefak generated prototype-kit; `.pawang/figr/` = dokumen sumber Figr (Markdown) + prompt; `.pawang/figr/diagrams/` = viewer HTML generated `kit.js`.
 - **Baca state hemat.** Mulai dari `node .pawang/kit.js status` (ringkasan semua). `extract` hanya file yang benar-benar perlu.
 - **Aturan dua lapis.** `AGENTS.md` = peta + perintah + `## Jangan` + `## Keputusan penting` + pemicu tautan; `.pawang/` = state kerja + konvensi (`context/coding-standards.html`) + prototype + rujukan + riwayat. `docs/` tidak dibuat secara default; `docs/` lama atau opt-in user (termasuk `docs/agents/`) dideteksi dan ditautkan. Detail aturan anti-duplikasi ada di `references/workflow.md`.
@@ -24,6 +30,7 @@ Tujuan: mengendalikan satu alur kerja utuh untuk membangun perangkat lunak, dari
 | Kelompok | Tugas                                                    | Reference                      |
 | -------- | -------------------------------------------------------- | ------------------------------ |
 | Dasar    | Aturan inti `.pawang`, kit.js, skema data, gerbang       | `references/workflow.md`       |
+| Dasar    | Mode lite (chat web tanpa shell/Node/repo)               | `references/lite.md`           |
 | Setup    | Pindai & adopsi proyek                                   | `references/adopt.md`          |
 | Setup    | Tulis/rawat AGENTS.md                                    | `references/agents-md.md`      |
 | Setup    | Tentukan/audit tata letak repo                           | `references/layout.md`         |

@@ -1,0 +1,19 @@
+{
+  "name": "cicd-worker-audit",
+  "displayName": "CI/CD Worker Audit",
+  "version": "0.1.2",
+  "description": "Audit read-only CI/CD Cloudflare Workers: preview, binding, secret, ruleset, cleanup, migrasi, dan rollback.",
+  "author": {
+    "name": "Pawang AI",
+    "url": "https://github.com/pawangai/pawang"
+  },
+  "homepage": "https://github.com/pawangai/pawang",
+  "repository": "https://github.com/pawangai/pawang",
+  "license": "MIT",
+  "keywords": [
+    "agent",
+    "skill",
+    "pawang",
+    "cicd-worker-audit"
+  ]
+}

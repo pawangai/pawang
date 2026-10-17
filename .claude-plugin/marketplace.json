@@ -1,0 +1,75 @@
+{
+  "name": "pawang",
+  "owner": {
+    "name": "Pawang AI",
+    "url": "https://github.com/pawangai/pawang"
+  },
+  "description": "Alur kerja agent otonom berbasis spec: rencana, implement, check, audit, dan complete dengan state .pawang. Termasuk adopsi proyek, AGENTS.md, paralel, batch, Figr, review kode, CI, dan prototype.",
+  "plugins": [
+    {
+      "name": "pawang",
+      "source": "./plugins/pawang",
+      "description": "Alur kerja agent otonom berbasis spec: rencana, implement, check, audit, dan complete dengan state .pawang. Termasuk adopsi proyek, AGENTS.md, paralel, batch, Figr, review kode, CI, dan prototype.",
+      "version": "0.1.2",
+      "category": "productivity",
+      "tags": [
+        "agent",
+        "skill",
+        "workflow",
+        "autonomous"
+      ]
+    },
+    {
+      "name": "figr-to-prototype",
+      "source": "./plugins/figr-to-prototype",
+      "description": "Menyusun hasil Figr di folder figr/ menjadi scaffold prototype/ (React + design system) yang bisa dijalankan dan dirawat.",
+      "version": "0.1.2",
+      "category": "productivity",
+      "tags": [
+        "agent",
+        "skill",
+        "pawang",
+        "figr-to-prototype"
+      ]
+    },
+    {
+      "name": "prototype-kit",
+      "source": "./plugins/prototype-kit",
+      "description": "Mengubah screen Figr/React menjadi prototype HTML statis di .pawang/prototype/.",
+      "version": "0.1.2",
+      "category": "productivity",
+      "tags": [
+        "agent",
+        "skill",
+        "pawang",
+        "prototype-kit"
+      ]
+    },
+    {
+      "name": "cicd-worker",
+      "source": "./plugins/cicd-worker",
+      "description": "Menyiapkan pipeline Cloudflare Workers: GitHub Actions, Worker Previews, E2E, ruleset, cleanup, deploy, dan rollback.",
+      "version": "0.1.2",
+      "category": "productivity",
+      "tags": [
+        "agent",
+        "skill",
+        "pawang",
+        "cicd-worker"
+      ]
+    },
+    {
+      "name": "cicd-worker-audit",
+      "source": "./plugins/cicd-worker-audit",
+      "description": "Audit read-only CI/CD Cloudflare Workers: preview, binding, secret, ruleset, cleanup, migrasi, dan rollback.",
+      "version": "0.1.2",
+      "category": "productivity",
+      "tags": [
+        "agent",
+        "skill",
+        "pawang",
+        "cicd-worker-audit"
+      ]
+    }
+  ]
+}

@@ -31,6 +31,7 @@ Cek `AGENTS.md` dan artefak skill: section Commands, tautan ber-pemicu, dan dupl
 - `.pawang/figr/` bila ada: `01-PRD.md`, `02-user-flows.md`, `03-interface-designs.md`, `04-edge-cases.md`, `prompt.md`; `diagrams/` opsional.
 - Artefak skill dikenal yang terpasang (mis. `PRODUCT.md`, `DESIGN.md`, `blueprint/`, `figr/`, `.pawang/figr/`, `CODING_STANDARDS.md`, `GLOSSARY.md`): laporkan dan cek tautannya; jangan menebak yang tak dikenal.
 - Lane B aktif (`figr/`, `prototype/packages/shared/ui`, atau `.pawang/prototype/`) tetapi `figr-to-prototype`/`prototype-kit` belum terpasang: **WARN** (bukan blocker), lalu tawarkan pemasangan lewat `companions.md`. Bila lane B tidak aktif, companion yang tidak terpasang bukan masalah kesehatan.
+- Di surface plugin, companion dianggap terpasang bila muncul di daftar skill/plugin sesi; jangan hanya memeriksa `.agents/skills/`. Mode lite tidak mendukung companion.
 - Tracker wayfinder ada (`docs/agents/issue-tracker.md`) tetapi `wayfinder`/`setup-matt-pocock-skills` belum terpasang, atau sebaliknya: **WARN**, tawarkan pemasangan lewat `companions.md`. `docs/agents/` adalah brownfield/opt-in; jangan disalin ke `.pawang/`. Untuk tracker GitHub, cek `gh auth status`.
 
 ### 3. Audit skill pihak ketiga

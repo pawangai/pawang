@@ -1,0 +1,235 @@
+{
+  "_catatan": "Satu-satunya sumber daftar penanda untuk scripts/scan.mjs. Tambah entri baru di sini tanpa mengubah script. confirmed:false = penanda belum terverifikasi, dilaporkan sebagai dugaan. Pola '*' hanya berlaku pada nama terakhir (basename) path atau pada nama paket.",
+
+  "categories": {
+    "deploy": "Deploy",
+    "framework": "Framework",
+    "build": "Build/toolchain",
+    "db": "Database",
+    "test": "Test",
+    "e2e": "E2E",
+    "quality": "Kualitas kode",
+    "design": "Desain",
+    "agent": "Alat agent",
+    "docs": "Dokumen",
+    "monorepo": "Monorepo",
+    "ci": "CI/CD lain"
+  },
+
+  "skip_dirs": ["node_modules", "dist", "build", "out", "coverage", "target", "vendor", "__pycache__", "venv"],
+
+  "code_extensions": ["ts", "tsx", "js", "jsx", "mjs", "cjs", "vue", "svelte", "astro", "go", "py", "rs", "php", "rb", "java", "kt", "cs"],
+
+  "languages": {
+    "ts": "TypeScript", "tsx": "TypeScript", "js": "JavaScript", "jsx": "JavaScript", "mjs": "JavaScript", "cjs": "JavaScript",
+    "vue": "Vue", "svelte": "Svelte", "astro": "Astro",
+    "go": "Go", "py": "Python", "rs": "Rust", "php": "PHP", "rb": "Ruby", "java": "Java", "kt": "Kotlin", "cs": "C#"
+  },
+
+  "js_languages": ["TypeScript", "JavaScript", "Vue", "Svelte", "Astro"],
+
+  "workspace_dirs": ["apps", "packages", "services"],
+
+  "boilerplate": {
+    "readme": [
+      "create-next-app",
+      "Get started by editing",
+      "This template provides a minimal setup",
+      "React + Vite",
+      "npm create cloudflare",
+      "create-cloudflare",
+      "Welcome to Astro",
+      "Create T3 App",
+      "npm create vite"
+    ],
+    "entry_files": [
+      "src/App.tsx", "src/App.jsx", "src/app/page.tsx", "app/page.tsx",
+      "src/routes/index.tsx", "src/index.ts", "src/index.tsx", "src/worker.ts"
+    ],
+    "entry_phrases": [
+      "Vite + React", "Get started by editing", "Edit <code>src/App.tsx</code>",
+      "Hello World!", "Hello Hono!", "count is"
+    ]
+  },
+
+  "ci_keywords": {
+    "test": ["vitest", "jest", "npm test", "pnpm test", "bun test", "yarn test"],
+    "lint": ["eslint", "biome", "oxlint", "lint"],
+    "typecheck": ["tsc", "typecheck"],
+    "e2e": ["playwright", "cypress", "e2e"],
+    "build": ["build"],
+    "deploy": ["wrangler", "deploy", "vercel", "netlify", "flyctl"],
+    "fallow": ["fallow"],
+    "docker": ["docker"]
+  },
+
+  "skill_dirs": [".opencode/skills", ".opencode/skill", ".claude/skills", ".agents/skills"],
+
+  "known_skills": [
+    { "match": "impeccable", "label": "Impeccable" },
+    { "match": "fallow", "label": "Fallow" },
+    { "match": "tanstack", "label": "TanStack" },
+    { "match": "playwright", "label": "Playwright" },
+    { "match": "cloudflare", "label": "Cloudflare" },
+    { "match": "wrangler", "label": "Wrangler" },
+    { "match": "supabase", "label": "Supabase" },
+    { "match": "expo", "label": "Expo" }
+  ],
+
+  "deps": [
+    { "match": "wrangler", "category": "deploy", "label": "Cloudflare Workers (wrangler)" },
+    { "match": "@cloudflare/vite-plugin", "category": "deploy", "label": "Cloudflare Vite plugin" },
+    { "match": "@cloudflare/workers-types", "category": "deploy", "label": "Cloudflare Workers types" },
+    { "match": "@opennextjs/cloudflare", "category": "deploy", "label": "OpenNext untuk Cloudflare" },
+
+    { "match": "hono", "category": "framework", "label": "Hono" },
+    { "match": "next", "category": "framework", "label": "Next.js" },
+    { "match": "react", "category": "framework", "label": "React" },
+    { "match": "vue", "category": "framework", "label": "Vue" },
+    { "match": "svelte", "category": "framework", "label": "Svelte" },
+    { "match": "@sveltejs/kit", "category": "framework", "label": "SvelteKit" },
+    { "match": "astro", "category": "framework", "label": "Astro" },
+    { "match": "solid-js", "category": "framework", "label": "Solid" },
+    { "match": "@tanstack/*", "category": "framework", "label": "TanStack" },
+
+    { "match": "vite", "category": "build", "label": "Vite" },
+    { "match": "vite-plus", "category": "build", "label": "Vite+", "confirmed": false, "note": "nama paket belum diverifikasi, konfirmasi ke user" },
+    { "match": "turbo", "category": "build", "label": "Turborepo" },
+    { "match": "nx", "category": "build", "label": "Nx" },
+    { "match": "typescript", "category": "build", "label": "TypeScript" },
+    { "match": "tsup", "category": "build", "label": "tsup" },
+    { "match": "esbuild", "category": "build", "label": "esbuild" },
+
+    { "match": "drizzle-orm", "category": "db", "label": "Drizzle ORM" },
+    { "match": "drizzle-kit", "category": "db", "label": "Drizzle Kit (migrasi)" },
+    { "match": "@prisma/client", "category": "db", "label": "Prisma" },
+    { "match": "kysely", "category": "db", "label": "Kysely" },
+    { "match": "@supabase/supabase-js", "category": "db", "label": "Supabase" },
+    { "match": "better-sqlite3", "category": "db", "label": "better-sqlite3" },
+    { "match": "pg", "category": "db", "label": "node-postgres" },
+    { "match": "postgres", "category": "db", "label": "postgres.js" },
+    { "match": "mysql2", "category": "db", "label": "MySQL" },
+    { "match": "mongoose", "category": "db", "label": "MongoDB (mongoose)" },
+    { "match": "@libsql/client", "category": "db", "label": "libSQL/Turso" },
+    { "match": "@electric-sql/pglite", "category": "db", "label": "PGlite" },
+    { "match": "@neondatabase/serverless", "category": "db", "label": "Neon serverless" },
+
+    { "match": "vitest", "category": "test", "label": "Vitest" },
+    { "match": "jest", "category": "test", "label": "Jest" },
+    { "match": "@testing-library/*", "category": "test", "label": "Testing Library" },
+    { "match": "msw", "category": "test", "label": "MSW (mock API)" },
+
+    { "match": "@playwright/test", "category": "e2e", "label": "Playwright Test" },
+    { "match": "playwright", "category": "e2e", "label": "Playwright" },
+    { "match": "cypress", "category": "e2e", "label": "Cypress" },
+    { "match": "puppeteer", "category": "e2e", "label": "Puppeteer" },
+
+    { "match": "eslint", "category": "quality", "label": "ESLint" },
+    { "match": "@biomejs/biome", "category": "quality", "label": "Biome" },
+    { "match": "prettier", "category": "quality", "label": "Prettier" },
+    { "match": "oxlint", "category": "quality", "label": "oxlint" },
+    { "match": "knip", "category": "quality", "label": "Knip" },
+    { "match": "fallow", "category": "quality", "label": "Fallow (analisis kode TS/JS)" },
+    { "match": "fallow-mcp", "category": "quality", "label": "Fallow MCP" },
+    { "match": "husky", "category": "quality", "label": "Husky (git hook)" },
+    { "match": "lint-staged", "category": "quality", "label": "lint-staged" },
+    { "match": "lefthook", "category": "quality", "label": "Lefthook" },
+    { "match": "dependency-cruiser", "category": "quality", "label": "dependency-cruiser" },
+
+    { "match": "tailwindcss", "category": "design", "label": "Tailwind CSS" },
+    { "match": "@tailwindcss/vite", "category": "design", "label": "Tailwind (plugin Vite)" },
+    { "match": "@radix-ui/*", "category": "design", "label": "Radix UI" },
+    { "match": "shadcn", "category": "design", "label": "shadcn CLI" },
+    { "match": "impeccable", "category": "design", "label": "Impeccable", "confirmed": false, "note": "skill desain; dipasang dengan `npx impeccable install`, bisa tidak muncul di package.json" },
+
+    { "match": "@opencode-ai/plugin", "category": "agent", "label": "Plugin OpenCode" },
+    { "match": "@modelcontextprotocol/sdk", "category": "agent", "label": "MCP SDK" }
+  ],
+
+  "paths": [
+    { "path": "wrangler.jsonc", "category": "deploy", "label": "Cloudflare Workers (wrangler.jsonc)" },
+    { "path": "wrangler.json", "category": "deploy", "label": "Cloudflare Workers (wrangler.json)" },
+    { "path": "wrangler.toml", "category": "deploy", "label": "Cloudflare Workers (wrangler.toml)" },
+    { "path": "worker-configuration.d.ts", "category": "deploy", "label": "Tipe Env hasil `wrangler types`" },
+    { "path": ".dev.vars.example", "category": "deploy", "label": "Contoh env lokal Workers" },
+    { "path": "vercel.json", "category": "deploy", "label": "Vercel" },
+    { "path": "netlify.toml", "category": "deploy", "label": "Netlify" },
+    { "path": "fly.toml", "category": "deploy", "label": "Fly.io" },
+    { "path": "Dockerfile", "category": "deploy", "label": "Docker" },
+    { "path": "docker-compose.y*ml", "category": "deploy", "label": "Docker Compose" },
+    { "path": "render.yaml", "category": "deploy", "label": "Render" },
+
+    { "path": "drizzle.config.*", "category": "db", "label": "Konfigurasi Drizzle" },
+    { "path": "drizzle", "category": "db", "label": "Folder migrasi Drizzle" },
+    { "path": "prisma/schema.prisma", "category": "db", "label": "Skema Prisma" },
+    { "path": "migrations", "category": "db", "label": "Folder migrations" },
+    { "path": "db/migrations", "category": "db", "label": "Folder db/migrations" },
+    { "path": "supabase/config.toml", "category": "db", "label": "Supabase lokal" },
+
+    { "path": "vitest.config.*", "category": "test", "label": "Konfigurasi Vitest" },
+    { "path": "jest.config.*", "category": "test", "label": "Konfigurasi Jest" },
+
+    { "path": "playwright.config.*", "category": "e2e", "label": "Konfigurasi Playwright" },
+    { "path": "e2e", "category": "e2e", "label": "Folder e2e" },
+    { "path": ".e2e", "category": "e2e", "label": "Folder .e2e" },
+    { "path": "tests/e2e", "category": "e2e", "label": "Folder tests/e2e" },
+    { "path": "cypress.config.*", "category": "e2e", "label": "Konfigurasi Cypress" },
+    { "path": ".playwright-mcp", "category": "e2e", "label": "Artefak MCP Playwright (.playwright-mcp)" },
+
+    { "path": "eslint.config.*", "category": "quality", "label": "ESLint flat config" },
+    { "path": ".eslintrc*", "category": "quality", "label": "ESLint rc" },
+    { "path": "biome.json*", "category": "quality", "label": "Konfigurasi Biome" },
+    { "path": ".prettierrc*", "category": "quality", "label": "Konfigurasi Prettier" },
+    { "path": ".oxlintrc.json", "category": "quality", "label": "Konfigurasi oxlint" },
+    { "path": "knip.json*", "category": "quality", "label": "Konfigurasi Knip" },
+    { "path": ".fallowrc.json", "category": "quality", "label": "Konfigurasi Fallow (.fallowrc.json)" },
+    { "path": ".fallowrc.jsonc", "category": "quality", "label": "Konfigurasi Fallow (.fallowrc.jsonc)" },
+    { "path": "fallow.toml", "category": "quality", "label": "Konfigurasi Fallow (fallow.toml)" },
+    { "path": ".fallow.toml", "category": "quality", "label": "Konfigurasi Fallow (.fallow.toml)" },
+    { "path": "node_modules/fallow/skills/fallow", "category": "quality", "label": "Skill Fallow bawaan paket npm" },
+    { "path": ".husky", "category": "quality", "label": "Husky" },
+    { "path": "lefthook.yml", "category": "quality", "label": "Lefthook" },
+    { "path": ".pre-commit-config.yaml", "category": "quality", "label": "pre-commit" },
+
+    { "path": "PRODUCT.md", "category": "design", "label": "PRODUCT.md (konteks produk; dipakai Impeccable)", "note": "bisa juga dokumen produk biasa" },
+    { "path": "DESIGN.md", "category": "design", "label": "DESIGN.md (sistem visual; dipakai Impeccable)", "note": "bisa juga dokumen desain biasa" },
+    { "path": ".impeccable", "category": "design", "label": "Folder .impeccable", "confirmed": false, "note": "belum terkonfirmasi di dokumentasi Impeccable" },
+    { "path": "vendor/impeccable", "category": "design", "label": "Impeccable sebagai submodule" },
+    { "path": "components.json", "category": "design", "label": "shadcn/ui (components.json)" },
+    { "path": "tailwind.config.*", "category": "design", "label": "Konfigurasi Tailwind" },
+    { "path": "figr", "category": "design", "label": "Folder figr (hasil Figr)" },
+    { "path": "prototype", "category": "design", "label": "prototype/ (workbench React dari Figr)" },
+    { "path": "prototype/packages/shared/ui/index.css", "category": "design", "label": "DS Figr (index.css)" },
+    { "path": ".pawang/prototype", "category": "design", "label": "Prototype HTML Pawang (generated)" },
+
+    { "path": "AGENTS.md", "category": "agent", "label": "AGENTS.md" },
+    { "path": "CLAUDE.md", "category": "agent", "label": "CLAUDE.md" },
+    { "path": "GEMINI.md", "category": "agent", "label": "GEMINI.md" },
+    { "path": ".cursorrules", "category": "agent", "label": "Cursor rules" },
+    { "path": ".github/copilot-instructions.md", "category": "agent", "label": "Instruksi Copilot" },
+    { "path": "opencode.json", "category": "agent", "label": "OpenCode (opencode.json)" },
+    { "path": "opencode.jsonc", "category": "agent", "label": "OpenCode (opencode.jsonc)" },
+    { "path": ".opencode", "category": "agent", "label": "Folder .opencode" },
+    { "path": ".claude", "category": "agent", "label": "Folder .claude" },
+    { "path": ".agents", "category": "agent", "label": "Folder .agents" },
+
+    { "path": "docs", "category": "docs", "label": "Folder docs" },
+    { "path": "CODING_STANDARDS.md", "category": "docs", "label": "CODING_STANDARDS.md (standar kode)" },
+    { "path": "GLOSSARY.md", "category": "docs", "label": "GLOSSARY.md (glosarium domain)" },
+    { "path": "docs/specs", "category": "docs", "label": "docs/specs (legacy/brownfield)" },
+    { "path": "docs/decisions", "category": "docs", "label": "docs/decisions (legacy/brownfield)" },
+    { "path": "docs/conventions", "category": "docs", "label": "docs/conventions (legacy/brownfield)" },
+    { "path": "docs/handoff", "category": "docs", "label": "docs/handoff (legacy/brownfield)" },
+
+    { "path": "pnpm-workspace.yaml", "category": "monorepo", "label": "pnpm workspace" },
+    { "path": "turbo.json", "category": "monorepo", "label": "Turborepo" },
+    { "path": "nx.json", "category": "monorepo", "label": "Nx" },
+    { "path": "lerna.json", "category": "monorepo", "label": "Lerna" },
+
+    { "path": ".gitlab-ci.yml", "category": "ci", "label": "GitLab CI" },
+    { "path": ".circleci", "category": "ci", "label": "CircleCI" },
+    { "path": "azure-pipelines.yml", "category": "ci", "label": "Azure Pipelines" },
+    { "path": "bitbucket-pipelines.yml", "category": "ci", "label": "Bitbucket Pipelines" },
+    { "path": "Jenkinsfile", "category": "ci", "label": "Jenkins" }
+  ]
+}

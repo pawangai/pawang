@@ -10,7 +10,11 @@ Core (alternatif `npx pawang init`):
 npx skills add pawangai/pawang --skill pawang -a opencode
 ```
 
-Companion:
+Plugin marketplace (Claude/ChatGPT/Codex) dan bundle lite ada di README utama; sumber bundle ada di `plugins/pawang/` dan `plugins/<companion>/`.
+
+Companion (plugin terpisah): `/plugin install figr-to-prototype@pawang` dan seterusnya.
+
+Companion (source/GitHub):
 
 ```bash
 npx skills add pawangai/pawang \

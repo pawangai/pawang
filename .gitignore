@@ -6,4 +6,5 @@ node_modules/
 
 # Arsip kerja
 *.tgz
+dist/
 pawang-workspace/

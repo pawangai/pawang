@@ -8,6 +8,7 @@
 ---
 
 [![Status](https://img.shields.io/badge/Status-Active-success.svg)](#)
+[![verify](https://github.com/pawangai/pawang/actions/workflows/verify.yml/badge.svg)](https://github.com/pawangai/pawang/actions/workflows/verify.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/pawang.svg)](https://www.npmjs.com/package/pawang)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
@@ -49,9 +50,54 @@ npx pawang init --force      # perbarui ke versi terbaru
 
 Setelah terpasang, buka sesi agent di proyek lalu minta: **"pawang, adopsi proyek ini"**.
 
+### 🔌 Plugin marketplace
+
+Repo ini juga menyediakan katalog plugin untuk Claude, ChatGPT/Codex, dan impor manual Perplexity. Core tetap satu skill; companion tidak dibundel. Plugin menjalankan instruksi dan script di mesin lokal: review isi plugin sebelum install, terutama companion yang memakai Python/Node/gh.
+
+```bash
+# Claude Code
+/plugin marketplace add pawangai/pawang
+/plugin install pawang@pawang
+
+# ChatGPT / Codex
+codex plugin marketplace add pawangai/pawang
+
+# Gemini CLI
+gemini skills install https://github.com/pawangai/pawang.git \
+  --path skills/pawang --scope workspace --consent
+
+# Antigravity: salin/tautkan skills/pawang ke .agents/skills/pawang
+```
+
+claude.ai/Cowork: Customize > Plugins > Upload plugin (`dist/pawang-plugin.zip`). ChatGPT: directory setelah review, atau workspace admin import marketplace. Perplexity: import folder `plugins/pawang` dari GitHub. Gemini app dan surface chat lain memakai `pawang-lite.zip` (lihat `npm run plugin:pack`).
+
+| Surface                                                                    | Mode | Catatan                                                                         |
+| -------------------------------------------------------------------------- | ---- | ------------------------------------------------------------------------------- |
+| Claude Code, Cowork, ChatGPT Work/Codex, Gemini CLI, Antigravity, opencode | Full | Butuh shell, Node, git, dan repo yang bisa ditulis                              |
+| claude.ai Chat, ChatGPT Chat, Gemini app, Perplexity chat                  | Lite | Plan, spec, review, audit sebagai artifact; tanpa `.pawang/`, test, atau commit |
+
+Bundle plugin dibuat dari `skills/pawang`:
+
+```bash
+npm run plugin:sync    # plugin + katalog + bundle lite
+npm run plugin:check   # validasi sinkronisasi/versi/batas
+npm run plugin:pack    # ZIP semua plugin + lite + arsip .skill
+```
+
+ZIP dan `.skill` rilis dilampirkan ke GitHub Releases saat tag `v*` dibuat.
+
 ### 🧩 Companion (opsional, dipasang terpisah)
 
-Pawang core tidak membundel companion. Empat companion Figr/CICD tinggal di repo yang sama (`skills/`) dan dipasang dari GitHub; sisanya dari sumber masing-masing. Pasang di `.agents/skills/` dengan izin user; detail, nama folder, dan precheck ada di `skills/pawang/references/companions.md`.
+Pawang core tidak membundel companion. Empat companion Figr/CICD tinggal di repo yang sama (`skills/`), tersedia sebagai plugin terpisah, dan juga bisa dipasang dari GitHub; sisanya dari sumber masing-masing. Pasang di `.agents/skills/` dengan izin user; detail, nama folder, dan precheck ada di `skills/pawang/references/companions.md`.
+
+```bash
+/plugin install figr-to-prototype@pawang
+/plugin install prototype-kit@pawang
+/plugin install cicd-worker@pawang
+/plugin install cicd-worker-audit@pawang
+```
+
+Plugin companion hanya untuk surface full (butuh Python/Node/gh/wrangler). Di chat web/lite, companion tidak tersedia.
 
 | Companion                                    | Invoke                          | Kapan perlu                             | Pasang                                                                                    |
 | -------------------------------------------- | ------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -177,7 +223,7 @@ pawang/
     └── kit.js                # disalin ke .pawang/kit.js tiap proyek
 ```
 
-Repo sumber berisi `skills/pawang/` (core, ikut npm), `skills/<nama>/` (empat companion; tidak ikut npm), dan `skills/pawang/companions.json` (metadata CLI `pawang companion`). Pasang companion lewat `npx skills add` atau `pawang companion add`.
+Repo sumber berisi `skills/pawang/` (core, ikut npm), `skills/<nama>/` (empat companion; tidak ikut npm), `skills/pawang/companions.json` (metadata CLI `pawang companion`), dan `plugins/<nama>/` (bundle plugin generated core + companion; tidak ikut npm). Pasang companion lewat `/plugin install <nama>@pawang`, `npx skills add`, atau `pawang companion add`.
 
 **2. State proyek (`.pawang/`, dibuat `kit.js init`):**
 

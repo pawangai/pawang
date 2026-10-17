@@ -24,8 +24,9 @@ git switch -c <nama-perubahan>
 Verifikasi wajib sebelum membuka PR:
 
 ```bash
-npm test        # selftest kit.js, link-agent-files, versi CLI, companion list
-npm run pack:dry # pastikan isi paket npm sesuai
+npm test             # selftest kit.js, link-agent-files, versi CLI, companion list, plugin check
+npm run plugin:pack  # generate + validasi + zip plugin, lite, dan arsip .skill
+npm run pack:dry     # pastikan isi paket npm sesuai
 ```
 
 Repo ini tidak memakai build, lint, atau typecheck framework. Jika menambah logika non-trivial (cabang, loop, parser, validasi), tambahkan selftest atau assert di tempat yang sudah ada (`skills/pawang/assets/kit.js selftest` untuk kit).
@@ -38,8 +39,10 @@ Repo ini tidak memakai build, lint, atau typecheck framework. Jika menambah logi
 | CLI pemasang         | `bin/cli.mjs`                   | `init`, `--project`, `--target`, `--force`, `companion`            |
 | State kit            | `skills/pawang/assets/kit.js`   | Disalin ke `.pawang/kit.js` di proyek user                         |
 | Script deterministik | `skills/pawang/scripts/*.mjs`   | Zero-dep, tanpa LLM                                                |
-| Companion            | `skills/<nama>/`                | Tidak ikut npm; dipasang via `npx skills add`                      |
+| Companion            | `skills/<nama>/`                | Tidak ikut npm; plugin terpisah atau `npx skills add`              |
 | Metadata companion   | `skills/pawang/companions.json` | Sumber `pawang companion list/info/add`                            |
+| Bundle plugin        | `plugins/<nama>/`               | Generated; jangan diedit manual, jalankan `npm run plugin:sync`    |
+| Build plugin         | `scripts/*.mjs`                 | Generate/validasi/zip bundle; zero-dep                             |
 | Test skill           | `evals/`                        | Definisi prompt uji; hasil di `pawang-workspace/` (gitignored)     |
 
 ### Aturan skill
@@ -65,11 +68,30 @@ Repo ini tidak memakai build, lint, atau typecheck framework. Jika menambah logi
 - Pertahankan error handling dan validasi saat memindahkan atau menggabungkan kode.
 - Jangan pernah meng-commit secret, token, `.env`, atau data pribadi.
 
+### Plugin marketplace
+
+- Sumber kebenaran tetap `skills/pawang/` dan `skills/<nama>/`. Setelah mengubahnya, jalankan `npm run plugin:sync`; jangan mengedit `plugins/<nama>/` atau katalog marketplace manual.
+- `npm test` memvalidasi sinkronisasi hash, versi, README, LICENSE, larangan `bin/`, dan batas file. `npm run plugin:pack` membuat ZIP per plugin, lite, dan arsip `.skill` di `dist/` (gitignored).
+- Rilis tag `v*` menjalankan workflow dan melampirkan ZIP/`.skill` ke GitHub Releases. Submission ke direktori Claude/ChatGPT dilakukan maintainer setelah verifikasi; Perplexity dan Gemini memakai impor/install manual.
+
+**Checklist sebelum submit direktori:**
+
+- Naikkan `version` di `package.json`, jalankan `plugin:sync`, lalu commit bundle.
+- Lulus `npm test`, `npm run plugin:pack`, `npm run pack:dry`, `claude plugin validate plugins/*`, dan `claude plugin validate .claude-plugin/marketplace.json`.
+- Uji install core + minimal satu companion di Claude Code (scope user) dan pastikan skill muncul.
+- Pastikan README plugin >=40 kata, LICENSE ada, tidak ada `bin/`, `node_modules`, `.env`, atau file sensitif.
+- Claude directory: butuh plan Claude berbayar, repo GitHub, README + LICENSE, lalu submit lewat portal; review keamanan per versi.
+- ChatGPT: butuh verified identity + Apps Management write; pilih **Skills only**, upload ZIP per plugin, isi listing, lalu 5 test case positif + 3 negatif. URL listing opsional untuk skills-only.
+- Perplexity: tidak ada submission direktori; user mengimpor folder `plugins/<nama>` atau ZIP.
+- Gemini: CLI memakai `gemini skills install`; Gemini app hanya menerima `pawang-lite.zip`.
+
+**Listing inti yang bisa dipakai ulang:** nama `Pawang`, kategori Productivity/Developer tools, deskripsi singkat dari `package.json`, dan prompt contoh: `pawang, adopsi proyek ini`, `buat spec fitur export laporan`, `review diff ini`. Prompt negatif: `buat gambar`, `deploy ke production sekarang tanpa izin`.
+
 ## Commit dan pull request
 
 - Branch dari `main`; satu topik per PR.
 - Pesan commit ringkas dan menjelaskan **mengapa**, bukan hanya apa. Bahasa Indonesia atau Inggris keduanya diterima; konsisten dalam satu PR.
-- Isi body PR: ringkasan, issue terkait (`Closes #...`), dan hasil verifikasi (`npm test`, `npm run pack:dry`).
+- Isi body PR: ringkasan, issue terkait (`Closes #...`), dan hasil verifikasi (`npm test`, `npm run plugin:pack`, `npm run pack:dry`).
 - Jangan menaikkan versi, membuat tag, atau mem-publish npm; itu dilakukan maintainer.
 - Jangan force-push branch yang sudah dibagikan atau me-rewrite history `main`.
 - Maintainer meninjau PR; perubahan bisa diminta sebelum merge. Dengan mengirim PR, Anda menyetujui kontribusi dilisensikan sebagai MIT.

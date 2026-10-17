@@ -34,8 +34,10 @@ Yang termasuk cakupan:
 - `bin/cli.mjs`: path traversal, penulisan/timpa file di luar target, penanganan symlink dan `--target`.
 - `skills/pawang/assets/kit.js`: injeksi atau XSS pada HTML yang dihasilkan dari JSON, escaping, dan penulisan output.
 - `skills/pawang/scripts/*.mjs`: penanganan symlink, validasi input, dan penulisan file.
+- `skills/<companion>/scripts/*.py`: eksekusi script companion dengan izin user dan penulisan file.
+- `scripts/sync-plugin.mjs`, `check-plugin.mjs`, `pack-plugin.mjs`: path traversal, kebocoran file sensitif, dan integritas bundle di `plugins/<nama>`.
 - `pawang companion add`: instalasi atau perubahan file tanpa persetujuan.
-- Supply chain: rilis npm, tag, dan isi paket (core tidak membundel dependency runtime).
+- Supply chain: rilis npm, tag, isi paket, katalog marketplace, dan ZIP/`.skill` (core tidak membundel dependency runtime).
 - Kelemahan yang memungkinkan agent melewati gerbang persetujuan atau menulis di luar scope proyek.
 
 Di luar cakupan:

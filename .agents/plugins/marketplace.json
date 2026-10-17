@@ -1,0 +1,68 @@
+{
+  "name": "pawang",
+  "interface": {
+    "displayName": "Pawang"
+  },
+  "plugins": [
+    {
+      "name": "pawang",
+      "source": {
+        "source": "local",
+        "path": "./plugins/pawang"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "figr-to-prototype",
+      "source": {
+        "source": "local",
+        "path": "./plugins/figr-to-prototype"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "prototype-kit",
+      "source": {
+        "source": "local",
+        "path": "./plugins/prototype-kit"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "cicd-worker",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cicd-worker"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "cicd-worker-audit",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cicd-worker-audit"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

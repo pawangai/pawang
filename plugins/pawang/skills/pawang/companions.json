@@ -1,0 +1,57 @@
+{
+  "source": "pawangai/pawang",
+  "companions": [
+    {
+      "name": "figr-to-prototype",
+      "title": "Figr to Prototype",
+      "description": "Menyusun hasil Figr di folder figr/ menjadi scaffold prototype/ (React + design system) yang bisa dijalankan dan dirawat.",
+      "when": "Proyek punya folder figr/ dan butuh prototype React + design system sebagai sumber tampilan.",
+      "deps": ["Python 3", "Node.js/npm", "jaringan untuk npm/Vite+"],
+      "warnings": [
+        "Mengubah folder prototype/; baca SKILL.md sebelum menjalankan.",
+        "Sync Figr bisa menggabungkan perubahan; periksa diff sebelum commit."
+      ]
+    },
+    {
+      "name": "prototype-kit",
+      "title": "Prototype Kit",
+      "description": "Mengubah screen Figr/React menjadi prototype HTML statis di .pawang/prototype/.",
+      "when": "Prototype React sudah siap dikunci menjadi HTML statis, atau figr/design system berubah dan prototype perlu disinkronkan.",
+      "deps": ["Python 3", "Node.js/npm", "jaringan untuk lucide-static"],
+      "warnings": [
+        "Plan-first: berhenti untuk persetujuan rencana dan estimasi sebelum menulis file.",
+        "Jangan menulis prototype/ di akar repo; output hanya di .pawang/prototype/."
+      ]
+    },
+    {
+      "name": "cicd-worker",
+      "title": "CI/CD Cloudflare Workers",
+      "description": "Menyiapkan pipeline Cloudflare Workers: GitHub Actions, Worker Previews, E2E, ruleset, cleanup, deploy, dan rollback.",
+      "when": "Proyek Cloudflare Workers butuh CI/CD, preview per branch, auto deploy, atau perbaikan pipeline.",
+      "deps": [
+        "Python 3",
+        "Node.js 22",
+        "wrangler >= 4.135",
+        "gh",
+        "kredensial Cloudflare"
+      ],
+      "warnings": [
+        "Khusus Cloudflare Workers; Pawang core tetap memakai ci.md untuk pipeline generik.",
+        "Preview hanya terisolasi bila setiap binding menunjuk resource terpisah; jangan anggap aman otomatis.",
+        "render.py menerima placeholder mentah dan punya --force; periksa output sebelum menjalankan.",
+        "Aksi remote (resource, ruleset, secret, deploy) butuh izin eksplisit."
+      ]
+    },
+    {
+      "name": "cicd-worker-audit",
+      "title": "CI/CD Worker Audit",
+      "description": "Audit read-only CI/CD Cloudflare Workers: preview, binding, secret, ruleset, cleanup, migrasi, dan rollback.",
+      "when": "Sebelum/sesudah menyiapkan pipeline Worker, atau saat preview diduga menyentuh produksi.",
+      "deps": ["Python 3", "gh", "wrangler"],
+      "warnings": [
+        "Read-only; perbaikan tetap lewat cicd-worker setelah persetujuan user.",
+        "Mode --remote butuh gh/wrangler login; UNKNOWN berarti belum bisa dicek, bukan aman."
+      ]
+    }
+  ]
+}

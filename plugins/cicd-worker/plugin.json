@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "cicd-worker",
+  "version": "0.1.2",
+  "description": "Menyiapkan pipeline Cloudflare Workers: GitHub Actions, Worker Previews, E2E, ruleset, cleanup, deploy, dan rollback.",
+  "author": {
+    "name": "Pawang AI",
+    "url": "https://github.com/pawangai/pawang"
+  },
+  "homepage": "https://github.com/pawangai/pawang",
+  "repository": "https://github.com/pawangai/pawang",
+  "license": "MIT",
+  "keywords": [
+    "agent",
+    "skill",
+    "pawang",
+    "cicd-worker"
+  ]
+}

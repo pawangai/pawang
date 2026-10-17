@@ -30,7 +30,10 @@
     "spec-driven"
   ],
   "scripts": {
-    "test": "node skills/pawang/assets/kit.js selftest && node skills/pawang/scripts/link-agent-files.mjs --selftest && node bin/cli.mjs --version && node bin/cli.mjs companion list",
+    "test": "node skills/pawang/assets/kit.js selftest && node skills/pawang/scripts/link-agent-files.mjs --selftest && node bin/cli.mjs --version && node bin/cli.mjs companion list && node scripts/check-plugin.mjs",
+    "plugin:sync": "node scripts/sync-plugin.mjs",
+    "plugin:check": "node scripts/check-plugin.mjs",
+    "plugin:pack": "node scripts/sync-plugin.mjs && node scripts/check-plugin.mjs && node scripts/pack-plugin.mjs",
     "pack:dry": "npm pack --dry-run"
   }
 }
