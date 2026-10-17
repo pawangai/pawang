@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coding standards - pawang coding-standards</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--p-bg);color:var(--p-text);font-family:var(--p-font-sans);font-size:var(--p-font-size);line-height:1.55}
+.wrap{max-width:880px;margin:0 auto;padding:28px 20px 64px}
+header.site{border:1px solid var(--p-border);background:var(--p-surface);border-radius:var(--p-radius);padding:18px 20px;margin-bottom:20px}
+.kind{font-size:.8em;letter-spacing:.08em;text-transform:uppercase;color:var(--p-muted);font-weight:600}
+h1{font-size:1.47em;margin:6px 0 8px}
+h2{font-size:1em;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em;color:var(--p-muted)}
+p{margin:6px 0}
+.badge{display:inline-block;font-size:.8em;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid var(--p-border);background:var(--p-bg);color:var(--p-text);margin-right:6px}
+.badge.ok{background:var(--p-accent);border-color:var(--p-accent);color:var(--p-accent-ink)}
+.badge.warn{border-color:#d97706;color:#b45309}
+.badge.bad{border-color:#dc2626;color:#dc2626}
+.badge.muted{color:var(--p-muted)}
+.meta{color:var(--p-muted);font-size:.87em;margin-top:6px}
+.meta code,code{font-family:var(--p-font-mono);font-size:.92em;background:var(--p-bg);border:1px solid var(--p-border);border-radius:6px;padding:1px 6px}
+section{border:1px solid var(--p-border);background:var(--p-surface);border-radius:var(--p-radius);padding:14px 18px;margin:12px 0}
+section h2{margin-top:0}
+ul{margin:6px 0;padding-left:22px}
+li{margin:3px 0}
+ul.steps{list-style:none;padding-left:0}
+ul.steps li{border:1px solid var(--p-border);border-radius:8px;padding:8px 12px;margin:6px 0}
+ul.steps li.done{opacity:.65}
+ul.steps .check{font-weight:700;margin-right:8px}
+ul.steps em{color:var(--p-muted);font-style:normal;display:block;font-size:.87em}
+table{border-collapse:collapse;width:100%;font-size:.93em}
+th,td{border:1px solid var(--p-border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--p-bg);font-size:.8em;text-transform:uppercase;letter-spacing:.04em;color:var(--p-muted)}
+.card{border:1px solid var(--p-border);border-radius:8px;padding:12px 14px;margin:10px 0}
+.card h3{margin:0 0 6px;font-size:1em}
+.warnbox{border-color:#d97706;background:#fffbeb;color:#7c2d12}
+.warnbox h2{color:#b45309}
+.empty{color:var(--p-muted);font-style:italic}
+footer{margin-top:28px;color:var(--p-muted);font-size:.8em;text-align:center}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:4px 12px;font-size:.93em}
+.kv .k{color:var(--p-muted)}
+:root{--p-bg:#f8fafc;--p-surface:#ffffff;--p-border:#e2e8f0;--p-text:#0f172a;--p-muted:#64748b;--p-accent:#2563eb;--p-accent-ink:#ffffff;--p-radius:12px;--p-font-sans:Inter, system-ui, -apple-system, sans-serif;--p-font-mono:ui-monospace, SFMono-Regular, Menlo, monospace;--p-font-size:15px;}</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><div class="kind">konvensi kode</div><h1>Coding standards</h1></header><section><h2>Dokumen</h2><ul><li>Semua dokumen skill Bahasa Indonesia.</li><li>H1 pola `# Topik - subjudul`.</li><li>Satu topik per reference; tanpa docs/ (hanya brownfield).</li><li>Bahan skill dibaca dari zip/.</li></ul></section><section><h2>Kode</h2><ul><li>Zero dependency runtime; ESM .mjs; Node &gt;= 18.</li><li>Komentar hanya untuk &#39;mengapa&#39;.</li><li>Perubahan kit.js wajib lolos npm test.</li></ul></section><section><h2>Kontrak state</h2><ul><li>context/ dan history/ hanya lewat kit.js.</li><li>.pawang/prototype/ artefak generated prototype-kit (di-commit).</li><li>Dua kit.js: state CLI dan runtime prototype.</li></ul></section><section><h2>Skill</h2><ul><li>Satu skill besar; kemampuan baru = reference + baris peta.</li><li>Serap/buat skill lewat skill-creator + skill-precheck.</li><li>Artefak skill tak dikenal: tanya user.</li></ul></section><section><h2>Prototype</h2><ul><li>Lane A prototypes/ tanpa Figr; lane B figr/ -&gt; prototype/ -&gt; .pawang/prototype/.</li><li>Ada Figr: DS Figr menang atas prototypes/theme.css.</li><li>Font-family + font-size dasar ikut project; ukuran lain em.</li></ul></section>
+<footer>pawang kit.js - 2026-10-17T05:19:25.674Z</footer>
+</div>
+<script type="application/json" id="pawang-data">{"sections":[{"title":"Dokumen","rules":["Semua dokumen skill Bahasa Indonesia.","H1 pola `# Topik - subjudul`.","Satu topik per reference; tanpa docs/ (hanya brownfield).","Bahan skill dibaca dari zip/."]},{"title":"Kode","rules":["Zero dependency runtime; ESM .mjs; Node >= 18.","Komentar hanya untuk 'mengapa'.","Perubahan kit.js wajib lolos npm test."]},{"title":"Kontrak state","rules":["context/ dan history/ hanya lewat kit.js.",".pawang/prototype/ artefak generated prototype-kit (di-commit).","Dua kit.js: state CLI dan runtime prototype."]},{"title":"Skill","rules":["Satu skill besar; kemampuan baru = reference + baris peta.","Serap/buat skill lewat skill-creator + skill-precheck.","Artefak skill tak dikenal: tanya user."]},{"title":"Prototype","rules":["Lane A prototypes/ tanpa Figr; lane B figr/ -> prototype/ -> .pawang/prototype/.","Ada Figr: DS Figr menang atas prototypes/theme.css.","Font-family + font-size dasar ikut project; ukuran lain em."]}]}</script>
+</body>
+</html>

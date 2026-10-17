@@ -1,0 +1,9 @@
+# Arsip zip (bahan referensi & distribusi manual) - jangan di-commit
+zip/
+
+# Node
+node_modules/
+
+# Arsip kerja
+*.tgz
+pawang-workspace/

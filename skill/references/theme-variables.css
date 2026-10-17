@@ -1,0 +1,15 @@
+/* Template token untuk prototypes/theme.css (lane A, tanpa Figr).
+   Nilai contoh wajib diturunkan dari brief, jangan disalin mentah. */
+:root {
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-foreground: #0f172a;
+  --color-muted: #64748b;
+  --color-primary: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --radius-md: 12px;
+  --font-sans: Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --text-base: 15px; /* ukuran dasar; laporan pawang ikut nilai ini */
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "git": {
+    "landing": "local-merge",
+    "featureBranchPrefix": "feature/",
+    "fixBranchPrefix": "fix/",
+    "rollbackBranchPrefix": "rollback/"
+  },
+  "review": {
+    "independentExecution": "automatic"
+  },
+  "autonomous": {
+    "maxRepairAttempts": 2
+  }
+}

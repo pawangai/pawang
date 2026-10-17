@@ -1,0 +1,9 @@
+# File rujukan mentah bisa memuat data pribadi: jangan di-commit.
+# Yang ikut git hanya hasil sintetis: spesifikasi.html, reference.anon.*, logo.*
+*
+!*/
+!.gitignore
+!README.html
+!spesifikasi.html
+!reference.anon.*
+!logo.*

@@ -1,0 +1,46 @@
+{
+  "skill_name": "pawang",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "pawang, adopsi proyek ini dulu. Ini proyek lama: sudah ada AGENTS.md, docs/API.md, CODING_STANDARDS.md, dan GLOSSARY.md. Tulis AGENTS.md yang baru dan atur konvensinya.",
+      "expected_output": "AGENTS.md baru berisi peta, Commands/Verify, ## Jangan, ## Keputusan penting. Konvensi masuk .pawang/context/coding-standards.html; docs/ lama ditautkan, tidak dipindah; artefak tak dikenal ditanyakan ke user; tidak membuat docs/ baru.",
+      "files": [],
+      "assertions": [
+        "Tidak membuat file baru di docs/; docs/API.md tidak dipindah/diubah",
+        ".pawang/context/coding-standards.html ada dan berisi konvensi",
+        "AGENTS.md memuat ## Commands, ## Jangan, ## Keputusan penting, dan ## Peta dokumen",
+        "AGENTS.md menaut docs/API.md sebagai brownfield",
+        "AGENTS.md tidak mengajarkan docs/conventions atau docs/decisions",
+        "notes.md memuat pertanyaan untuk artefak tak dikenal (agent-output.md), tidak menebak",
+        ".pawang/kit.js ada (state CLI) dan node .pawang/kit.js check lulus"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "cek skill yang terpasang di proyek ini, ada yang layak ditambah? jangan pasang apa pun dulu.",
+      "expected_output": "Inventaris skill terpasang + artefak yang dikenal (PRODUCT.md, DESIGN.md, blueprint/, figr/, CODING_STANDARDS.md, GLOSSARY.md), tabel rekomendasi 5-7 baris, tanpa memasang/mengubah apa pun; minta persetujuan user.",
+      "files": [],
+      "assertions": [
+        "Tidak ada perubahan isi .agents/skills/ (tidak memasang/menghapus skill)",
+        "notes.md memuat tabel rekomendasi 5-7 baris dengan biaya konteks",
+        "notes.md menyebut minimal 3 artefak dikenal (PRODUCT.md, DESIGN.md, blueprint/, figr/, CODING_STANDARDS.md, GLOSSARY.md)",
+        "notes.md meminta persetujuan user sebelum memasang apa pun",
+        "Tidak menjalankan instalasi (npx skills add / npm install)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "audit tata letak repo ini pakai pawang. Jangan pindahkan file apa pun.",
+      "expected_output": "Menjalankan check-layout, melaporkan temuan + tabel rencana dari->ke, mengenali .pawang/, prototypes/, prototype/, figr/; tidak memindahkan file tanpa persetujuan.",
+      "files": [],
+      "assertions": [
+        "Menjalankan check-layout pada proyek",
+        "notes.md memuat tabel rencana dari->ke",
+        "Tidak memindahkan/menghapus file proyek",
+        "Mengenali .pawang/, prototypes/, prototype/, figr/ sebagai folder sah (tidak dilaporkan tak terdaftar)",
+        "notes.md meminta persetujuan sebelum tidy"
+      ]
+    }
+  ]
+}

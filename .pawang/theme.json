@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "detectedAt": "2026-10-17T05:19:19.265Z",
+  "origin": "default",
+  "sources": [],
+  "slots": {
+    "bg": "#f8fafc",
+    "surface": "#ffffff",
+    "border": "#e2e8f0",
+    "text": "#0f172a",
+    "muted": "#64748b",
+    "accent": "#2563eb",
+    "accentInk": "#ffffff",
+    "radius": "12px",
+    "fontSans": "Inter, system-ui, -apple-system, sans-serif",
+    "fontMono": "ui-monospace, SFMono-Regular, Menlo, monospace",
+    "fontSize": "15px"
+  },
+  "passthrough": {}
+}
